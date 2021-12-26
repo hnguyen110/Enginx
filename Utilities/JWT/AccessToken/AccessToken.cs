@@ -14,7 +14,7 @@ public class AccessToken : IAccessToken
     {
         _configuration = configuration;
     }
-    
+
     public string CreateAccessToken(Credential credential)
     {
         var claims = new List<Claim>

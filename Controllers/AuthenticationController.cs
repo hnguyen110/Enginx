@@ -13,7 +13,7 @@ public class AuthenticationController : BaseController
     {
         return await Mediator!.Send(command);
     }
-    
+
     [HttpPost("sign-up")]
     public async Task<Unit> SignIn(SignUp.Command command)
     {

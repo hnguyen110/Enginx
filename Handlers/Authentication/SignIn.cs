@@ -32,7 +32,7 @@ public abstract class SignIn
                 .WithMessage(ValidationErrorMessages.Required)
                 .NotEmpty()
                 .WithMessage(ValidationErrorMessages.Required);
-            
+
             RuleFor(e => e.Password)
                 .NotNull()
                 .WithMessage(ValidationErrorMessages.Required)
@@ -40,12 +40,12 @@ public abstract class SignIn
                 .WithMessage(ValidationErrorMessages.Required);
         }
     }
-    
+
     public class Handler : IRequestHandler<Command, JwtToken>
     {
         private readonly Context _database;
-        private readonly ISecurity _security;
         private readonly IAccessToken _jwt;
+        private readonly ISecurity _security;
 
         public Handler(Context database, ISecurity security, IAccessToken jwt)
         {

@@ -10,7 +10,7 @@ public class CredentialAccessor : ICredentialAccessor
     {
         _accessor = accessor;
     }
-    
+
     public int RetrieveAccountId()
     {
         var value = _accessor.HttpContext?.User.Claims

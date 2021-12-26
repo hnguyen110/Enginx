@@ -1,6 +1,7 @@
 using System.Text;
 using API.DatabaseContext;
 using API.Handlers.Authentication;
+using API.Middlewares;
 using API.Utilities.CredentialAccessor;
 using API.Utilities.JWT.AccessToken;
 using API.Utilities.Security;
@@ -22,7 +23,7 @@ builder.Services
         options.Filters.Add(new AuthorizeFilter(policy));
     })
     .AddFluentValidation(configuration =>
-    configuration.RegisterValidatorsFromAssemblyContaining<SignIn.CommandValidator>());
+        configuration.RegisterValidatorsFromAssemblyContaining<SignIn.CommandValidator>());
 builder.Services.AddSignalR();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHttpContextAccessor();
@@ -42,11 +43,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddMediatR(typeof(SignIn.Handler).Assembly);
 builder.Services.AddDbContext<Context>(opt =>
     opt.UseSqlite(builder.Configuration.GetConnectionString("Database")));
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+});
 builder.Services.AddScoped<ISecurity, Security>();
 builder.Services.AddScoped<IAccessToken, AccessToken>();
 builder.Services.AddScoped<ICredentialAccessor, CredentialAccessor>();
 
 var server = builder.Build();
+server.UseMiddleware<ApiExceptionMiddleware>();
 server.UseHttpsRedirection();
 server.UseAuthentication();
 server.UseAuthorization();

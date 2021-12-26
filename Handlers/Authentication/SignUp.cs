@@ -29,7 +29,7 @@ public class SignUp
                 .WithMessage(ValidationErrorMessages.Required)
                 .MinimumLength(10)
                 .WithMessage(ValidationErrorMessages.MinimumLength);
-            
+
             RuleFor(e => e.Password)
                 .NotNull()
                 .WithMessage(ValidationErrorMessages.Required)
