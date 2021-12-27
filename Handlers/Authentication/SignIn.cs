@@ -60,7 +60,7 @@ public abstract class SignIn
                 .Credential
                 !.FirstOrDefaultAsync(e => e.Username == request.Username,
                     cancellationToken);
-            if (record == null) throw new Exception(ApiErrorMessages.NotFound);
+            if (record == null) throw new ApiException(HttpStatusCode.NotFound, ApiErrorMessages.NotFound);
             var isAuthenticated = _security
                 .Compare(request.Password, record.PasswordSalt, record.PasswordHash);
             if (!isAuthenticated)
