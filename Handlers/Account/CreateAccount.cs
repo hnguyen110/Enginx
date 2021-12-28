@@ -93,7 +93,9 @@ public class CreateAccount
                 PasswordSalt = salt,
                 PasswordHash = hash,
                 ProfilePicture = request.ProfilePicture,
-                Address = request.Address
+                Address = request.Address,
+                ContactInformation = request.ContactInformation,
+                License = request.License
             };
             await _database.AddAsync(account, cancellationToken);
             await _database.SaveChangesAsync(cancellationToken);
