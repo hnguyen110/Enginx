@@ -9,7 +9,7 @@ public enum Role
 
 public class Account
 {
-    public string Id { get; set; }
+    public string? Id { get; set; }
     public Role Role { get; set; }
     public string? Username { get; set; }
     public byte[]? PasswordHash { get; set; }
