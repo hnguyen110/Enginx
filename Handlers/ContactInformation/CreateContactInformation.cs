@@ -69,12 +69,12 @@ public class CreateContactInformation
                         || e.ContactNumber == request.ContactNumber,
                     cancellationToken);
 
-            if (request != null)
+            if (record != null)
                 throw new ApiException(HttpStatusCode.BadRequest, ApiErrorMessages.RecordExisted);
 
             var contact = new Models.ContactInformation
             {
-                Id = new Guid().ToString(),
+                Id = Guid.NewGuid().ToString(),
                 FirstName = request!.FirstName,
                 LastName = request!.LastName,
                 MiddleName = request.MiddleName,
