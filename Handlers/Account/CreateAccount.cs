@@ -31,7 +31,7 @@ public class CreateAccount
                 .WithMessage(ValidationErrorMessages.Required)
                 .NotEmpty()
                 .WithMessage(ValidationErrorMessages.Required);
-            
+
             RuleFor(e => e.Username)
                 .NotNull()
                 .WithMessage(ValidationErrorMessages.Required)
@@ -43,19 +43,19 @@ public class CreateAccount
                 .WithMessage(ValidationErrorMessages.Required)
                 .NotEmpty()
                 .WithMessage(ValidationErrorMessages.Required);
-            
+
             RuleFor(e => e.Address)
                 .NotNull()
                 .WithMessage(ValidationErrorMessages.Required)
                 .NotEmpty()
                 .WithMessage(ValidationErrorMessages.Required);
-            
+
             RuleFor(e => e.ContactInformation)
                 .NotNull()
                 .WithMessage(ValidationErrorMessages.Required)
                 .NotEmpty()
                 .WithMessage(ValidationErrorMessages.Required);
-            
+
             RuleFor(e => e.License)
                 .NotNull()
                 .WithMessage(ValidationErrorMessages.Required)
@@ -74,7 +74,7 @@ public class CreateAccount
             _database = database;
             _security = security;
         }
-        
+
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
             var record = await _database
@@ -83,7 +83,7 @@ public class CreateAccount
 
             if (record != null)
                 throw new ApiException(HttpStatusCode.BadRequest, ApiErrorMessages.RecordExisted);
-            
+
             var salt = _security.CreatePasswordSalt();
             var hash = _security.CreatePasswordHash(request.Password, salt);
             var account = new Models.Account
