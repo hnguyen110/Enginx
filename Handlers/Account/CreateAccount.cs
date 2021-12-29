@@ -22,9 +22,9 @@ public class CreateAccount
         public string? License { get; set; }
     }
 
-    public abstract class CommandValidator : AbstractValidator<Command>
+    public class CommandValidator : AbstractValidator<Command>
     {
-        protected CommandValidator()
+        public CommandValidator()
         {
             RuleFor(e => e.Id)
                 .NotNull()
