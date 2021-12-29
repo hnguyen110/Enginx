@@ -1,5 +1,6 @@
 using API.DatabaseContext;
 using API.Utilities.CredentialAccessor;
+using API.Utilities.Messages;
 using FluentValidation;
 using MediatR;
 
@@ -21,12 +22,41 @@ public class CreateAddress
     {
         public CommandValidator()
         {
-            CascadeMode = CascadeMode.Stop;
             RuleFor(e => e.Country)
                 .NotNull()
-                .WithMessage("This field can not be null")
+                .WithMessage(ValidationErrorMessages.Required)
                 .NotEmpty()
-                .WithMessage("This field can not be empty");
+                .WithMessage(ValidationErrorMessages.Required);
+            
+            RuleFor(e => e.City)
+                .NotNull()
+                .WithMessage(ValidationErrorMessages.Required)
+                .NotEmpty()
+                .WithMessage(ValidationErrorMessages.Required);
+            
+            RuleFor(e => e.State)
+                .NotNull()
+                .WithMessage(ValidationErrorMessages.Required)
+                .NotEmpty()
+                .WithMessage(ValidationErrorMessages.Required);
+            
+            RuleFor(e => e.PostalCode)
+                .NotNull()
+                .WithMessage(ValidationErrorMessages.Required)
+                .NotEmpty()
+                .WithMessage(ValidationErrorMessages.Required);
+            
+            RuleFor(e => e.StreetName)
+                .NotNull()
+                .WithMessage(ValidationErrorMessages.Required)
+                .NotEmpty()
+                .WithMessage(ValidationErrorMessages.Required);
+            
+            RuleFor(e => e.StreetNumber)
+                .NotNull()
+                .WithMessage(ValidationErrorMessages.Required)
+                .NotEqual(0)
+                .WithMessage(ValidationErrorMessages.Required);
         }
     }
 
@@ -43,18 +73,18 @@ public class CreateAddress
         
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
-            // var address = new Models.Address
-            // {
-            //     StreetNumber = request.StreetNumber,
-            //     StreetName = request.StreetName,
-            //     City = request.City,
-            //     State = request.State,
-            //     Country = request.Country,
-            //     PostalCode = request.PostalCode,
-            //     Id = Guid.NewGuid().ToString()
-            // };
-            //
-            // await _database.AddAsync(address, cancellationToken);
+            var address = new Models.Address
+            {
+                StreetNumber = request.StreetNumber,
+                StreetName = request.StreetName,
+                City = request.City,
+                State = request.State,
+                Country = request.Country,
+                PostalCode = request.PostalCode,
+                Id = Guid.NewGuid().ToString()
+            };
+            
+            await _database.AddAsync(address, cancellationToken);
             await _database.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }

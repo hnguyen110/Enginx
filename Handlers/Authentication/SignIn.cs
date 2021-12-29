@@ -23,9 +23,9 @@ public abstract class SignIn
         public string? Password { get; set; }
     }
 
-    public abstract class CommandValidator : AbstractValidator<Command>
+    public class CommandValidator : AbstractValidator<Command>
     {
-        protected CommandValidator()
+        public CommandValidator()
         {
             RuleFor(e => e.Username)
                 .NotNull()

@@ -14,9 +14,4 @@ public class AddressController: BaseController
         return await Mediator!.Send(command);
     }
     
-    [HttpDelete("{id:int}")]
-    public async Task<Unit> DeleteAddress(int id)
-    {
-        return await Mediator!.Send(new DeleteAddress.Command {Id = id});
-    }
 }

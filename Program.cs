@@ -42,8 +42,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 builder.Services.AddMediatR(typeof(SignIn.Handler).Assembly);
 builder.Services.AddDbContext<Context>(opt =>
-    // opt.UseSqlite(builder.Configuration.GetConnectionString("Database"))
-    opt.UseSqlServer(builder.Configuration.GetConnectionString("SQL_SERVER")));
+    opt.UseSqlite(builder.Configuration.GetConnectionString("Database")));
+    // opt.UseSqlServer(builder.Configuration.GetConnectionString("SQL_SERVER")));
 builder.Services.AddStackExchangeRedisCache(options =>
 {
     options.Configuration = builder.Configuration.GetConnectionString("Redis");
