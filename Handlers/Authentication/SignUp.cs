@@ -1,12 +1,7 @@
-using System.Net;
-using API.DatabaseContext;
-using API.Exceptions;
-using API.Models;
-using API.Utilities.Messages;
-using API.Utilities.Security;
-using FluentValidation;
+using API.Handlers.Account;
+using API.Handlers.Address;
+using API.Handlers.ContactInformation;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Handlers.Authentication;
 
@@ -14,62 +9,59 @@ public class SignUp
 {
     public class Command : IRequest<Unit>
     {
+        public string? FirstName { get; set; }
+        public string? MiddleName { get; set; }
+        public string? LastName { get; set; }
+        public string? Email { get; set; }
+        public string? ContactNumber { get; set; }
         public string? Username { get; set; }
         public string? Password { get; set; }
-    }
-
-    public class CommandValidator : AbstractValidator<Command>
-    {
-        public CommandValidator()
-        {
-            RuleFor(e => e.Username)
-                .NotNull()
-                .WithMessage(ValidationErrorMessages.Required)
-                .NotEmpty()
-                .WithMessage(ValidationErrorMessages.Required)
-                .MinimumLength(10)
-                .WithMessage(ValidationErrorMessages.MinimumLength);
-
-            RuleFor(e => e.Password)
-                .NotNull()
-                .WithMessage(ValidationErrorMessages.Required)
-                .NotEmpty()
-                .WithMessage(ValidationErrorMessages.Required)
-                .MinimumLength(10)
-                .WithMessage(ValidationErrorMessages.MinimumLength)
-                .MaximumLength(15)
-                .WithMessage(ValidationErrorMessages.MaximumLength);
-        }
+        public int StreetNumber { get; set; }
+        public string? StreetName { get; set; }
+        public string? City { get; set; }
+        public string? State { get; set; }
+        public string? Country { get; set; }
+        public string? PostalCode { get; set; }
     }
 
     public class Handler : IRequestHandler<Command, Unit>
     {
-        private readonly Context _database;
-        private readonly ISecurity _security;
+        private readonly IMediator _mediator;
 
-        public Handler(Context database, ISecurity security)
+        public Handler(IMediator mediator)
         {
-            _database = database;
-            _security = security;
+            _mediator = mediator;
         }
 
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
-            var record = await _database
-                .Credential
-                !.FirstOrDefaultAsync(e => e.Username == request.Username, cancellationToken);
-            if (record != null)
-                throw new ApiException(HttpStatusCode.BadRequest, ApiErrorMessages.RecordExisted);
-            var salt = _security.CreatePasswordSalt();
-            var hash = _security.CreatePasswordHash(request.Password, salt);
-            var account = new Credential
+            var contactInformation = await _mediator.Send(new CreateContactInformation.Command
+            {
+                FirstName = request.FirstName,
+                MiddleName = request.MiddleName,
+                LastName = request.LastName,
+                Email = request.Email,
+                ContactNumber = request.ContactNumber
+            }, cancellationToken);
+
+            var address = await _mediator.Send(new CreateAddress.Command
+            {
+                StreetNumber = request.StreetNumber,
+                StreetName = request.StreetName,
+                City = request.City,
+                State = request.State,
+                Country = request.Country,
+                PostalCode = request.PostalCode
+            }, cancellationToken);
+
+            var credential = await _mediator.Send(new CreateAccount.Command
             {
                 Username = request.Username,
-                PasswordSalt = salt,
-                PasswordHash = hash
-            };
-            await _database.AddAsync(account, cancellationToken);
-            await _database.SaveChangesAsync(cancellationToken);
+                Password = request.Password,
+                Address = address,
+                ContactInformation = contactInformation
+            }, cancellationToken);
+
             return Unit.Value;
         }
     }

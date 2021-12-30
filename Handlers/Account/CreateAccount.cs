@@ -13,7 +13,6 @@ public class CreateAccount
 {
     public class Command : IRequest<Unit>
     {
-        public string? Id { get; set; }
         public string? Username { get; set; }
         public string? Password { get; set; }
         public string? ProfilePicture { get; set; }
@@ -26,12 +25,6 @@ public class CreateAccount
     {
         public CommandValidator()
         {
-            RuleFor(e => e.Id)
-                .NotNull()
-                .WithMessage(ValidationErrorMessages.Required)
-                .NotEmpty()
-                .WithMessage(ValidationErrorMessages.Required);
-
             RuleFor(e => e.Username)
                 .NotNull()
                 .WithMessage(ValidationErrorMessages.Required)
@@ -51,12 +44,6 @@ public class CreateAccount
                 .WithMessage(ValidationErrorMessages.Required);
 
             RuleFor(e => e.ContactInformation)
-                .NotNull()
-                .WithMessage(ValidationErrorMessages.Required)
-                .NotEmpty()
-                .WithMessage(ValidationErrorMessages.Required);
-
-            RuleFor(e => e.License)
                 .NotNull()
                 .WithMessage(ValidationErrorMessages.Required)
                 .NotEmpty()
@@ -88,7 +75,7 @@ public class CreateAccount
             var hash = _security.CreatePasswordHash(request.Password, salt);
             var account = new Models.Account
             {
-                Id = request.Id,
+                Id = Guid.NewGuid().ToString(),
                 Username = request.Username,
                 PasswordSalt = salt,
                 PasswordHash = hash,
