@@ -2,7 +2,6 @@ using System.Net;
 using API.DatabaseContext;
 using API.Exceptions;
 using API.Utilities.Messages;
-using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,38 +16,6 @@ public class CreateContactInformation
         public string? LastName { get; set; }
         public string? Email { get; set; }
         public string? ContactNumber { get; set; }
-    }
-
-    public class CommandValidator : AbstractValidator<Command>
-    {
-        public CommandValidator()
-        {
-            RuleFor(e => e.FirstName)
-                .NotNull()
-                .WithMessage(ValidationErrorMessages.Required)
-                .NotEmpty()
-                .WithMessage(ValidationErrorMessages.Required);
-
-            RuleFor(e => e.LastName)
-                .NotNull()
-                .WithMessage(ValidationErrorMessages.Required)
-                .NotEmpty()
-                .WithMessage(ValidationErrorMessages.Required);
-
-            RuleFor(e => e.Email)
-                .NotNull()
-                .WithMessage(ValidationErrorMessages.Required)
-                .NotEmpty()
-                .WithMessage(ValidationErrorMessages.Required)
-                .EmailAddress()
-                .WithMessage(ValidationErrorMessages.EmailAddress);
-
-            RuleFor(e => e.ContactNumber)
-                .NotNull()
-                .WithMessage(ValidationErrorMessages.Required)
-                .NotEmpty()
-                .WithMessage(ValidationErrorMessages.Required);
-        }
     }
 
     public class Handler : IRequestHandler<Command, string>

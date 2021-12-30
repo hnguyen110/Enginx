@@ -1,6 +1,4 @@
 using API.DatabaseContext;
-using API.Utilities.Messages;
-using FluentValidation;
 using MediatR;
 
 namespace API.Handlers.Address;
@@ -15,48 +13,6 @@ public class CreateAddress
         public string? State { get; set; }
         public string? Country { get; set; }
         public string? PostalCode { get; set; }
-    }
-
-    public class CommandValidator : AbstractValidator<Command>
-    {
-        public CommandValidator()
-        {
-            RuleFor(e => e.Country)
-                .NotNull()
-                .WithMessage(ValidationErrorMessages.Required)
-                .NotEmpty()
-                .WithMessage(ValidationErrorMessages.Required);
-
-            RuleFor(e => e.City)
-                .NotNull()
-                .WithMessage(ValidationErrorMessages.Required)
-                .NotEmpty()
-                .WithMessage(ValidationErrorMessages.Required);
-
-            RuleFor(e => e.State)
-                .NotNull()
-                .WithMessage(ValidationErrorMessages.Required)
-                .NotEmpty()
-                .WithMessage(ValidationErrorMessages.Required);
-
-            RuleFor(e => e.PostalCode)
-                .NotNull()
-                .WithMessage(ValidationErrorMessages.Required)
-                .NotEmpty()
-                .WithMessage(ValidationErrorMessages.Required);
-
-            RuleFor(e => e.StreetName)
-                .NotNull()
-                .WithMessage(ValidationErrorMessages.Required)
-                .NotEmpty()
-                .WithMessage(ValidationErrorMessages.Required);
-
-            RuleFor(e => e.StreetNumber)
-                .NotNull()
-                .WithMessage(ValidationErrorMessages.Required)
-                .NotEqual(0)
-                .WithMessage(ValidationErrorMessages.Required);
-        }
     }
 
     public class Handler : IRequestHandler<Command, string>
