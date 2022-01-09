@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: enginx-deployment
+  name: enginx-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: enginx-deployment
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: enginx-deployment
+    spec:
+      containers:
+        - image: enginx-api
+          imagePullPolicy: Never
+          name: enginx-api
+          livenessProbe:
+            periodSeconds: 5
+            failureThreshold: 5
+            httpGet:
+              path: /api/healthcheck
+              port: 80
+          readinessProbe:
+            periodSeconds: 5
+            failureThreshold: 5
+            httpGet:
+              path: /api/healthcheck
+              port: 80
+          resources: {}
