@@ -1,14 +1,11 @@
 using API.DatabaseContext;
-using API.Utilities.CredentialAccessor;
-using API.Utilities.Messages;
-using FluentValidation;
 using MediatR;
 
 namespace API.Handlers.Address;
 
 public class CreateAddress
 {
-    public class Command : IRequest<Unit>
+    public class Command : IRequest<string>
     {
         public int StreetNumber { get; set; }
         public string? StreetName { get; set; }
@@ -17,61 +14,17 @@ public class CreateAddress
         public string? Country { get; set; }
         public string? PostalCode { get; set; }
     }
-    
-    public class CommandValidator : AbstractValidator<Command>
-    {
-        public CommandValidator()
-        {
-            RuleFor(e => e.Country)
-                .NotNull()
-                .WithMessage(ValidationErrorMessages.Required)
-                .NotEmpty()
-                .WithMessage(ValidationErrorMessages.Required);
-            
-            RuleFor(e => e.City)
-                .NotNull()
-                .WithMessage(ValidationErrorMessages.Required)
-                .NotEmpty()
-                .WithMessage(ValidationErrorMessages.Required);
-            
-            RuleFor(e => e.State)
-                .NotNull()
-                .WithMessage(ValidationErrorMessages.Required)
-                .NotEmpty()
-                .WithMessage(ValidationErrorMessages.Required);
-            
-            RuleFor(e => e.PostalCode)
-                .NotNull()
-                .WithMessage(ValidationErrorMessages.Required)
-                .NotEmpty()
-                .WithMessage(ValidationErrorMessages.Required);
-            
-            RuleFor(e => e.StreetName)
-                .NotNull()
-                .WithMessage(ValidationErrorMessages.Required)
-                .NotEmpty()
-                .WithMessage(ValidationErrorMessages.Required);
-            
-            RuleFor(e => e.StreetNumber)
-                .NotNull()
-                .WithMessage(ValidationErrorMessages.Required)
-                .NotEqual(0)
-                .WithMessage(ValidationErrorMessages.Required);
-        }
-    }
 
-    public class Handler : IRequestHandler<Command, Unit>
+    public class Handler : IRequestHandler<Command, string>
     {
-        private readonly ICredentialAccessor _accessor;
         private readonly Context _database;
 
-        public Handler(Context database, ICredentialAccessor accessor)
+        public Handler(Context database)
         {
             _database = database;
-            _accessor = accessor;
         }
-        
-        public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+
+        public async Task<string> Handle(Command request, CancellationToken cancellationToken)
         {
             var address = new Models.Address
             {
@@ -83,10 +36,10 @@ public class CreateAddress
                 PostalCode = request.PostalCode,
                 Id = Guid.NewGuid().ToString()
             };
-            
+
             await _database.AddAsync(address, cancellationToken);
             await _database.SaveChangesAsync(cancellationToken);
-            return Unit.Value;
+            return address.Id;
         }
     }
 }

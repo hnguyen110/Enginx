@@ -3,7 +3,6 @@ using API.DatabaseContext;
 using API.Exceptions;
 using API.Utilities.Messages;
 using API.Utilities.Security;
-using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,55 +12,12 @@ public class CreateAccount
 {
     public class Command : IRequest<Unit>
     {
-        public string? Id { get; set; }
         public string? Username { get; set; }
         public string? Password { get; set; }
         public string? ProfilePicture { get; set; }
         public string? Address { get; set; }
         public string? ContactInformation { get; set; }
         public string? License { get; set; }
-    }
-
-    public class CommandValidator : AbstractValidator<Command>
-    {
-        public CommandValidator()
-        {
-            RuleFor(e => e.Id)
-                .NotNull()
-                .WithMessage(ValidationErrorMessages.Required)
-                .NotEmpty()
-                .WithMessage(ValidationErrorMessages.Required);
-
-            RuleFor(e => e.Username)
-                .NotNull()
-                .WithMessage(ValidationErrorMessages.Required)
-                .NotEmpty()
-                .WithMessage(ValidationErrorMessages.Required);
-
-            RuleFor(e => e.Password)
-                .NotNull()
-                .WithMessage(ValidationErrorMessages.Required)
-                .NotEmpty()
-                .WithMessage(ValidationErrorMessages.Required);
-
-            RuleFor(e => e.Address)
-                .NotNull()
-                .WithMessage(ValidationErrorMessages.Required)
-                .NotEmpty()
-                .WithMessage(ValidationErrorMessages.Required);
-
-            RuleFor(e => e.ContactInformation)
-                .NotNull()
-                .WithMessage(ValidationErrorMessages.Required)
-                .NotEmpty()
-                .WithMessage(ValidationErrorMessages.Required);
-
-            RuleFor(e => e.License)
-                .NotNull()
-                .WithMessage(ValidationErrorMessages.Required)
-                .NotEmpty()
-                .WithMessage(ValidationErrorMessages.Required);
-        }
     }
 
     public class Handler : IRequestHandler<Command, Unit>
@@ -88,7 +44,7 @@ public class CreateAccount
             var hash = _security.CreatePasswordHash(request.Password, salt);
             var account = new Models.Account
             {
-                Id = request.Id,
+                Id = Guid.NewGuid().ToString(),
                 Username = request.Username,
                 PasswordSalt = salt,
                 PasswordHash = hash,
@@ -97,6 +53,7 @@ public class CreateAccount
                 ContactInformation = request.ContactInformation,
                 License = request.License
             };
+
             await _database.AddAsync(account, cancellationToken);
             await _database.SaveChangesAsync(cancellationToken);
             return Unit.Value;
