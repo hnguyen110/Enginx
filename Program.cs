@@ -54,6 +54,12 @@ builder.Services.AddScoped<IAccessToken, AccessToken>();
 builder.Services.AddScoped<ICredentialAccessor, CredentialAccessor>();
 
 var server = builder.Build();
+using (var scope = server.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<Context>();
+    context.Database.Migrate();
+}
 server.UseMiddleware<ApiExceptionMiddleware>();
 server.UseHttpsRedirection();
 server.UseAuthentication();
