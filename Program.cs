@@ -2,6 +2,7 @@ using System.Text;
 using API.DatabaseContext;
 using API.Handlers.Authentication;
 using API.Middlewares;
+using API.Repositories.Account;
 using API.Utilities.CredentialAccessor;
 using API.Utilities.JWT.AccessToken;
 using API.Utilities.Security;
@@ -52,6 +53,7 @@ builder.Services.AddStackExchangeRedisCache(options =>
 builder.Services.AddScoped<ISecurity, Security>();
 builder.Services.AddScoped<IAccessToken, AccessToken>();
 builder.Services.AddScoped<ICredentialAccessor, CredentialAccessor>();
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 
 var server = builder.Build();
 using (var scope = server.Services.CreateScope())
@@ -60,9 +62,18 @@ using (var scope = server.Services.CreateScope())
     var context = services.GetRequiredService<Context>();
     context.Database.Migrate();
 }
+
 server.UseMiddleware<ApiExceptionMiddleware>();
+server.UseCors(x => x
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
 server.UseHttpsRedirection();
 server.UseAuthentication();
 server.UseAuthorization();
 server.MapControllers();
 server.Run();
+
+public partial class Program
+{
+}

@@ -4,5 +4,5 @@ namespace API.Utilities.JWT.AccessToken;
 
 public interface IAccessToken
 {
-    string CreateAccessToken(Credential credential);
+    string CreateAccessToken(Account account);
 }

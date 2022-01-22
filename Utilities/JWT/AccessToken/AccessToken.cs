@@ -15,12 +15,12 @@ public class AccessToken : IAccessToken
         _configuration = configuration;
     }
 
-    public string CreateAccessToken(Credential credential)
+    public string CreateAccessToken(Account account)
     {
         var claims = new List<Claim>
         {
-            new(ClaimTypes.NameIdentifier, credential.Id.ToString()),
-            new(ClaimTypes.Name, credential.Username ?? "")
+            new(ClaimTypes.NameIdentifier, account.Id!),
+            new(ClaimTypes.Name, account.Username ?? "")
         };
 
         var credentials = new SigningCredentials(

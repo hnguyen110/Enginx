@@ -57,7 +57,7 @@ public abstract class SignIn
         public async Task<JwtToken> Handle(Command request, CancellationToken cancellationToken)
         {
             var record = await _database
-                .Credential
+                .Account
                 !.FirstOrDefaultAsync(e => e.Username == request.Username,
                     cancellationToken);
             if (record == null) throw new ApiException(HttpStatusCode.NotFound, ApiErrorMessages.NotFound);

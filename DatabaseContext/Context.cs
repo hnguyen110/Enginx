@@ -9,7 +9,6 @@ public class Context : DbContext
     {
     }
 
-    public DbSet<Credential>? Credential { get; set; }
     public DbSet<Account>? Account { get; set; }
     public DbSet<Address>? Address { get; set; }
     public DbSet<ContactInformation>? ContactInformation { get; set; }

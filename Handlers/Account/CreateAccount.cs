@@ -1,10 +1,9 @@
 using System.Net;
-using API.DatabaseContext;
 using API.Exceptions;
+using API.Repositories.Account;
 using API.Utilities.Messages;
 using API.Utilities.Security;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Handlers.Account;
 
@@ -22,21 +21,18 @@ public class CreateAccount
 
     public class Handler : IRequestHandler<Command, Unit>
     {
-        private readonly Context _database;
+        private readonly IAccountRepository _repository;
         private readonly ISecurity _security;
 
-        public Handler(Context database, ISecurity security)
+        public Handler(IAccountRepository repository, ISecurity security)
         {
-            _database = database;
+            _repository = repository;
             _security = security;
         }
 
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
-            var record = await _database
-                .Account
-                !.FirstOrDefaultAsync(e => e.Username == request.Username, cancellationToken);
-
+            var record = await _repository.FindByUsername(request.Username!, cancellationToken);
             if (record != null)
                 throw new ApiException(HttpStatusCode.BadRequest, ApiErrorMessages.RecordExisted);
 
@@ -54,8 +50,7 @@ public class CreateAccount
                 License = request.License
             };
 
-            await _database.AddAsync(account, cancellationToken);
-            await _database.SaveChangesAsync(cancellationToken);
+            await _repository.Save(account, cancellationToken);
             return Unit.Value;
         }
     }
