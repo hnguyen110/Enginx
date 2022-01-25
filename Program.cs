@@ -54,6 +54,7 @@ builder.Services.AddScoped<ISecurity, Security>();
 builder.Services.AddScoped<IAccessToken, AccessToken>();
 builder.Services.AddScoped<ICredentialAccessor, CredentialAccessor>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IProfilePictureRepository, ProfilePictureRepository>();
 
 var server = builder.Build();
 using (var scope = server.Services.CreateScope())

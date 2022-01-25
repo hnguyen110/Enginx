@@ -1,6 +1,5 @@
-using System.Net;
-using API.Exceptions;
-using API.Utilities.Messages;
+using API.Repositories.Account;
+using API.Utilities.CredentialAccessor;
 using MediatR;
 
 namespace API.Handlers.Account;
@@ -14,27 +13,28 @@ public class UploadProfilePicture
 
     public class Handler : IRequestHandler<Command, Unit>
     {
-        private readonly IWebHostEnvironment _environment;
+        private readonly ICredentialAccessor _accessor;
+        private readonly IProfilePictureRepository _profilePictureRepository;
 
-        public Handler(IWebHostEnvironment environment)
+        public Handler(ICredentialAccessor accessor, IProfilePictureRepository profilePictureRepository)
         {
-            _environment = environment;
+            _accessor = accessor;
+            _profilePictureRepository = profilePictureRepository;
         }
 
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
-            if (request.File == null)
-                throw new ApiException(HttpStatusCode.BadRequest, ApiErrorMessages.RequiredField);
-            var extensions = new[] {"image/jpg", "image/jpeg", "image/png"};
-            if (!extensions.Contains(request.File.ContentType))
-                throw new ApiException(HttpStatusCode.BadRequest, ApiErrorMessages.UnsupportedFileFormat);
-            if (request.File.Length > 10485760)
-                throw new ApiException(HttpStatusCode.BadRequest, ApiErrorMessages.LargeFile);
-            await using var stream = new FileStream(
-                Path.Combine(_environment.ContentRootPath, $"Uploads/{Guid.NewGuid().ToString()}"),
-                FileMode.Create,
-                FileAccess.Write);
-            await request.File?.CopyToAsync(stream, cancellationToken)!;
+            var id = await _profilePictureRepository
+                .SaveProfilePicture(
+                    request.File!,
+                    cancellationToken
+                );
+            await _profilePictureRepository
+                .SaveToAccount(
+                    _accessor.RetrieveAccountId(),
+                    id,
+                    cancellationToken
+                );
             return Unit.Value;
         }
     }
