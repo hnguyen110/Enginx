@@ -21,7 +21,7 @@ public class RetrieveAddress
         {
             _repository = repository;
         }
-        
+
         public async Task<Models.Address> Handle(Query request, CancellationToken cancellationToken)
         {
             var record = await _repository.FindAddressById(request.Id!, cancellationToken);

@@ -6,7 +6,7 @@ using API.Utilities.Constants;
 using API.Utilities.Messages;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Repositories.Account;
+namespace API.Repositories.Profile;
 
 public class ProfilePictureRepository : IProfilePictureRepository
 {
@@ -23,7 +23,7 @@ public class ProfilePictureRepository : IProfilePictureRepository
     {
         if (file == null)
             throw new ApiException(HttpStatusCode.BadRequest, ValidationErrorMessages.Required);
-        var extensions = new[] { "image/jpg", "image/jpeg", "image/png" };
+        var extensions = new[] {"image/jpg", "image/jpeg", "image/png"};
         if (!extensions.Contains(file.ContentType))
             throw new ApiException(HttpStatusCode.BadRequest, ValidationErrorMessages.UnsupportedFileFormat);
         if (file.Length > AccountConstants.ProfilePictureSizeLimit)

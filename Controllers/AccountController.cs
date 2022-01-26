@@ -1,4 +1,4 @@
-using API.Handlers.Account;
+using API.Handlers.Profile;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

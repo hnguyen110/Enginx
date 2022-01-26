@@ -5,6 +5,7 @@ using API.Middlewares;
 using API.Repositories.Account;
 using API.Repositories.Address;
 using API.Repositories.ContactInformation;
+using API.Repositories.Profile;
 using API.Utilities.CredentialAccessor;
 using API.Utilities.JWT.AccessToken;
 using API.Utilities.Security;

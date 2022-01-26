@@ -1,8 +1,8 @@
-using API.Repositories.Account;
+using API.Repositories.Profile;
 using API.Utilities.CredentialAccessor;
 using MediatR;
 
-namespace API.Handlers.Account;
+namespace API.Handlers.Profile;
 
 public class UploadProfilePicture
 {

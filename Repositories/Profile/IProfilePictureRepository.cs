@@ -1,4 +1,4 @@
-namespace API.Repositories.Account;
+namespace API.Repositories.Profile;
 
 public interface IProfilePictureRepository
 {
