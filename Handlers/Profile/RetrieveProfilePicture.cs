@@ -1,6 +1,8 @@
-using API.DatabaseContext;
+using System.Net;
+using API.Exceptions;
 using API.Repositories.Profile;
 using API.Utilities.CredentialAccessor;
+using API.Utilities.Messages;
 using API.Utilities.Security;
 using MediatR;
 
@@ -15,9 +17,9 @@ public class RetrieveProfilePicture
 
     public class Handler : IRequestHandler<Query, string?>
     {
-        private readonly IProfilePictureRepository _repository;
         private readonly ICredentialAccessor _accessor;
         private readonly IAuthorization _authorization;
+        private readonly IProfilePictureRepository _repository;
 
         public Handler(IProfilePictureRepository repository, ICredentialAccessor accessor, IAuthorization authorization)
         {
@@ -29,19 +31,23 @@ public class RetrieveProfilePicture
         public async Task<string?> Handle(Query request, CancellationToken cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(request.Id))
-            {
                 return await _repository
                     .RetrieveProfilePictureByAccount(
                         _accessor.RetrieveAccountId(),
                         cancellationToken
                     );
-            }
-            else
-            {
-                // var isAdmin = await _authorization.IsAdministrator(cancellationToken);
-            }
 
-            return "";
+            var isAdmin = await _authorization.IsAdministrator();
+            if (!isAdmin)
+                throw new ApiException(
+                    HttpStatusCode.Unauthorized,
+                    ApiErrorMessages.Unauthorized
+                );
+            return await _repository
+                .RetrieveProfilePictureByAccount(
+                    request.Id,
+                    cancellationToken
+                );
         }
     }
 }

@@ -18,8 +18,8 @@ public class RetrieveProfileInformation
 
     public class Handler : IRequestHandler<Query, RetrieveProfileDTO>
     {
-        private readonly IMediator _mediator;
         private readonly ICredentialAccessor _accessor;
+        private readonly IMediator _mediator;
         private readonly IAccountRepository _repository;
 
         public Handler(IMediator mediator, ICredentialAccessor accessor, IAccountRepository repository)
