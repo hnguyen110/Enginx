@@ -1,3 +1,4 @@
+using API.Handlers.Address;
 using API.Handlers.ContactInformation;
 using API.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -12,5 +13,11 @@ public class CIController : BaseController
     public async Task<ContactInformation> RetrieveContactInformation(string id)
     {
         return await Mediator!.Send(new RetrieveContactInformation.Query {Id = id});
+    }
+
+    [HttpGet("address/{id}")]
+    public async Task<Address> RetrieveAddress(string id)
+    {
+        return await Mediator!.Send(new RetrieveAddress.Query {Id = id});
     }
 }

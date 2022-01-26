@@ -3,6 +3,7 @@ using API.DatabaseContext;
 using API.Handlers.Authentication;
 using API.Middlewares;
 using API.Repositories.Account;
+using API.Repositories.Address;
 using API.Repositories.ContactInformation;
 using API.Utilities.CredentialAccessor;
 using API.Utilities.JWT.AccessToken;
@@ -57,6 +58,7 @@ builder.Services.AddScoped<ICredentialAccessor, CredentialAccessor>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IProfilePictureRepository, ProfilePictureRepository>();
 builder.Services.AddScoped<IContactInformationRepository, ContactInformationRepository>();
+builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 
 var server = builder.Build();
 using (var scope = server.Services.CreateScope())
