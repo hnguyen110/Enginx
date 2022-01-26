@@ -1,4 +1,5 @@
 using API.Handlers.ContactInformation;
+using API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,9 +8,9 @@ namespace API.Controllers;
 [AllowAnonymous]
 public class CIController : BaseController
 {
-    [HttpPost("contact-information")]
-    public async Task<string> SignIn(CreateContactInformation.Command command)
+    [HttpGet("contact-information/{id}")]
+    public async Task<ContactInformation> RetrieveContactInformation(string id)
     {
-        return await Mediator!.Send(command);
+        return await Mediator!.Send(new RetrieveContactInformation.Query {Id = id});
     }
 }
