@@ -7,10 +7,9 @@ namespace API.Controllers;
 public class ProfileController : BaseController
 {
     [HttpGet("profile-picture")]
-    public async Task<string> RetrieveProfilePicture(string? id)
+    public async Task<string?> RetrieveProfilePicture(string? id)
     {
-        var path = await Mediator!.Send(new RetrieveProfilePicture.Query {Id = id});
-        return path == null ? "" : Convert.ToBase64String(await System.IO.File.ReadAllBytesAsync(path));
+        return await Mediator!.Send(new RetrieveProfilePicture.Query {Id = id});
     }
 
     [HttpGet("profile-information")]
