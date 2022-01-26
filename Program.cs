@@ -60,6 +60,7 @@ builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IProfilePictureRepository, ProfilePictureRepository>();
 builder.Services.AddScoped<IContactInformationRepository, ContactInformationRepository>();
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
+builder.Services.AddScoped<IAuthorization, Authorization>();
 
 var server = builder.Build();
 using (var scope = server.Services.CreateScope())

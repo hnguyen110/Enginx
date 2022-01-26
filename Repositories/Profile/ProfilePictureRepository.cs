@@ -60,4 +60,22 @@ public class ProfilePictureRepository : IProfilePictureRepository
         result.ProfilePicture = picture.Id;
         await _context.SaveChangesAsync(cancellationToken);
     }
+
+    public async Task<string?> RetrieveProfilePictureByAccount(string account, CancellationToken cancellationToken)
+    {
+        var record = await _context
+            .Account!
+            .FirstOrDefaultAsync(
+                e => e.Id == account,
+                cancellationToken
+            );
+        if (record?.ProfilePicture == null) return null;
+        var path = await _context
+            .ProfilePicture!
+            .FirstOrDefaultAsync(
+                e => e.Id == record.ProfilePicture,
+                cancellationToken
+            );
+        return path?.FilePath;
+    }
 }

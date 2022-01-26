@@ -26,4 +26,9 @@ public class CredentialAccessor : ICredentialAccessor
             .Claims
             .FirstOrDefault(e => e.Type == ClaimTypes.Name)?.Value;
     }
+
+    public bool IsAdmin()
+    {
+        throw new NotImplementedException();
+    }
 }
