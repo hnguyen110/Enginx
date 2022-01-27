@@ -3,6 +3,7 @@ using API.DatabaseContext;
 using API.Handlers.Authentication;
 using API.Middlewares;
 using API.Repositories.Account;
+using API.Repositories.BankCard;
 using API.Utilities.CredentialAccessor;
 using API.Utilities.JWT.AccessToken;
 using API.Utilities.Security;
@@ -54,6 +55,7 @@ builder.Services.AddScoped<ISecurity, Security>();
 builder.Services.AddScoped<IAccessToken, AccessToken>();
 builder.Services.AddScoped<ICredentialAccessor, CredentialAccessor>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IBankCardRepository, BankCardRepository>();
 
 var server = builder.Build();
 using (var scope = server.Services.CreateScope())

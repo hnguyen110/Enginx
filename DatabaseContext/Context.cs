@@ -14,6 +14,7 @@ public class Context : DbContext
     public DbSet<ContactInformation>? ContactInformation { get; set; }
     public DbSet<License>? License { get; set; }
     public DbSet<ProfilePicture>? ProfilePicture { get; set; }
+    public DbSet<BankCard>? BankCard { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -37,5 +38,9 @@ public class Context : DbContext
             .HasOne(e => e.Account)
             .WithOne(e => e.LicenseReference)
             .HasForeignKey<Account>(e => e.License);
+
+        builder.Entity<BankCard>()
+            .HasOne(e => e.Account)
+            .WithMany(e => e.BankCard);
     }
 }

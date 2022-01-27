@@ -26,4 +26,5 @@ public class Account
 
     public string? License { get; set; }
     public License? LicenseReference { get; set; }
+    public ICollection<BankCard>? BankCard { get; set; }
 }
