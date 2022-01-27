@@ -11,11 +11,11 @@ public class CredentialAccessor : ICredentialAccessor
         _accessor = accessor;
     }
 
-    public int RetrieveAccountId()
+    public string RetrieveAccountId()
     {
         var value = _accessor.HttpContext?.User.Claims
             .FirstOrDefault(e => e.Type == ClaimTypes.NameIdentifier)?.Value;
-        return value != null ? int.Parse(value) : 0;
+        return value!;
     }
 
     public string? RetrieveAccountName()
@@ -25,5 +25,10 @@ public class CredentialAccessor : ICredentialAccessor
             ?.User
             .Claims
             .FirstOrDefault(e => e.Type == ClaimTypes.Name)?.Value;
+    }
+
+    public bool IsAdmin()
+    {
+        throw new NotImplementedException();
     }
 }
