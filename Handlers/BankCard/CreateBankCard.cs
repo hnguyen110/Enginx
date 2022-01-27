@@ -11,7 +11,7 @@ namespace API.Handlers.BankCard;
 
 public class CreateBankCard
 {
-    public class Command : IRequest<Models.BankCard>
+    public class Command : IRequest<Unit>
     {
         public string? CardType { get; set; }
         public string? CardHolderName { get; set; }
@@ -20,7 +20,7 @@ public class CreateBankCard
         public string? CardVerificationCode { get; set; }
     }
 
-    public class Handler : IRequestHandler<Command, Models.BankCard>
+    public class Handler : IRequestHandler<Command, Unit>
     {
         private readonly Context _context;
         private readonly IBankCardRepository _repository;
@@ -33,13 +33,14 @@ public class CreateBankCard
             _accessor = accessor;
         }
         
-        public async Task<Models.BankCard> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
             var username = _accessor.RetrieveAccountName();
-            var account = _context.Account!.FirstOrDefault(e=> e.Id == _accessor.RetrieveAccountId().ToString());
+            var account = _context.Account!.FirstOrDefault(e=> e.Id == _accessor.RetrieveAccountId());
             var bankCard = new Models.BankCard
             {
                 Id = Guid.NewGuid().ToString(),
+                Account = _accessor.RetrieveAccountId(),
                 CardType = request.CardType,
                 CardHolderName = request.CardHolderName,
                 CardNumber = request.CardNumber,
@@ -50,7 +51,7 @@ public class CreateBankCard
             if (account!.Role == Role.Administrator)
                 throw new ApiException(HttpStatusCode.BadRequest, ApiErrorMessages.Unauthorized);
             await _repository.Save(bankCard, cancellationToken);
-            return bankCard;
+            return Unit.Value;
         }
     }
 }

@@ -40,7 +40,8 @@ public class Context : DbContext
             .HasForeignKey<Account>(e => e.License);
 
         builder.Entity<BankCard>()
-            .HasOne(e => e.Account)
-            .WithMany(e => e.BankCard);
+            .HasOne(e => e.AccountReference)
+            .WithMany(e => e.BankCards)
+            .HasForeignKey(e => e.Account);
     }
 }

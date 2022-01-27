@@ -28,7 +28,9 @@ builder.Services
         options.Filters.Add(new AuthorizeFilter(policy));
     })
     .AddFluentValidation(configuration =>
-        configuration.RegisterValidatorsFromAssemblyContaining<SignIn.CommandValidator>());
+        configuration.RegisterValidatorsFromAssemblyContaining<SignIn.CommandValidator>())
+    .AddNewtonsoftJson(options =>
+        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 builder.Services.AddSignalR();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHttpContextAccessor();
