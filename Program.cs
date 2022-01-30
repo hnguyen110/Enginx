@@ -3,6 +3,10 @@ using API.DatabaseContext;
 using API.Handlers.Authentication;
 using API.Middlewares;
 using API.Repositories.Account;
+using API.Repositories.BankCard;
+using API.Repositories.Address;
+using API.Repositories.ContactInformation;
+using API.Repositories.Profile;
 using API.Utilities.CredentialAccessor;
 using API.Utilities.JWT.AccessToken;
 using API.Utilities.Security;
@@ -24,7 +28,9 @@ builder.Services
         options.Filters.Add(new AuthorizeFilter(policy));
     })
     .AddFluentValidation(configuration =>
-        configuration.RegisterValidatorsFromAssemblyContaining<SignIn.CommandValidator>());
+        configuration.RegisterValidatorsFromAssemblyContaining<SignIn.CommandValidator>())
+    .AddNewtonsoftJson(options =>
+        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 builder.Services.AddSignalR();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHttpContextAccessor();
@@ -54,6 +60,11 @@ builder.Services.AddScoped<ISecurity, Security>();
 builder.Services.AddScoped<IAccessToken, AccessToken>();
 builder.Services.AddScoped<ICredentialAccessor, CredentialAccessor>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IBankCardRepository, BankCardRepository>();
+builder.Services.AddScoped<IProfilePictureRepository, ProfilePictureRepository>();
+builder.Services.AddScoped<IContactInformationRepository, ContactInformationRepository>();
+builder.Services.AddScoped<IAddressRepository, AddressRepository>();
+builder.Services.AddScoped<IAuthorization, Authorization>();
 
 var server = builder.Build();
 using (var scope = server.Services.CreateScope())
