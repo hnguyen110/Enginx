@@ -53,6 +53,7 @@ public class RetrieveProfilePicture
                         cancellationToken
                     );
             }
+
             return path == null
                 ? ""
                 : Convert.ToBase64String(await File.ReadAllBytesAsync(path, cancellationToken));

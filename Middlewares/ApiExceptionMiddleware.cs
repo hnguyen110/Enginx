@@ -44,7 +44,7 @@ public class ApiExceptionMiddleware
         }
 
         httpContext.Response.ContentType = "application/json";
-        httpContext.Response.StatusCode = (int) _code;
+        httpContext.Response.StatusCode = (int)_code;
         var result = JsonConvert.SerializeObject(new
         {
             message = _message

@@ -14,8 +14,8 @@ public class ChangePassword
 
     public class Handler : IRequestHandler<Command, Unit>
     {
-        private readonly IAccountRepository _repository;
         private readonly ICredentialAccessor _accessor;
+        private readonly IAccountRepository _repository;
 
         public Handler(IAccountRepository repository, ICredentialAccessor accessor)
         {
