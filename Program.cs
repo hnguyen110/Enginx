@@ -3,8 +3,8 @@ using API.DatabaseContext;
 using API.Handlers.Authentication;
 using API.Middlewares;
 using API.Repositories.Account;
-using API.Repositories.BankCard;
 using API.Repositories.Address;
+using API.Repositories.BankCard;
 using API.Repositories.ContactInformation;
 using API.Repositories.Profile;
 using API.Utilities.CredentialAccessor;
@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services
@@ -30,7 +31,7 @@ builder.Services
     .AddFluentValidation(configuration =>
         configuration.RegisterValidatorsFromAssemblyContaining<SignIn.CommandValidator>())
     .AddNewtonsoftJson(options =>
-        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 builder.Services.AddSignalR();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHttpContextAccessor();
