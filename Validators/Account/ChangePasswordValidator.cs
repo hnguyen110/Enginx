@@ -13,7 +13,7 @@ public class ChangePasswordValidator : AbstractValidator<ChangePassword.Command>
             .WithMessage(ValidationErrorMessages.Required)
             .NotEmpty()
             .WithMessage(ValidationErrorMessages.Required);
-        
+
         RuleFor(e => e.NewPassword)
             .NotNull()
             .WithMessage(ValidationErrorMessages.Required)

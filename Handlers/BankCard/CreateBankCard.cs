@@ -1,10 +1,5 @@
-using System.Net;
-using API.DatabaseContext;
-using API.Exceptions;
-using API.Models;
 using API.Repositories.BankCard;
 using API.Utilities.CredentialAccessor;
-using API.Utilities.Messages;
 using MediatR;
 
 namespace API.Handlers.BankCard;
@@ -22,22 +17,18 @@ public class CreateBankCard
 
     public class Handler : IRequestHandler<Command, Unit>
     {
-        private readonly Context _context;
-        private readonly IBankCardRepository _repository;
         private readonly ICredentialAccessor _accessor;
+        private readonly IBankCardRepository _repository;
 
-        public Handler(Context context, IBankCardRepository repository, ICredentialAccessor accessor)
+        public Handler(IBankCardRepository repository, ICredentialAccessor accessor)
         {
-            _context = context;
             _repository = repository;
             _accessor = accessor;
         }
-        
+
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
-            var username = _accessor.RetrieveAccountName();
-            var account = _context.Account!.FirstOrDefault(e=> e.Id == _accessor.RetrieveAccountId());
-            var bankCard = new Models.BankCard
+            var card = new Models.BankCard
             {
                 Id = Guid.NewGuid().ToString(),
                 Account = _accessor.RetrieveAccountId(),
@@ -47,10 +38,8 @@ public class CreateBankCard
                 ExpireDate = request.ExpireDate,
                 CardVerificationCode = request.CardVerificationCode
             };
-            
-            if (account!.Role == Role.Administrator)
-                throw new ApiException(HttpStatusCode.BadRequest, ApiErrorMessages.Unauthorized);
-            await _repository.Save(bankCard, cancellationToken);
+
+            await _repository.Save(card, cancellationToken);
             return Unit.Value;
         }
     }
