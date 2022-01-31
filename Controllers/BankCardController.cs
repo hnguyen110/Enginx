@@ -14,5 +14,10 @@ public class BankCardController : BaseController
     {
         return await Mediator!.Send(command);
     }
-    
+
+    [HttpGet]
+    public async Task<List<BankCard>> RetrieveAllBankCardsByAccount()
+    {
+        return await Mediator!.Send(new RetrieveAllBankCards.Query());
+    }
 }
