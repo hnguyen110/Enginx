@@ -1,6 +1,7 @@
 using System.Text;
 using API.DatabaseContext;
 using API.Handlers.Authentication;
+using API.MappingProfile;
 using API.Middlewares;
 using API.Repositories.Account;
 using API.Repositories.Address;
@@ -48,6 +49,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = false
         };
     });
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddMediatR(typeof(SignIn.Handler).Assembly);
 builder.Services.AddDbContext<Context>(opt =>
         opt.UseSqlite(builder.Configuration.GetConnectionString("Database"))

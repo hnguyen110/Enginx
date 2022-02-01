@@ -1,5 +1,5 @@
+using API.DTOs.BankCard;
 using API.Handlers.BankCard;
-using API.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,7 +14,7 @@ public class BankCardController : BaseController
     }
 
     [HttpGet]
-    public async Task<List<BankCard>> RetrieveAllBankCardsByAccount()
+    public async Task<List<RetrieveAllBankCardsDTO>> RetrieveAllBankCardsByAccount()
     {
         return await Mediator!.Send(new RetrieveAllBankCards.Query());
     }
