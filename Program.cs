@@ -1,12 +1,14 @@
 using System.Text;
 using API.DatabaseContext;
 using API.Handlers.Authentication;
+using API.MappingProfile;
 using API.Middlewares;
 using API.Repositories.Account;
 using API.Repositories.Address;
 using API.Repositories.BankCard;
 using API.Repositories.ContactInformation;
 using API.Repositories.Profile;
+using API.Repositories.Vehicle;
 using API.Utilities.CredentialAccessor;
 using API.Utilities.JWT.AccessToken;
 using API.Utilities.Security;
@@ -48,6 +50,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = false
         };
     });
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddMediatR(typeof(SignIn.Handler).Assembly);
 builder.Services.AddDbContext<Context>(opt =>
         opt.UseSqlite(builder.Configuration.GetConnectionString("Database"))
@@ -66,6 +69,7 @@ builder.Services.AddScoped<IProfilePictureRepository, ProfilePictureRepository>(
 builder.Services.AddScoped<IContactInformationRepository, ContactInformationRepository>();
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 builder.Services.AddScoped<IAuthorization, Authorization>();
+builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
 
 var server = builder.Build();
 using (var scope = server.Services.CreateScope())

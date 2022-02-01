@@ -26,4 +26,14 @@ public class BankCardRepository : IBankCardRepository
         await _database.AddAsync(bankCard, cancellationToken);
         await _database.SaveChangesAsync(cancellationToken);
     }
+
+    public async Task<List<Models.BankCard>> RetrieveAllBankCardsByAccount(string? account,
+        CancellationToken cancellationToken)
+    {
+        var records = await _database
+            .BankCard!
+            .Where(e => e.Account == account)
+            .ToListAsync(cancellationToken);
+        return records;
+    }
 }
