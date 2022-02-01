@@ -8,6 +8,7 @@ using API.Repositories.Address;
 using API.Repositories.BankCard;
 using API.Repositories.ContactInformation;
 using API.Repositories.Profile;
+using API.Repositories.Vehicle;
 using API.Utilities.CredentialAccessor;
 using API.Utilities.JWT.AccessToken;
 using API.Utilities.Security;
@@ -68,6 +69,7 @@ builder.Services.AddScoped<IProfilePictureRepository, ProfilePictureRepository>(
 builder.Services.AddScoped<IContactInformationRepository, ContactInformationRepository>();
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 builder.Services.AddScoped<IAuthorization, Authorization>();
+builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
 
 var server = builder.Build();
 using (var scope = server.Services.CreateScope())
