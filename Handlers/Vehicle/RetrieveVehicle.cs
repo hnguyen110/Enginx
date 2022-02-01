@@ -19,8 +19,8 @@ public class RetrieveVehicle
     public class Handler : IRequestHandler<Query, RetrieveVehicleDTO>
     {
         private readonly ICredentialAccessor _accessor;
-        private readonly IVehicleRepository _repository;
         private readonly IMapper _mapper;
+        private readonly IVehicleRepository _repository;
 
         public Handler(ICredentialAccessor accessor, IVehicleRepository repository, IMapper mapper)
         {

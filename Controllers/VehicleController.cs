@@ -1,6 +1,5 @@
 using API.DTOs.Vehicle;
 using API.Handlers.Vehicle;
-using API.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
