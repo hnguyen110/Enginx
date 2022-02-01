@@ -16,9 +16,9 @@ public class CreateVehicle
         public string? Location { get; set; }
         public string? Make { get; set; }
         public string? Model { get; set; }
-        public Single? Mileage { get; set; }
-        public Single? Price { get; set; }
-        public int? Year { get; set; }
+        public double Mileage { get; set; }
+        public double Price { get; set; }
+        public int Year { get; set; }
     }
 
     public class Handler : IRequestHandler<Command, Unit>
@@ -34,10 +34,10 @@ public class CreateVehicle
 
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
-            var vehicle = new Models.Vehicle()
+            var vehicle = new Models.Vehicle
             {
                 Id = Guid.NewGuid().ToString(),
-                Account = _accessor.RetrieveAccountId(),
+                Owner = _accessor.RetrieveAccountId(),
                 BodyType = request.BodyType,
                 Color = request.Color,
                 Description = request.Description,
@@ -49,9 +49,8 @@ public class CreateVehicle
                 Mileage = request.Mileage,
                 Price = request.Price,
                 Year = request.Year
-                
             };
-            
+
             await _repository.Save(vehicle, cancellationToken);
             return Unit.Value;
         }

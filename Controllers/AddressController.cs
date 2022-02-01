@@ -7,7 +7,7 @@ namespace API.Controllers;
 [AllowAnonymous]
 public class AddressController : BaseController
 {
-    [HttpPost]
+    [HttpPost("create-address")]
     public async Task<string> CreateAddress(CreateAddress.Command command)
     {
         return await Mediator!.Send(command);

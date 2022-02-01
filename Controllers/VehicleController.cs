@@ -6,7 +6,7 @@ namespace API.Controllers;
 
 public class VehicleController : BaseController
 {
-    [HttpPost]
+    [HttpPost("create-vehicle")]
     public async Task<Unit> CreateVehicle(CreateVehicle.Command command)
     {
         return await Mediator!.Send(command);

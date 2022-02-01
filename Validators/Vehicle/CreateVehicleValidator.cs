@@ -1,4 +1,3 @@
-using System.Data;
 using API.Handlers.Vehicle;
 using API.Utilities.Messages;
 using FluentValidation;
@@ -14,66 +13,65 @@ public class CreateVehicleValidator : AbstractValidator<CreateVehicle.Command>
             .WithMessage(ValidationErrorMessages.Required)
             .NotEmpty()
             .WithMessage(ValidationErrorMessages.Required);
-        
+
         RuleFor(e => e.Color)
             .NotNull()
             .WithMessage(ValidationErrorMessages.Required)
             .NotEmpty()
             .WithMessage(ValidationErrorMessages.Required);
-        
+
         RuleFor(e => e.Description)
             .NotNull()
             .WithMessage(ValidationErrorMessages.Required)
             .NotEmpty()
             .WithMessage(ValidationErrorMessages.Required);
-        
+
         RuleFor(e => e.EngineType)
             .NotNull()
             .WithMessage(ValidationErrorMessages.Required)
             .NotEmpty()
             .WithMessage(ValidationErrorMessages.Required);
-        
-        RuleFor(e=> e.FuelType)
+
+        RuleFor(e => e.FuelType)
             .NotNull()
             .WithMessage(ValidationErrorMessages.Required)
             .NotEmpty()
             .WithMessage(ValidationErrorMessages.Required);
-        
-        RuleFor(e=>e.Location)
+
+        RuleFor(e => e.Location)
             .NotNull()
             .WithMessage(ValidationErrorMessages.Required)
             .NotEmpty()
             .WithMessage(ValidationErrorMessages.Required);
-        
-        RuleFor(e=>e.Make)
+
+        RuleFor(e => e.Make)
             .NotNull()
             .WithMessage(ValidationErrorMessages.Required)
             .NotEmpty()
             .WithMessage(ValidationErrorMessages.Required);
-        
-        RuleFor(e=>e.Model)
+
+        RuleFor(e => e.Model)
             .NotNull()
             .WithMessage(ValidationErrorMessages.Required)
             .NotEmpty()
             .WithMessage(ValidationErrorMessages.Required);
-        
-        RuleFor(e=>e.Mileage)
+
+        RuleFor(e => e.Mileage)
             .NotNull()
             .WithMessage(ValidationErrorMessages.Required)
             .NotEmpty()
             .WithMessage(ValidationErrorMessages.Required);
-        
-        RuleFor(e=>e.Price)
+
+        RuleFor(e => e.Price)
             .NotNull()
             .WithMessage(ValidationErrorMessages.Required)
             .NotEmpty()
             .WithMessage(ValidationErrorMessages.Required);
-        
-        RuleFor(e=>e.Year)
+
+        RuleFor(e => e.Year)
             .NotNull()
             .WithMessage(ValidationErrorMessages.Required)
             .NotEmpty()
             .WithMessage(ValidationErrorMessages.Required);
     }
-
 }

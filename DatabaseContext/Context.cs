@@ -46,8 +46,8 @@ public class Context : DbContext
             .HasForeignKey(e => e.Account);
 
         builder.Entity<Vehicle>()
-            .HasOne(e => e.AccountReference)
+            .HasOne(e => e.OwnerReference)
             .WithMany(e => e.Vehicles)
-            .HasForeignKey(e => e.Account);
+            .HasForeignKey(e => e.Owner);
     }
 }
