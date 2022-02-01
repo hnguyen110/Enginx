@@ -8,3 +8,4 @@ database.db-shm
 database.db-wal
 .idea
 Migrations
+Uploads
