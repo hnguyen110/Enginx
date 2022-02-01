@@ -30,7 +30,10 @@ public class BankCardRepository : IBankCardRepository
     public async Task<List<Models.BankCard>> RetrieveAllBankCardsByAccount(string? account,
         CancellationToken cancellationToken)
     {
-        var records = await _database.BankCard!.ToListAsync(cancellationToken);
+        var records = await _database
+            .BankCard!
+            .Where(e => e.Account == account)
+            .ToListAsync(cancellationToken);
         return records;
     }
 }
