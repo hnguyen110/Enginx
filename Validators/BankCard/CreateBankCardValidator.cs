@@ -13,7 +13,7 @@ public class CreateBankCardValidator : AbstractValidator<CreateBankCard.Command>
             .WithMessage(ValidationErrorMessages.Required)
             .NotEmpty()
             .WithMessage(ValidationErrorMessages.Required);
-        
+
         RuleFor(e => e.CardHolderName)
             .NotNull()
             .WithMessage(ValidationErrorMessages.Required)
@@ -27,7 +27,7 @@ public class CreateBankCardValidator : AbstractValidator<CreateBankCard.Command>
             .WithMessage(ValidationErrorMessages.Required)
             .Length(16)
             .WithMessage(ValidationErrorMessages.Length);
-        
+
         RuleFor(e => e.ExpireDate)
             .NotNull()
             .WithMessage(ValidationErrorMessages.Required)
@@ -35,7 +35,7 @@ public class CreateBankCardValidator : AbstractValidator<CreateBankCard.Command>
             .WithMessage(ValidationErrorMessages.Required)
             .Must(date => date >= DateTime.Now)
             .WithMessage(ValidationErrorMessages.InvalidDateTime);
-        
+
         RuleFor(e => e.CardVerificationCode)
             .NotNull()
             .WithMessage(ValidationErrorMessages.Required)

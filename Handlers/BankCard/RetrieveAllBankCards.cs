@@ -15,8 +15,8 @@ public class RetrieveAllBankCards
     public class Handler : IRequestHandler<Query, List<RetrieveAllBankCardsDTO>>
     {
         private readonly ICredentialAccessor _accessor;
-        private readonly IBankCardRepository _repository;
         private readonly IMapper _mapper;
+        private readonly IBankCardRepository _repository;
 
         public Handler(ICredentialAccessor accessor, IBankCardRepository repository, IMapper mapper)
         {

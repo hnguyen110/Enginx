@@ -12,12 +12,12 @@ public class CIController : BaseController
     [HttpGet("contact-information/{id}")]
     public async Task<ContactInformation> RetrieveContactInformation(string id)
     {
-        return await Mediator!.Send(new RetrieveContactInformation.Query { Id = id });
+        return await Mediator!.Send(new RetrieveContactInformation.Query {Id = id});
     }
 
     [HttpGet("address/{id}")]
     public async Task<Address> RetrieveAddress(string id)
     {
-        return await Mediator!.Send(new RetrieveAddress.Query { Id = id });
+        return await Mediator!.Send(new RetrieveAddress.Query {Id = id});
     }
 }
