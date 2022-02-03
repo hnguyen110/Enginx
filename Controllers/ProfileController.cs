@@ -9,7 +9,7 @@ public class ProfileController : BaseController
     [HttpGet("profile-picture")]
     public async Task<string?> RetrieveProfilePicture(string? id)
     {
-        return await Mediator!.Send(new RetrieveProfilePicture.Query { Id = id });
+        return await Mediator!.Send(new RetrieveProfilePicture.Query {Id = id});
     }
 
     [HttpGet("profile-information")]

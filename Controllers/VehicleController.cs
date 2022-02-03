@@ -12,22 +12,20 @@ public class VehicleController : BaseController
     {
         return await Mediator!.Send(command);
     }
-    
-    [HttpPost("vehicle-picture/{id}")]
+
+    [HttpPost("vehicle-pictures/{id}")]
     [RequestSizeLimit(int.MaxValue)]
     [RequestFormLimits(ValueLengthLimit = int.MaxValue,
         MultipartBodyLengthLimit = int.MaxValue)]
-    public async Task<Unit> UploadVehiclePicture([FromForm] UploadVehiclePicture.Command command, string id)
+    public async Task<Unit> UploadVehiclePictures([FromForm] UploadVehiclePicture.Command command, string id)
     {
         command.Id = id;
         return await Mediator!.Send(command);
     }
-    
-}
 
     [HttpGet("{id}")]
     public async Task<RetrieveVehicleDTO> RetrieveVehicle(string id)
     {
-        return await Mediator!.Send(new RetrieveVehicle.Query { Id = id });
+        return await Mediator!.Send(new RetrieveVehicle.Query {Id = id});
     }
 }

@@ -15,7 +15,7 @@ public class UploadVehiclePicture
         public string? Id { get; set; }
     }
 
-    public class Handler : IRequestHandler<Command,Unit>
+    public class Handler : IRequestHandler<Command, Unit>
     {
         private readonly ICredentialAccessor _accessor;
         private readonly IVehiclePictureRepository _vehiclePictureRepository;
@@ -45,6 +45,7 @@ public class UploadVehiclePicture
                         cancellationToken
                     );
             }
+
             return Unit.Value;
         }
     }

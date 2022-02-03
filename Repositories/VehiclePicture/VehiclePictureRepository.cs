@@ -17,12 +17,12 @@ public class VehiclePictureRepository : IVehiclePictureRepository
         _environment = environment;
         _context = context;
     }
-    
+
     public async Task<string> SaveVehiclePictures(IFormFile file, CancellationToken cancellationToken)
     {
         if (file == null)
             throw new ApiException(HttpStatusCode.BadRequest, ValidationErrorMessages.Required);
-        var extensions = new[] { "image/jpg", "image/jpeg", "image/png" };
+        var extensions = new[] {"image/jpg", "image/jpeg", "image/png"};
         if (!extensions.Contains(file.ContentType))
             throw new ApiException(HttpStatusCode.BadRequest, ValidationErrorMessages.UnsupportedFileFormat);
         if (file.Length > AccountConstants.ProfilePictureSizeLimit)
@@ -45,13 +45,13 @@ public class VehiclePictureRepository : IVehiclePictureRepository
                     e =>
                         e.Id == vehicle, cancellationToken
                 );
-        
+
         if (result == null)
             throw new ApiException(
                 HttpStatusCode.NotFound,
                 ApiErrorMessages.NotFound
             );
-        var picture = new Models.VehiclePicture()
+        var picture = new Models.VehiclePicture
         {
             Id = Guid.NewGuid().ToString(),
             FilePath = Path.Combine(_environment.ContentRootPath, $"Uploads/{id}"),
@@ -64,14 +64,11 @@ public class VehiclePictureRepository : IVehiclePictureRepository
 
     public async Task<Models.Vehicle?> FindVehicleById(string id, CancellationToken cancellationToken)
     {
-        return await 
-            _context.
-                Vehicle!
+        return await
+            _context.Vehicle!
                 .FirstOrDefaultAsync(
-                    e => 
+                    e =>
                         e.Id == id, cancellationToken
-                        );
-        
+                );
     }
-    
 }
