@@ -34,12 +34,12 @@ public class Context : DbContext
             .HasOne(e => e.Account)
             .WithOne(e => e.ProfilePictureReference)
             .HasForeignKey<Account>(e => e.ProfilePicture);
-
-        builder.Entity<License>()
-            .HasOne(e => e.Account)
-            .WithOne(e => e.LicenseReference)
-            .HasForeignKey<Account>(e => e.License);
-
+        
+        builder.Entity<VehiclePicture>()
+            .HasOne(e => e.VehicleReference)
+            .WithMany(e => e.VehiclePictures)
+            .HasForeignKey(e => e.Vehicle);
+        
         builder.Entity<BankCard>()
             .HasOne(e => e.AccountReference)
             .WithMany(e => e.BankCards)
@@ -49,5 +49,7 @@ public class Context : DbContext
             .HasOne(e => e.OwnerReference)
             .WithMany(e => e.Vehicles)
             .HasForeignKey(e => e.Owner);
+        
+        
     }
 }
