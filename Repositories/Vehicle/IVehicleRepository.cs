@@ -1,5 +1,3 @@
-using System.Xml.Linq;
-
 namespace API.Repositories.Vehicle;
 
 public interface IVehicleRepository

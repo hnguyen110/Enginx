@@ -7,7 +7,7 @@ namespace API.Controllers;
 
 public class BankCardController : BaseController
 {
-    [HttpPost]
+    [HttpPost("create-bankcard")]
     public async Task<Unit> CreateBankCard(CreateBankCard.Command command)
     {
         return await Mediator!.Send(command);

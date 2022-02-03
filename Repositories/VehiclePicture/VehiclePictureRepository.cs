@@ -1,25 +1,24 @@
 using System.Net;
 using API.DatabaseContext;
 using API.Exceptions;
-using API.Models;
 using API.Utilities.Constants;
 using API.Utilities.Messages;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Repositories.Profile;
+namespace API.Repositories.VehiclePicture;
 
-public class ProfilePictureRepository : IProfilePictureRepository
+public class VehiclePictureRepository : IVehiclePictureRepository
 {
     private readonly Context _context;
     private readonly IWebHostEnvironment _environment;
 
-    public ProfilePictureRepository(IWebHostEnvironment environment, Context context)
+    public VehiclePictureRepository(IWebHostEnvironment environment, Context context)
     {
         _environment = environment;
         _context = context;
     }
-
-    public async Task<string> SaveProfilePicture(IFormFile file, CancellationToken cancellationToken)
+    
+    public async Task<string> SaveVehiclePictures(IFormFile file, CancellationToken cancellationToken)
     {
         if (file == null)
             throw new ApiException(HttpStatusCode.BadRequest, ValidationErrorMessages.Required);
@@ -37,45 +36,42 @@ public class ProfilePictureRepository : IProfilePictureRepository
         return id;
     }
 
-    public async Task SaveToAccount(string account, string id, CancellationToken cancellationToken)
+    public async Task SaveToVehicle(string vehicle, string id, CancellationToken cancellationToken)
     {
         var result = await
             _context
-                .Account!
+                .Vehicle!
                 .FirstOrDefaultAsync(
                     e =>
-                        e.Id == account, cancellationToken
+                        e.Id == vehicle, cancellationToken
                 );
+        
         if (result == null)
             throw new ApiException(
                 HttpStatusCode.NotFound,
                 ApiErrorMessages.NotFound
             );
-        var picture = new ProfilePicture
+        var picture = new Models.VehiclePicture()
         {
             Id = Guid.NewGuid().ToString(),
-            FilePath = Path.Combine(_environment.ContentRootPath, $"Uploads/{id}")
+            FilePath = Path.Combine(_environment.ContentRootPath, $"Uploads/{id}"),
+            Vehicle = vehicle
         };
         await _context.AddAsync(picture, cancellationToken);
-        result.ProfilePicture = picture.Id;
+        result.VehiclePictures.Add(picture);
         await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<string?> RetrieveProfilePictureByAccount(string account, CancellationToken cancellationToken)
+    public async Task<Models.Vehicle?> FindVehicleById(string id, CancellationToken cancellationToken)
     {
-        var record = await _context
-            .Account!
-            .FirstOrDefaultAsync(
-                e => e.Id == account,
-                cancellationToken
-            );
-        if (record?.ProfilePicture == null) return null;
-        var path = await _context
-            .ProfilePicture!
-            .FirstOrDefaultAsync(
-                e => e.Id == record.ProfilePicture,
-                cancellationToken
-            );
-        return path?.FilePath;
+        return await 
+            _context.
+                Vehicle!
+                .FirstOrDefaultAsync(
+                    e => 
+                        e.Id == id, cancellationToken
+                        );
+        
     }
+    
 }
