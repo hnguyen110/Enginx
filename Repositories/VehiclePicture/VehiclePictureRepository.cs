@@ -71,7 +71,17 @@ public class VehiclePictureRepository : IVehiclePictureRepository
                     e => 
                         e.Id == id, cancellationToken
                         );
-        
+    }
+    
+    public async Task<List<Models.VehiclePicture>> RetrieveVehiclePicturesById(string? id,
+        CancellationToken cancellationToken)
+    {
+        var records = await 
+            _context
+            .VehiclePicture!
+            .Where(e => e.Vehicle == id)
+            .ToListAsync(cancellationToken);
+        return records;
     }
     
 }

@@ -1,4 +1,5 @@
 using API.DatabaseContext;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Repositories.Vehicle;
 
