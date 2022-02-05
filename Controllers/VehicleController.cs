@@ -1,3 +1,4 @@
+using API.DTOs.Vehicle;
 using API.Handlers.Vehicle;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,7 @@ public class VehicleController : BaseController
     {
         return await Mediator!.Send(command);
     }
+<<<<<<< .merge_file_274xTy
     
     [HttpPost("vehicle-picture/{id}")]
     [RequestSizeLimit(int.MaxValue)]
@@ -23,3 +25,12 @@ public class VehicleController : BaseController
     }
     
 }
+=======
+
+    [HttpGet("{id}")]
+    public async Task<RetrieveVehicleDTO> RetrieveVehicle(string id)
+    {
+        return await Mediator!.Send(new RetrieveVehicle.Query { Id = id });
+    }
+}
+>>>>>>> .merge_file_sIGoi5
