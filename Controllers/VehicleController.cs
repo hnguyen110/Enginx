@@ -1,7 +1,6 @@
+using API.DTOs.Vehicle;
 using API.DTOs.VehiclePicture;
-using API.Handlers.Address;
 using API.Handlers.Vehicle;
-using API.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,4 +30,10 @@ public class VehicleController : BaseController
         return await Mediator!.Send(new RetrieveVehiclePicture.Query{ Id = id});
     }
     
+
+    [HttpGet("{id}")]
+    public async Task<RetrieveVehicleDTO> RetrieveVehicle(string id)
+    {
+        return await Mediator!.Send(new RetrieveVehicle.Query { Id = id });
+    }
 }
