@@ -1,5 +1,8 @@
+using System.Net;
 using API.DTOs.VehiclePicture;
+using API.Exceptions;
 using API.Repositories.VehiclePicture;
+using API.Utilities.Messages;
 using AutoMapper;
 using MediatR;
 
@@ -30,6 +33,8 @@ public class RetrieveVehiclePicture
                     request.Id,
                     cancellationToken
                 );
+            if (!records.Any())
+                throw new ApiException(HttpStatusCode.NotFound, ApiErrorMessages.NotFound);
             return _mapper
                 .Map<List<Models.VehiclePicture>, List<RetrieveVehiclePicturesDTO>>(records);
         }
