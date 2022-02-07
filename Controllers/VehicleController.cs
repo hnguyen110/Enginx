@@ -37,4 +37,10 @@ public class VehicleController : BaseController
     {
         return await Mediator!.Send(new RetrieveVehicle.Query { Id = id });
     }
+    
+    [HttpGet]
+    public async Task<List<RetrieveVehicleDTO>> RetrieveAllVehicles()
+    {
+        return await Mediator!.Send(new RetrieveAllVehicles.Query() );
+    }
 }
