@@ -29,4 +29,13 @@ public class VehicleRepository : IVehicleRepository
             );
         return record;
     }
+
+    public async Task<List<Models.Vehicle>> RetrieveAllVehicles(string? owner, CancellationToken cancellationToken)
+    {
+        var records = await _database
+            .Vehicle!
+            .Where(e => e.Owner == owner)
+            .ToListAsync(cancellationToken);
+        return records;
+    }
 }
