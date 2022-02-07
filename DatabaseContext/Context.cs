@@ -51,7 +51,7 @@ public class Context : DbContext
             .HasOne(e => e.OwnerReference)
             .WithMany(e => e.Vehicles)
             .HasForeignKey(e => e.Owner);
-        
+
         builder.Entity<Reservation>()
             .HasOne(e => e.VehicleReference)
             .WithMany(e => e.Reservations)

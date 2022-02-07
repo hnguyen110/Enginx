@@ -1,9 +1,6 @@
-using API.DatabaseContext;
-using API.Handlers.Address;
-using MediatR;
-using API.Handlers.Reservation;
 using API.Repositories.Reservation;
 using API.Utilities.CredentialAccessor;
+using MediatR;
 
 namespace API.Handlers.Reservation;
 
@@ -16,7 +13,6 @@ public class CreateReservation
         public string? CheckOutDate { get; set; }
         public string? CheckInTime { get; set; }
         public string? CheckOutTime { get; set; }
-        
     }
 
     public class Handler : IRequestHandler<Command, Unit>
@@ -32,7 +28,7 @@ public class CreateReservation
 
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
-            var card = new Models.Reservation()
+            var card = new Models.Reservation
             {
                 Id = Guid.NewGuid().ToString(),
                 // Account = _accessor.RetrieveAccountId(),
@@ -41,7 +37,6 @@ public class CreateReservation
                 CheckInTime = request.CheckInTime,
                 CheckOutTime = request.CheckOutTime,
                 Date = request.Date
-                    
             };
 
             await _repository.Save(card, cancellationToken);

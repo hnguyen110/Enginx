@@ -1,8 +1,6 @@
-using Microsoft.AspNetCore.Mvc;
 using API.Handlers.Reservation;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
-
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
@@ -15,7 +13,6 @@ public class ReservationController : BaseController
     // {
     //     return await MediatR.Mediator!.Send(command)
     // }
-
     public async Task<Unit> CreateReservation(CreateReservation.Command command)
     {
         return await Mediator!.Send(command);
