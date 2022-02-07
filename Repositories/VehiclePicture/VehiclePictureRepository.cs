@@ -1,7 +1,6 @@
 using System.Net;
 using API.DatabaseContext;
 using API.Exceptions;
-using API.Utilities.Constants;
 using API.Utilities.Messages;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,13 +19,6 @@ public class VehiclePictureRepository : IVehiclePictureRepository
 
     public async Task<string> SaveVehiclePictures(IFormFile file, CancellationToken cancellationToken)
     {
-        if (file == null)
-            throw new ApiException(HttpStatusCode.BadRequest, ValidationErrorMessages.Required);
-        var extensions = new[] {"image/jpg", "image/jpeg", "image/png"};
-        if (!extensions.Contains(file.ContentType))
-            throw new ApiException(HttpStatusCode.BadRequest, ValidationErrorMessages.UnsupportedFileFormat);
-        if (file.Length > AccountConstants.ProfilePictureSizeLimit)
-            throw new ApiException(HttpStatusCode.BadRequest, ValidationErrorMessages.LargeFile);
         var id = Guid.NewGuid().ToString();
         await using var stream = new FileStream(
             Path.Combine(_environment.ContentRootPath, $"Uploads/{id}"),
@@ -36,7 +28,7 @@ public class VehiclePictureRepository : IVehiclePictureRepository
         return id;
     }
 
-    public async Task SaveToVehicle(string vehicle, string id, CancellationToken cancellationToken)
+    public async Task SaveToVehicle(string? vehicle, string id, CancellationToken cancellationToken)
     {
         var result = await
             _context
@@ -45,7 +37,6 @@ public class VehiclePictureRepository : IVehiclePictureRepository
                     e =>
                         e.Id == vehicle, cancellationToken
                 );
-
         if (result == null)
             throw new ApiException(
                 HttpStatusCode.NotFound,
@@ -58,7 +49,7 @@ public class VehiclePictureRepository : IVehiclePictureRepository
             Vehicle = vehicle
         };
         await _context.AddAsync(picture, cancellationToken);
-        result.VehiclePictures.Add(picture);
+        result.VehiclePictures!.Add(picture);
         await _context.SaveChangesAsync(cancellationToken);
     }
 
@@ -70,5 +61,16 @@ public class VehiclePictureRepository : IVehiclePictureRepository
                     e =>
                         e.Id == id, cancellationToken
                 );
+    }
+
+    public async Task<List<Models.VehiclePicture>> RetrieveVehiclePicturesById(string? id,
+        CancellationToken cancellationToken)
+    {
+        var records = await
+            _context
+                .VehiclePicture!
+                .Where(e => e.Vehicle == id)
+                .ToListAsync(cancellationToken);
+        return records;
     }
 }
