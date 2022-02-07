@@ -1,31 +1,27 @@
-using System.Net;
 using API.DatabaseContext;
 using API.DTOs.Vehicle;
-using API.Exceptions;
 using API.Repositories.Vehicle;
 using API.Utilities.CredentialAccessor;
-using API.Utilities.Messages;
 using AutoMapper;
 using MediatR;
 
-
 namespace API.Handlers.Vehicle;
+
 public class RetrieveAllVehicles
 {
-    public class Query : IRequest<List<RetrieveVehicleDTO>>
+    public class Query : IRequest<List<RetrieveAllVehicleDTO>>
 
     {
-        
     }
-    
-    public class Handler : IRequestHandler<Query, List<RetrieveVehicleDTO>>
+
+    public class Handler : IRequestHandler<Query, List<RetrieveAllVehicleDTO>>
 
     {
         private readonly ICredentialAccessor _accessor;
+        private readonly Context _database;
         private readonly IMapper _mapper;
         private readonly IVehicleRepository _repository;
-        private readonly Context _database;
-        
+
         public Handler(Context database, ICredentialAccessor accessor, IVehicleRepository repository, IMapper mapper)
 
         {
@@ -36,14 +32,13 @@ public class RetrieveAllVehicles
         }
 
 
-        public async Task<List<RetrieveVehicleDTO>> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<List<RetrieveAllVehicleDTO>> Handle(Query request, CancellationToken cancellationToken)
 
         {
-        
             var owner = _accessor.RetrieveAccountId();
             var records = await _repository.RetrieveAllVehicles(owner, cancellationToken);
 
-            return _mapper.Map<List<Models.Vehicle>, List<RetrieveVehicleDTO>>(records);
+            return _mapper.Map<List<Models.Vehicle>, List<RetrieveAllVehicleDTO>>(records);
         }
     }
 }

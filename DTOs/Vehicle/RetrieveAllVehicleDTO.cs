@@ -2,6 +2,7 @@ namespace API.DTOs.Vehicle;
 
 public class RetrieveAllVehicleDTO
 {
+    public string? Id { get; set; }
     public string? BodyType { get; set; }
     public string? Color { get; set; }
     public string? Description { get; set; }
