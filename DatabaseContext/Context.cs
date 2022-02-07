@@ -17,6 +17,7 @@ public class Context : DbContext
     public DbSet<BankCard>? BankCard { get; set; }
     public DbSet<Vehicle>? Vehicle { get; set; }
     public DbSet<VehiclePicture>? VehiclePicture { get; set; }
+    public DbSet<Reservation>? Reservation { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -50,5 +51,10 @@ public class Context : DbContext
             .HasOne(e => e.OwnerReference)
             .WithMany(e => e.Vehicles)
             .HasForeignKey(e => e.Owner);
+        
+        builder.Entity<Reservation>()
+            .HasOne(e => e.VehicleReference)
+            .WithMany(e => e.Reservations)
+            .HasForeignKey(e => e.Vehicle);
     }
 }
