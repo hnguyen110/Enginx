@@ -17,6 +17,7 @@ public class Context : DbContext
     public DbSet<BankCard>? BankCard { get; set; }
     public DbSet<Vehicle>? Vehicle { get; set; }
     public DbSet<VehiclePicture>? VehiclePicture { get; set; }
+    public DbSet<Insurance>? Insurance { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
