@@ -31,7 +31,7 @@ public class CreateTransaction
                 Id = Guid.NewGuid().ToString(),
                 Amount = request.Amount,
                 Date = DateTime.Today,
-                Time = DateTime.Now,
+                Time = default(DateTime).Add(DateTime.Now.TimeOfDay),
                 Sender = sender,
                 Receiver = request.Receiver
             };
