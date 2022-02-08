@@ -28,14 +28,14 @@ public class VehicleController : BaseController
     [HttpGet("vehicle-picture/{id}")]
     public async Task<List<RetrieveVehiclePicturesDTO>> RetrieveVehiclePictureById(string id)
     {
-        return await Mediator!.Send(new RetrieveVehiclePicture.Query { Id = id });
+        return await Mediator!.Send(new RetrieveVehiclePicture.Query {Id = id});
     }
 
 
     [HttpGet("{id}")]
     public async Task<RetrieveVehicleDTO> RetrieveVehicle(string id)
     {
-        return await Mediator!.Send(new RetrieveVehicle.Query { Id = id });
+        return await Mediator!.Send(new RetrieveVehicle.Query {Id = id});
     }
 
     [HttpGet]
