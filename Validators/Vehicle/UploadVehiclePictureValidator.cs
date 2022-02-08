@@ -3,7 +3,7 @@ using API.Utilities.Constants;
 using API.Utilities.Messages;
 using FluentValidation;
 
-namespace API.Validators.VehiclePicture;
+namespace API.Validators.Vehicle;
 
 public class UploadVehiclePictureValidator : AbstractValidator<UploadVehiclePicture.Command>
 {

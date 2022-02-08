@@ -4,42 +4,44 @@ using API.Exceptions;
 using API.Utilities.Messages;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Repositories.Transaction;
+namespace API.Repositories.Review;
 
-public class TransactionRepository : ITransactionRepository
+public class ReviewRepository : IReviewRepository
 {
     private readonly Context _context;
 
-    public TransactionRepository(Context context)
+    public ReviewRepository(Context context)
     {
         _context = context;
     }
 
-    public async Task Save(Models.Transaction transaction, CancellationToken cancellationToken)
+    public async Task Save(Models.Review review, CancellationToken cancellationToken)
     {
-        var sender = await _context
+        var account = await _context
             .Account!
             .FirstOrDefaultAsync(
-                e => e.Id == transaction.Sender,
+                e => e.Id == review.Reviewer,
                 cancellationToken
             );
-        if (sender == null)
+        if (account == null)
             throw new ApiException(
                 HttpStatusCode.NotFound,
                 ApiErrorMessages.RecordNotFound
             );
-        var receiver = await _context
-            .Account!
+        var vehicle = await _context
+            .Vehicle!
             .FirstOrDefaultAsync(
-                e => e.Id == transaction.Receiver,
+                e => e.Id == review.Vehicle
+                     && e.Approved == true
+                     && e.Published == true,
                 cancellationToken
             );
-        if (receiver == null)
+        if (vehicle == null)
             throw new ApiException(
                 HttpStatusCode.NotFound,
                 ApiErrorMessages.RecordNotFound
             );
-        await _context.AddAsync(transaction, cancellationToken);
+        await _context.AddAsync(review, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
     }
 }

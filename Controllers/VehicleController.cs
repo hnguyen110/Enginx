@@ -24,6 +24,13 @@ public class VehicleController : BaseController
         command.Id = id;
         return await Mediator!.Send(command);
     }
+    
+    [HttpPost("review/{id}")]
+    public async Task<Unit> CreateVehicleReview(CreateReview.Command command, string id)
+    {
+        command.Vehicle = id;
+        return await Mediator!.Send(command);
+    }
 
     [HttpGet("vehicle-picture/{id}")]
     public async Task<List<RetrieveVehiclePicturesDTO>> RetrieveVehiclePictureById(string id)
