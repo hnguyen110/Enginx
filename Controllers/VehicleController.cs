@@ -1,7 +1,7 @@
 using API.DTOs.Vehicle;
-using API.DTOs.VehiclePicture;
 using API.Handlers.Vehicle;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -24,7 +24,7 @@ public class VehicleController : BaseController
         command.Id = id;
         return await Mediator!.Send(command);
     }
-    
+
     [HttpPost("review/{id}")]
     public async Task<Unit> CreateVehicleReview(CreateReview.Command command, string id)
     {
@@ -38,7 +38,6 @@ public class VehicleController : BaseController
         return await Mediator!.Send(new RetrieveVehiclePicture.Query {Id = id});
     }
 
-
     [HttpGet("{id}")]
     public async Task<RetrieveVehicleDTO> RetrieveVehicle(string id)
     {
@@ -46,8 +45,15 @@ public class VehicleController : BaseController
     }
 
     [HttpGet]
-    public async Task<List<RetrieveAllVehicleDTO>> RetrieveAllVehicles()
+    public async Task<List<RetrieveAllVehiclesDTO>> RetrieveAllVehicles()
     {
         return await Mediator!.Send(new RetrieveAllVehicles.Query());
+    }
+
+    [AllowAnonymous]
+    [HttpGet("reviews/{id}")]
+    public async Task<List<RetrieveAllReviewsDTO>> RetrieveAllVehicleReviews(string id)
+    {
+        return await Mediator!.Send(new RetrieveAllReviews.Query {Id = id});
     }
 }

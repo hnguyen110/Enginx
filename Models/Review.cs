@@ -7,5 +7,7 @@ public class Review
     public Account? ReviewerReference { get; set; }
     public string? Vehicle { get; set; }
     public Vehicle? VehicleReference { get; set; }
+    public DateTime? Date { get; set; }
+    public string? Title { get; set; }
     public string? Description { get; set; }
 }

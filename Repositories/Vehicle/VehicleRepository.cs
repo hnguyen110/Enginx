@@ -1,4 +1,7 @@
+using System.Net;
 using API.DatabaseContext;
+using API.Exceptions;
+using API.Utilities.Messages;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Repositories.Vehicle;
@@ -35,6 +38,31 @@ public class VehicleRepository : IVehicleRepository
         var records = await _database
             .Vehicle!
             .Where(e => e.Owner == owner)
+            .ToListAsync(cancellationToken);
+        return records;
+    }
+
+    public async Task<List<Models.Review>> RetrieveAllVehicleReviews(string? id, CancellationToken cancellationToken)
+    {
+        var vehicle = await _database
+            .Vehicle!
+            .FirstOrDefaultAsync(
+                e =>
+                    e.Id == id
+                    && e.Approved == true
+                    && e.Published == true,
+                cancellationToken
+            );
+        if (vehicle == null)
+            throw new ApiException(
+                HttpStatusCode.NotFound,
+                ApiErrorMessages.RecordNotFound
+            );
+        var records = await _database
+            .Review!
+            .Where(e => e.Vehicle == id)
+            .Include(e => e.ReviewerReference)
+            .ThenInclude(e => e!.ContactInformationReference)
             .ToListAsync(cancellationToken);
         return records;
     }

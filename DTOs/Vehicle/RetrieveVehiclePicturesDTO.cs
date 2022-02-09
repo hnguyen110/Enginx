@@ -1,4 +1,4 @@
-namespace API.DTOs.VehiclePicture;
+namespace API.DTOs.Vehicle;
 
 public class RetrieveVehiclePicturesDTO
 {
