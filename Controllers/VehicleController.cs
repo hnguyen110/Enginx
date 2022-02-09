@@ -2,6 +2,7 @@ using API.DTOs.Vehicle;
 using API.DTOs.VehiclePicture;
 using API.Handlers.Vehicle;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -50,7 +51,8 @@ public class VehicleController : BaseController
     {
         return await Mediator!.Send(new RetrieveAllVehicles.Query());
     }
-
+    
+    [AllowAnonymous]
     [HttpGet("get-published-vehicle/{id}")]
     public async Task<RetrieveVehicleDTO> RetrievePublishedVehicle(string id)
     {

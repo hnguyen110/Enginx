@@ -31,10 +31,9 @@ public class RetrievePublishedVehicle
 
         public async Task<RetrieveVehicleDTO> Handle(Query request, CancellationToken cancellationToken)
         {
-            var owner = _accessor.RetrieveAccountId();
             var record = await _repository
                 .RetrieveVehicleById(
-                    owner, request.Id,
+                    null, request.Id,
                     cancellationToken
                 );
             
