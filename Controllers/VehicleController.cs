@@ -58,4 +58,11 @@ public class VehicleController : BaseController
     {
         return await Mediator!.Send(new RetrievePublishedVehicle.Query {Id = id});
     }
+
+    [AllowAnonymous]
+    [HttpGet("get-All-published-vehicle")]
+    public async Task<List<RetrieveAllVehicleDTO>> RetrieveAllPublishedVehicles()
+    {
+        return await Mediator!.Send(new RetrieveAllPublishedVehicles.Query());
+    }
 }

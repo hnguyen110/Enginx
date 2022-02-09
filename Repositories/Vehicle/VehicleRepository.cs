@@ -38,4 +38,13 @@ public class VehicleRepository : IVehicleRepository
             .ToListAsync(cancellationToken);
         return records;
     }
+    
+    public async Task<List<Models.Vehicle>> RetrieveAllPublishedVehicles(CancellationToken cancellationToken)
+    {
+        var records = await _database
+            .Vehicle!
+            .Where(e => e.Published == true)
+            .ToListAsync(cancellationToken);
+        return records;
+    }
 }
