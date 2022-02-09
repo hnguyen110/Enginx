@@ -18,6 +18,8 @@ public class Context : DbContext
     public DbSet<Vehicle>? Vehicle { get; set; }
     public DbSet<VehiclePicture>? VehiclePicture { get; set; }
     public DbSet<Reservation>? Reservation { get; set; }
+    public DbSet<Transaction>? Transaction { get; set; }
+    public DbSet<Review>? Review { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -55,6 +57,29 @@ public class Context : DbContext
         builder.Entity<Reservation>()
             .HasOne(e => e.VehicleReference)
             .WithMany(e => e.Reservations)
+        builder.Entity<Transaction>()
+            .HasOne(e => e.Reservation)
+            .WithOne(e => e.TransactionReference)
+            .HasForeignKey<Reservation>(e => e.Transaction);
+
+        builder.Entity<Transaction>()
+            .HasOne(e => e.SenderReference)
+            .WithMany(e => e.TransactionSenders)
+            .HasForeignKey(e => e.Sender);
+
+        builder.Entity<Transaction>()
+            .HasOne(e => e.ReceiverReference)
+            .WithMany(e => e.TransactionReceivers)
+            .HasForeignKey(e => e.Receiver);
+
+        builder.Entity<Review>()
+            .HasOne(e => e.ReviewerReference)
+            .WithMany(e => e.Reviews)
+            .HasForeignKey(e => e.Reviewer);
+
+        builder.Entity<Review>()
+            .HasOne(e => e.VehicleReference)
+            .WithMany(e => e.Reviews)
             .HasForeignKey(e => e.Vehicle);
     }
 }

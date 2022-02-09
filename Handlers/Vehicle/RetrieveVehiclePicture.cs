@@ -1,5 +1,5 @@
 using System.Net;
-using API.DTOs.VehiclePicture;
+using API.DTOs.Vehicle;
 using API.Exceptions;
 using API.Models;
 using API.Repositories.VehiclePicture;

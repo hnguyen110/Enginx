@@ -14,4 +14,6 @@ public class Reservation
     public string? CheckOutTime { get; set; }
     // public int Insurance { get; set; }
     // public int Transaction { get; set; }
+    public string? Transaction { get; set; }
+    public Transaction? TransactionReference { get; set; }
 }
