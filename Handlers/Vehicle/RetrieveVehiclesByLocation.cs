@@ -33,11 +33,6 @@ public class RetrieveVehiclesByLocation
                     request.Location,
                     cancellationToken
                 );
-            if (!record.Any())
-                throw new ApiException(
-                    HttpStatusCode.NotFound,
-                    ApiErrorMessages.NotFound
-                );
             return _mapper.Map<List<Models.Vehicle>, List<RetrieveVehicleDTO>>(record);
         }
     }

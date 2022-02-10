@@ -46,8 +46,8 @@ public class VehicleController : BaseController
     }
     
     [AllowAnonymous]
-    [HttpGet("vehicle-location/{location}")]
-    public async Task<List<RetrieveVehicleDTO>> RetrieveVehiclesByLocation(string? location)
+    [HttpGet("search")]
+    public async Task<List<RetrieveVehicleDTO>> RetrieveVehiclesByLocation([FromQuery(Name = "location")]string? location)
     {
         return await Mediator!.Send(new RetrieveVehiclesByLocation.Query {Location = location});
     }
