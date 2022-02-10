@@ -1,4 +1,5 @@
 using API.DTOs.BankCard;
+using API.DTOs.Reservation;
 using API.DTOs.Vehicle;
 using API.Models;
 using AutoMapper;
@@ -11,5 +12,6 @@ public class MappingProfile : Profile
     {
         CreateMap<BankCard, RetrieveAllBankCardsDTO>();
         CreateMap<Vehicle, RetrieveVehicleDTO>();
+        CreateMap<Reservation, RetrieveAllReservationsDTO>();
     }
 }
