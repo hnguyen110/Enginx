@@ -43,7 +43,7 @@ public class VehicleRepository : IVehicleRepository
     {
         var records = await _database
             .Vehicle!
-            .Where(e => e.Published == true)
+            .Where(e => e.Published == true && e.Approved == true)
             .ToListAsync(cancellationToken);
         return records;
     }
