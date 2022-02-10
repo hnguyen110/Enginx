@@ -2,6 +2,7 @@ using API.DTOs.Vehicle;
 using API.DTOs.VehiclePicture;
 using API.Handlers.Vehicle;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -42,5 +43,12 @@ public class VehicleController : BaseController
     public async Task<List<RetrieveAllVehicleDTO>> RetrieveAllVehicles()
     {
         return await Mediator!.Send(new RetrieveAllVehicles.Query());
+    }
+    
+    [AllowAnonymous]
+    [HttpGet("vehicle-location/{location}")]
+    public async Task<List<RetrieveVehicleDTO>> RetrieveVehiclesByLocation(string? location)
+    {
+        return await Mediator!.Send(new RetrieveVehiclesByLocation.Query {Location = location});
     }
 }

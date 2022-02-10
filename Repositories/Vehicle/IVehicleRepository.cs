@@ -6,4 +6,7 @@ public interface IVehicleRepository
     public Task<Models.Vehicle?> RetrieveVehicleById(string? owner, string? id, CancellationToken cancellationToken);
 
     public Task<List<Models.Vehicle>> RetrieveAllVehicles(string? owner, CancellationToken cancellationToken);
+
+    public Task<List<Models.Vehicle>> RetrieveVehiclesByLocation(string? location,
+        CancellationToken cancellationToken);
 }

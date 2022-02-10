@@ -38,4 +38,14 @@ public class VehicleRepository : IVehicleRepository
             .ToListAsync(cancellationToken);
         return records;
     }
+
+    public async Task<List<Models.Vehicle>> RetrieveVehiclesByLocation(string? location,
+        CancellationToken cancellationToken)
+    {
+        var records = await _database
+            .Vehicle!
+            .Where(e => e.Location!.ToLower() == location!.ToLower())
+            .ToListAsync(cancellationToken);
+        return records;
+    }
 }
