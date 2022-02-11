@@ -31,4 +31,5 @@ public class Account
 
     public List<Transaction>? TransactionSenders { get; set; }
     public List<Transaction>? TransactionReceivers { get; set; }
+    public List<Review>? Reviews { get; set; }
 }

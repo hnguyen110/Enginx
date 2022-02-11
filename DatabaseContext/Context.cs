@@ -19,6 +19,7 @@ public class Context : DbContext
     public DbSet<VehiclePicture>? VehiclePicture { get; set; }
     public DbSet<Reservation>? Reservation { get; set; }
     public DbSet<Transaction>? Transaction { get; set; }
+    public DbSet<Review>? Review { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -67,5 +68,15 @@ public class Context : DbContext
             .HasOne(e => e.ReceiverReference)
             .WithMany(e => e.TransactionReceivers)
             .HasForeignKey(e => e.Receiver);
+
+        builder.Entity<Review>()
+            .HasOne(e => e.ReviewerReference)
+            .WithMany(e => e.Reviews)
+            .HasForeignKey(e => e.Reviewer);
+
+        builder.Entity<Review>()
+            .HasOne(e => e.VehicleReference)
+            .WithMany(e => e.Reviews)
+            .HasForeignKey(e => e.Vehicle);
     }
 }
