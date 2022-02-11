@@ -13,13 +13,18 @@ public class ReservationRepository : IReservationRepository
 
     public async Task Save(Models.Reservation reservation, CancellationToken cancellationToken)
     {
-        // var record =
-        // await _database.Reservation!.FirstOrDefaultAsync(e => e. , cancellationToken);
-
-        // if (record != null)
-        //     throw new ApiException(HttpStatusCode.BadRequest, ApiErrorMessages.RecordExisted);
-
         await _database.AddAsync(reservation, cancellationToken);
         await _database.SaveChangesAsync(cancellationToken);
     }
+    
+    public async Task<List<Models.Reservation>> RetrieveAllReservationsByVehicleID(string? Id,
+        CancellationToken cancellationToken)
+    {
+        var records = await _database
+            .Reservation!
+            .Where(e => e.Vehicle == Id)
+            .ToListAsync(cancellationToken);
+        return records;
+    }
 }
+
