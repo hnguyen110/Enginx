@@ -28,4 +28,7 @@ public class Account
     public License? LicenseReference { get; set; }
     public List<BankCard>? BankCards { get; set; }
     public List<Vehicle>? Vehicles { get; set; }
+
+    public List<Transaction>? TransactionSenders { get; set; }
+    public List<Transaction>? TransactionReceivers { get; set; }
 }
