@@ -12,6 +12,7 @@ public class Reservation
     public string? CheckInTime { get; set; }
 
     public string? CheckOutTime { get; set; }
+
     // public int Insurance { get; set; }
     // public int Transaction { get; set; }
     public string? Transaction { get; set; }
