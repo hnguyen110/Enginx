@@ -10,6 +10,7 @@ public class CreateReview
     public class Command : IRequest<Unit>
     {
         public string? Vehicle { get; set; }
+        public string? Title { get; set; }
         public string? Description { get; set; }
     }
 
@@ -32,6 +33,8 @@ public class CreateReview
                 Id = Guid.NewGuid().ToString(),
                 Reviewer = reviewer,
                 Vehicle = request.Vehicle,
+                Date = DateTime.Today,
+                Title = request.Title,
                 Description = request.Description
             };
             await _repository.Save(review, cancellationToken);

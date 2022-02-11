@@ -9,12 +9,11 @@ namespace API.Handlers.Vehicle;
 
 public class RetrieveAllVehicles
 {
-    public class Query : IRequest<List<RetrieveAllVehicleDTO>>
-
+    public class Query : IRequest<List<RetrieveAllVehiclesDTO>>
     {
     }
 
-    public class Handler : IRequestHandler<Query, List<RetrieveAllVehicleDTO>>
+    public class Handler : IRequestHandler<Query, List<RetrieveAllVehiclesDTO>>
 
     {
         private readonly ICredentialAccessor _accessor;
@@ -32,13 +31,13 @@ public class RetrieveAllVehicles
         }
 
 
-        public async Task<List<RetrieveAllVehicleDTO>> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<List<RetrieveAllVehiclesDTO>> Handle(Query request, CancellationToken cancellationToken)
 
         {
             var owner = _accessor.RetrieveAccountId();
             var records = await _repository.RetrieveAllVehicles(owner, cancellationToken);
 
-            return _mapper.Map<List<Models.Vehicle>, List<RetrieveAllVehicleDTO>>(records);
+            return _mapper.Map<List<Models.Vehicle>, List<RetrieveAllVehiclesDTO>>(records);
         }
     }
 }

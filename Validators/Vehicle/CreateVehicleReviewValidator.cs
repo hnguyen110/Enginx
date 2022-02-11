@@ -8,6 +8,12 @@ public class CreateVehicleReviewValidator : AbstractValidator<CreateReview.Comma
 {
     public CreateVehicleReviewValidator()
     {
+        RuleFor(e => e.Title)
+            .NotNull()
+            .WithMessage(ValidationErrorMessages.Required)
+            .NotEmpty()
+            .WithMessage(ValidationErrorMessages.Required);
+
         RuleFor(e => e.Description)
             .NotNull()
             .WithMessage(ValidationErrorMessages.Required)
