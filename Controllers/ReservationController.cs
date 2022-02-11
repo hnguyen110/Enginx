@@ -22,4 +22,10 @@ public class ReservationController : BaseController
         return await Mediator!.Send(new RetrieveAllReservation.Query());
     }
     
+    [HttpDelete("{id}")]
+    public async Task<Unit> DeleteReservation(string? id)
+    {
+        return await Mediator!.Send(new DeleteReservation.Command {Id = id});
+    }
+    
 }
