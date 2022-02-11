@@ -36,7 +36,7 @@ public class UploadVehiclePicture
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
             var vehicle = await _vehicleRepository
-                .RetrieveVehicleById(
+                .RetrievedVehicleById(
                     _accessor.RetrieveAccountId(),
                     request.Id,
                     cancellationToken

@@ -7,7 +7,9 @@ using API.Repositories.Account;
 using API.Repositories.Address;
 using API.Repositories.BankCard;
 using API.Repositories.ContactInformation;
+using API.Repositories.Insurance;
 using API.Repositories.Profile;
+using API.Repositories.Reservation;
 using API.Repositories.Review;
 using API.Repositories.Transaction;
 using API.Repositories.Vehicle;
@@ -74,8 +76,10 @@ builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 builder.Services.AddScoped<IAuthorization, Authorization>();
 builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
 builder.Services.AddScoped<IVehiclePictureRepository, VehiclePictureRepository>();
+builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+builder.Services.AddScoped<IInsuranceRepository, InsuranceRepository>();
 
 var server = builder.Build();
 using (var scope = server.Services.CreateScope())

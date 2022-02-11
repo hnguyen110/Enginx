@@ -6,13 +6,13 @@ namespace API.Handlers.Transaction;
 
 public class CreateTransaction
 {
-    public class Command : IRequest<Unit>
+    public class Command : IRequest<string>
     {
         public double Amount { get; set; }
         public string? Receiver { get; set; }
     }
 
-    public class Handler : IRequestHandler<Command, Unit>
+    public class Handler : IRequestHandler<Command, string>
     {
         private readonly ICredentialAccessor _accessor;
         private readonly ITransactionRepository _repository;
@@ -23,7 +23,7 @@ public class CreateTransaction
             _repository = repository;
         }
 
-        public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<string> Handle(Command request, CancellationToken cancellationToken)
         {
             var sender = _accessor.RetrieveAccountId();
             var transaction = new Models.Transaction
@@ -36,7 +36,7 @@ public class CreateTransaction
                 Receiver = request.Receiver
             };
             await _repository.Save(transaction, cancellationToken);
-            return Unit.Value;
+            return transaction.Id;
         }
     }
 }

@@ -20,6 +20,7 @@ public class Context : DbContext
     public DbSet<Reservation>? Reservation { get; set; }
     public DbSet<Transaction>? Transaction { get; set; }
     public DbSet<Review>? Review { get; set; }
+    public DbSet<Insurance>? Insurance { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -53,6 +54,16 @@ public class Context : DbContext
             .HasOne(e => e.OwnerReference)
             .WithMany(e => e.Vehicles)
             .HasForeignKey(e => e.Owner);
+
+        builder.Entity<Reservation>()
+            .HasOne(e => e.VehicleReference)
+            .WithMany(e => e.Reservations)
+            .HasForeignKey(e => e.Vehicle);
+
+        builder.Entity<Reservation>()
+            .HasOne(e => e.InsuranceReference)
+            .WithMany(e => e.Reservations)
+            .HasForeignKey(e => e.Insurance);
 
         builder.Entity<Transaction>()
             .HasOne(e => e.Reservation)
