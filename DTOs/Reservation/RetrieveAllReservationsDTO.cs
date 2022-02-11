@@ -7,5 +7,4 @@ public class RetrieveAllReservationsDTO
     public string? CheckOutDate { get; set; }
     public string? CheckInTime { get; set; }
     public string? CheckOutTime { get; set; }
-    
 }

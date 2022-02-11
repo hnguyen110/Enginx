@@ -1,7 +1,4 @@
-using API.DTOs.BankCard;
 using API.DTOs.Reservation;
-using API.Handlers.BankCard;
-using API.Repositories.BankCard;
 using API.Repositories.Reservation;
 using API.Utilities.CredentialAccessor;
 using AutoMapper;
@@ -16,7 +13,7 @@ public class RetrieveAllReservation
         public string? Id { get; set; }
     }
 
-    public class Handler : IRequestHandler<RetrieveAllReservation.Query, List<RetrieveAllReservationsDTO>>
+    public class Handler : IRequestHandler<Query, List<RetrieveAllReservationsDTO>>
     {
         private readonly ICredentialAccessor _accessor;
         private readonly IMapper _mapper;
@@ -29,10 +26,10 @@ public class RetrieveAllReservation
             _mapper = mapper;
         }
 
-        public async Task<List<RetrieveAllReservationsDTO>> Handle(RetrieveAllReservation.Query request, CancellationToken cancellationToken)
+        public async Task<List<RetrieveAllReservationsDTO>> Handle(Query request, CancellationToken cancellationToken)
         {
             var records = await _repository
-                .RetrieveAllReservationsByVehicleID(
+                .RetrieveAllReservationsByVehicleId(
                     request.Id,
                     cancellationToken
                 );

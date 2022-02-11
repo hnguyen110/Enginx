@@ -13,20 +13,20 @@ public class CreateInsurance
     {
         public string? Name { get; set; }
         public string? Description { get; set; }
-        public double? Price { get; set; }
+        public double Price { get; set; }
     }
 
     public class Handler : IRequestHandler<Command, Unit>
     {
-        private readonly IInsuranceRepository _repository;
         private readonly IAuthorization _authorization;
+        private readonly IInsuranceRepository _repository;
 
         public Handler(IInsuranceRepository repository, IAuthorization authorization)
         {
             _repository = repository;
             _authorization = authorization;
         }
-        
+
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
             var isAdmin = await _authorization.IsAdministrator();

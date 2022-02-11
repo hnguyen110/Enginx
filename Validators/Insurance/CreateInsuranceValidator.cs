@@ -13,15 +13,16 @@ public class CreateInsuranceValidator : AbstractValidator<CreateInsurance.Comman
             .WithMessage(ValidationErrorMessages.Required)
             .NotEmpty()
             .WithMessage(ValidationErrorMessages.Required);
-        
-        RuleFor(e=>e.Price)
-            .GreaterThan(0.0)
+
+        RuleFor(e => e.Price)
+            .GreaterThan(0)
+            .WithMessage(ValidationErrorMessages.InvalidInsuranceAmount)
             .NotNull()
             .WithMessage(ValidationErrorMessages.Required)
             .NotEmpty()
             .WithMessage(ValidationErrorMessages.Required);
-        
-        RuleFor(e=>e.Description)
+
+        RuleFor(e => e.Description)
             .NotNull()
             .WithMessage(ValidationErrorMessages.Required)
             .NotEmpty()

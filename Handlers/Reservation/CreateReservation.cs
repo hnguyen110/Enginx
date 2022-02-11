@@ -8,11 +8,15 @@ public class CreateReservation
 {
     public class Command : IRequest<Unit>
     {
-        public string? Date { get; set; }
-        public string? CheckInDate { get; set; }
-        public string? CheckOutDate { get; set; }
-        public string? CheckInTime { get; set; }
-        public string? CheckOutTime { get; set; }
+        public DateTime? Date { get; set; }
+        public DateTime? CheckInDate { get; set; }
+        public DateTime? CheckOutDate { get; set; }
+        public DateTime? CheckInTime { get; set; }
+
+        public DateTime? CheckOutTime { get; set; }
+        public string? Transaction { get; set; }
+        public string? Vehicle { get; set; }
+        public string? Insurance { get; set; }
     }
 
     public class Handler : IRequestHandler<Command, Unit>
@@ -31,12 +35,14 @@ public class CreateReservation
             var card = new Models.Reservation
             {
                 Id = Guid.NewGuid().ToString(),
-                // Account = _accessor.RetrieveAccountId(),
                 CheckInDate = request.CheckInDate,
                 CheckOutDate = request.CheckOutDate,
                 CheckInTime = request.CheckInTime,
                 CheckOutTime = request.CheckOutTime,
-                Date = request.Date
+                Date = request.Date,
+                Transaction = request.Transaction,
+                Vehicle = request.Vehicle,
+                Insurance = request.Insurance
             };
 
             await _repository.Save(card, cancellationToken);

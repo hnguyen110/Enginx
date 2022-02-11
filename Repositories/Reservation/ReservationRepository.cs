@@ -1,4 +1,5 @@
 using API.DatabaseContext;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Repositories.Reservation;
 
@@ -16,15 +17,14 @@ public class ReservationRepository : IReservationRepository
         await _database.AddAsync(reservation, cancellationToken);
         await _database.SaveChangesAsync(cancellationToken);
     }
-    
-    public async Task<List<Models.Reservation>> RetrieveAllReservationsByVehicleID(string? Id,
+
+    public async Task<List<Models.Reservation>> RetrieveAllReservationsByVehicleId(string? id,
         CancellationToken cancellationToken)
     {
         var records = await _database
             .Reservation!
-            .Where(e => e.Vehicle == Id)
+            .Where(e => e.Vehicle == id)
             .ToListAsync(cancellationToken);
         return records;
     }
 }
-

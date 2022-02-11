@@ -79,7 +79,7 @@ builder.Services.AddScoped<IVehiclePictureRepository, VehiclePictureRepository>(
 builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
-builder.Services.AddScoped<IInsuranceRepository,InsuranceRepository>();
+builder.Services.AddScoped<IInsuranceRepository, InsuranceRepository>();
 
 var server = builder.Build();
 using (var scope = server.Services.CreateScope())

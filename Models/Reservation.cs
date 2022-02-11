@@ -3,18 +3,18 @@ namespace API.Models;
 public class Reservation
 {
     public string? Id { get; set; }
-    public string? Date { get; set; }
+    public DateTime? Date { get; set; }
 
     public string? Vehicle { get; set; }
     public Vehicle? VehicleReference { get; set; }
-    public string? CheckInDate { get; set; }
-    public string? CheckOutDate { get; set; }
-    public string? CheckInTime { get; set; }
+    public DateTime? CheckInDate { get; set; }
+    public DateTime? CheckOutDate { get; set; }
+    public DateTime? CheckInTime { get; set; }
 
-    public string? CheckOutTime { get; set; }
-
-    // public int Insurance { get; set; }
-    // public int Transaction { get; set; }
+    public DateTime? CheckOutTime { get; set; }
     public string? Transaction { get; set; }
     public Transaction? TransactionReference { get; set; }
+
+    public string? Insurance { get; set; }
+    public Insurance? InsuranceReference { get; set; }
 }
