@@ -20,6 +20,7 @@ public class Context : DbContext
     public DbSet<Reservation>? Reservation { get; set; }
     public DbSet<Transaction>? Transaction { get; set; }
     public DbSet<Review>? Review { get; set; }
+    public DbSet<Insurance>? Insurance { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
