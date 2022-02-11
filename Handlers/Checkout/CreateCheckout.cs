@@ -26,11 +26,11 @@ public class CreateCheckout
 
     public class Handler : IRequestHandler<Command, Unit>
     {
-        private readonly IMediator _mediator;
         private readonly ICredentialAccessor _accessor;
-        private readonly IVehicleRepository _vehicleRepository;
-        private readonly IInsuranceRepository _insuranceRepository;
         private readonly IBankCardRepository _bankCardRepository;
+        private readonly IInsuranceRepository _insuranceRepository;
+        private readonly IMediator _mediator;
+        private readonly IVehicleRepository _vehicleRepository;
 
         public Handler(
             IMediator mediator,
@@ -84,7 +84,7 @@ public class CreateCheckout
                     HttpStatusCode.NotFound,
                     ApiErrorMessages.NotFound
                 );
-            
+
             var duration = request.CheckOutDate - request.CheckInDate;
             var total = vehicle.Price * duration!.Value.TotalDays + insurance.Price;
             var transaction = await _mediator.Send(new CreateTransaction.Command
@@ -104,7 +104,7 @@ public class CreateCheckout
                 Vehicle = vehicle.Id,
                 Insurance = insurance.Id
             }, cancellationToken);
-            
+
             return Unit.Value;
         }
     }
