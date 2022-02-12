@@ -24,13 +24,6 @@ public class VehicleController : BaseController
         return await Mediator!.Send(command);
     }
 
-    [HttpPost("review/{id}")]
-    public async Task<Unit> CreateVehicleReview(CreateReview.Command command, string id)
-    {
-        command.Vehicle = id;
-        return await Mediator!.Send(command);
-    }
-
     [HttpGet("vehicle-picture/{id}")]
     public async Task<List<string>> RetrieveVehiclePictureById(string id)
     {
@@ -43,10 +36,31 @@ public class VehicleController : BaseController
         return await Mediator!.Send(new RetrieveVehicle.Query {Id = id});
     }
 
+    [HttpPost("review/{id}")]
+    public async Task<Unit> CreateVehicleReview(CreateReview.Command command, string id)
+    {
+        command.Vehicle = id;
+        return await Mediator!.Send(command);
+    }
+
     [HttpGet]
     public async Task<List<RetrieveAllVehiclesDTO>> RetrieveAllVehicles()
     {
         return await Mediator!.Send(new RetrieveAllVehicles.Query());
+    }
+
+    [AllowAnonymous]
+    [HttpGet("published-vehicle/{id}")]
+    public async Task<RetrieveVehicleDTO> RetrievePublishedVehicle(string id)
+    {
+        return await Mediator!.Send(new RetrievePublishedVehicle.Query {Id = id});
+    }
+
+    [AllowAnonymous]
+    [HttpGet("published-vehicles")]
+    public async Task<List<RetrieveAllVehiclesDTO>> RetrieveAllPublishedVehicles()
+    {
+        return await Mediator!.Send(new RetrieveAllPublishedVehicles.Query());
     }
 
     [AllowAnonymous]
