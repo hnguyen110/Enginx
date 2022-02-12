@@ -53,17 +53,14 @@ public class VehiclePictureRepository : IVehiclePictureRepository
         await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<List<Models.VehiclePicture>> RetrieveVehiclePicturesById(string? id,
+    public async Task<List<string>> RetrieveVehiclePicturesById(string? id,
         CancellationToken cancellationToken)
     {
         var records = await
             _context
                 .VehiclePicture!
                 .Where(e => e.Vehicle == id)
-                .Select(e=> new Models.VehiclePicture
-                {
-                    FilePath = Convert.ToBase64String( File.ReadAllBytes(e.FilePath!))
-                })
+                .Select(e => Convert.ToBase64String(File.ReadAllBytes(e.FilePath!)))
                 .ToListAsync(cancellationToken);
         return records;
     }
