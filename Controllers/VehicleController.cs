@@ -14,7 +14,6 @@ public class VehicleController : BaseController
         return await Mediator!.Send(command);
     }
 
-
     [HttpPost("vehicle-picture/{id}")]
     [RequestSizeLimit(int.MaxValue)]
     [RequestFormLimits(ValueLengthLimit = int.MaxValue,
@@ -33,15 +32,15 @@ public class VehicleController : BaseController
     }
 
     [HttpGet("vehicle-picture/{id}")]
-    public async Task<List<RetrieveVehiclePicturesDTO>> RetrieveVehiclePictureById(string id)
+    public async Task<List<string>> RetrieveVehiclePictureById(string id)
     {
-        return await Mediator!.Send(new RetrieveVehiclePicture.Query { Id = id });
+        return await Mediator!.Send(new RetrieveVehiclePictures.Query {Id = id});
     }
 
     [HttpGet("{id}")]
     public async Task<RetrieveVehicleDTO> RetrieveVehicle(string id)
     {
-        return await Mediator!.Send(new RetrieveVehicle.Query { Id = id });
+        return await Mediator!.Send(new RetrieveVehicle.Query {Id = id});
     }
 
     [HttpGet]
@@ -54,6 +53,6 @@ public class VehicleController : BaseController
     [HttpGet("reviews/{id}")]
     public async Task<List<RetrieveAllReviewsDTO>> RetrieveAllVehicleReviews(string id)
     {
-        return await Mediator!.Send(new RetrieveAllReviews.Query { Id = id });
+        return await Mediator!.Send(new RetrieveAllReviews.Query {Id = id});
     }
 }

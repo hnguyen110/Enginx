@@ -22,6 +22,6 @@ public class ReservationController : BaseController
     [HttpDelete("{id}")]
     public async Task<Unit> DeleteReservation(string? id)
     {
-        return await Mediator!.Send(new DeleteReservation.Command { Id = id });
+        return await Mediator!.Send(new DeleteReservation.Command {Id = id});
     }
 }

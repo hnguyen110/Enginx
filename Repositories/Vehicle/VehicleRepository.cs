@@ -21,7 +21,7 @@ public class VehicleRepository : IVehicleRepository
         await _database.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<Models.Vehicle?> RetrievedVehicleById(string? owner, string? id,
+    public async Task<Models.Vehicle?> RetrieveVehicleById(string? owner, string? id,
         CancellationToken cancellationToken)
     {
         var record = await _database
@@ -33,12 +33,14 @@ public class VehicleRepository : IVehicleRepository
         return record;
     }
 
-    public async Task<Models.Vehicle?> RetrievedPublishedVehicleById(string? id, CancellationToken cancellationToken)
+    public async Task<Models.Vehicle?> RetrievePublishedVehicleById(string? id, CancellationToken cancellationToken)
     {
         var record = await _database
             .Vehicle!
             .FirstOrDefaultAsync(
-                e => e.Id == id,
+                e => e.Id == id
+                     && e.Approved == true
+                     && e.Published == true,
                 cancellationToken
             );
         return record;

@@ -35,30 +35,25 @@ public class UploadVehiclePicture
 
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
-            var vehicle = await _vehicleRepository
-                .RetrievedVehicleById(
-                    _accessor.RetrieveAccountId(),
-                    request.Id,
-                    cancellationToken
-                );
-            if (vehicle == null)
-                throw new ApiException(HttpStatusCode.NotFound, ApiErrorMessages.NotFound);
             if (string.IsNullOrEmpty(request.Id))
                 throw new ApiException(
                     HttpStatusCode.NotFound,
                     ApiErrorMessages.NotFound
                 );
-            var result = await
-                _vehiclePictureRepository
-                    .FindVehicleById(
-                        request.Id,
-                        cancellationToken
-                    );
-            if (result == null)
+
+            var vehicle = await _vehicleRepository
+                .RetrieveVehicleById(
+                    _accessor.RetrieveAccountId(),
+                    request.Id,
+                    cancellationToken
+                );
+
+            if (vehicle == null)
                 throw new ApiException(
                     HttpStatusCode.NotFound,
                     ApiErrorMessages.NotFound
                 );
+
             foreach (var picture in request.File!)
             {
                 var id = await _vehiclePictureRepository
