@@ -9,4 +9,5 @@ public interface IVehicleRepository
 
     public Task<List<Models.Vehicle>> RetrieveAllVehicles(string? owner, CancellationToken cancellationToken);
     public Task<List<Models.Review>> RetrieveAllVehicleReviews(string? vehicle, CancellationToken cancellationToken);
+    public Task<List<Models.Vehicle>> RetrieveAllPublishedVehicles(CancellationToken cancellationToken);
 }
