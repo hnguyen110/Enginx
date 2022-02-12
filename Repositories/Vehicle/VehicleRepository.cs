@@ -27,7 +27,8 @@ public class VehicleRepository : IVehicleRepository
         var record = await _database
             .Vehicle!
             .FirstOrDefaultAsync(
-                e => owner != null ? e.Owner == owner && e.Id == id : e.Id == id,
+                e => e.Owner == owner
+                     && e.Id == id,
                 cancellationToken
             );
         return record;
