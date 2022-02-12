@@ -60,6 +60,10 @@ public class VehiclePictureRepository : IVehiclePictureRepository
             _context
                 .VehiclePicture!
                 .Where(e => e.Vehicle == id)
+                .Select(e=> new Models.VehiclePicture
+                {
+                    FilePath = Convert.ToBase64String( File.ReadAllBytes(e.FilePath!))
+                })
                 .ToListAsync(cancellationToken);
         return records;
     }
