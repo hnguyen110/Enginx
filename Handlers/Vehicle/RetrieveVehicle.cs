@@ -32,7 +32,7 @@ public class RetrieveVehicle
         public async Task<RetrieveVehicleDTO> Handle(Query request, CancellationToken cancellationToken)
         {
             var record = await _repository
-                .RetrievedVehicleById(
+                .RetrieveVehicleById(
                     _accessor.RetrieveAccountId(), request.Id,
                     cancellationToken
                 );
