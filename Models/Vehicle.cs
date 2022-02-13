@@ -4,6 +4,8 @@ public class Vehicle
 {
     public string? Id { get; set; }
     public string? Owner { get; set; }
+    public bool Published { get; set; } = false;
+    public bool Approved { get; set; } = false;
     public Account? OwnerReference { get; set; }
     public string? BodyType { get; set; }
     public string? Color { get; set; }
@@ -17,4 +19,6 @@ public class Vehicle
     public double Price { get; set; }
     public int Year { get; set; }
     public List<VehiclePicture>? VehiclePictures { get; set; }
+    public List<Reservation>? Reservations { get; set; }
+    public List<Review>? Reviews { get; set; }
 }

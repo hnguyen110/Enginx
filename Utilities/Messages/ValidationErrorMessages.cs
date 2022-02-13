@@ -10,4 +10,6 @@ public static class ValidationErrorMessages
     public const string UnsupportedFileFormat = "Unsupported file format";
     public const string LargeFile = "Large file size";
     public const string InvalidDateTime = "Invalid date and time";
+    public const string InvalidTransactionAmount = "Invalid transaction amount";
+    public const string InvalidInsuranceAmount = "Invalid insurance amount";
 }
