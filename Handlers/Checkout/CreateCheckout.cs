@@ -51,7 +51,7 @@ public class CreateCheckout
             var sender = _accessor.RetrieveAccountId();
             var vehicle = await
                 _vehicleRepository
-                    .RetrievedPublishedVehicleById(
+                    .RetrievePublishedVehicleById(
                         request.Vehicle,
                         cancellationToken
                     );

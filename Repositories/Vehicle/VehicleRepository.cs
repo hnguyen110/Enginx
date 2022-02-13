@@ -22,24 +22,27 @@ public class VehicleRepository : IVehicleRepository
         await _database.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<Models.Vehicle?> RetrievedVehicleById(string? owner, string? id,
+    public async Task<Models.Vehicle?> RetrieveVehicleById(string? owner, string? id,
         CancellationToken cancellationToken)
     {
         var record = await _database
             .Vehicle!
             .FirstOrDefaultAsync(
-                e => e.Owner == owner && e.Id == id,
+                e => e.Owner == owner
+                     && e.Id == id,
                 cancellationToken
             );
         return record;
     }
 
-    public async Task<Models.Vehicle?> RetrievedPublishedVehicleById(string? id, CancellationToken cancellationToken)
+    public async Task<Models.Vehicle?> RetrievePublishedVehicleById(string? id, CancellationToken cancellationToken)
     {
         var record = await _database
             .Vehicle!
             .FirstOrDefaultAsync(
-                e => e.Id == id,
+                e => e.Id == id
+                     && e.Approved == true
+                     && e.Published == true,
                 cancellationToken
             );
         return record;
@@ -93,5 +96,14 @@ public class VehicleRepository : IVehicleRepository
             );
         vehicle.Approved = true;
         await _database.SaveChangesAsync(cancellationToken);
+    }
+    
+    public async Task<List<Models.Vehicle>> RetrieveAllPublishedVehicles(CancellationToken cancellationToken)
+    {
+        var records = await _database
+            .Vehicle!
+            .Where(e => e.Published == true && e.Approved == true)
+            .ToListAsync(cancellationToken);
+        return records;
     }
 }

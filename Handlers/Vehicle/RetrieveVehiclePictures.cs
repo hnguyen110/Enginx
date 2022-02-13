@@ -1,7 +1,5 @@
 using System.Net;
-using API.DTOs.Vehicle;
 using API.Exceptions;
-using API.Models;
 using API.Repositories.VehiclePicture;
 using API.Utilities.Messages;
 using AutoMapper;
@@ -9,14 +7,14 @@ using MediatR;
 
 namespace API.Handlers.Vehicle;
 
-public class RetrieveVehiclePicture
+public class RetrieveVehiclePictures
 {
-    public class Query : IRequest<List<RetrieveVehiclePicturesDTO>>
+    public class Query : IRequest<List<string>>
     {
         public string? Id { get; set; }
     }
 
-    public class Handler : IRequestHandler<Query, List<RetrieveVehiclePicturesDTO>>
+    public class Handler : IRequestHandler<Query, List<string>>
     {
         private readonly IMapper _mapper;
         private readonly IVehiclePictureRepository _vehiclePictureRepository;
@@ -27,7 +25,7 @@ public class RetrieveVehiclePicture
             _vehiclePictureRepository = repository;
         }
 
-        public async Task<List<RetrieveVehiclePicturesDTO>> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<List<string>> Handle(Query request, CancellationToken cancellationToken)
         {
             var records = await _vehiclePictureRepository
                 .RetrieveVehiclePicturesById(
@@ -36,8 +34,7 @@ public class RetrieveVehiclePicture
                 );
             if (!records.Any())
                 throw new ApiException(HttpStatusCode.NotFound, ApiErrorMessages.NotFound);
-            return _mapper
-                .Map<List<VehiclePicture>, List<RetrieveVehiclePicturesDTO>>(records);
+            return records;
         }
     }
 }

@@ -18,7 +18,7 @@ public class UploadVehiclePictureValidator : AbstractValidator<UploadVehiclePict
         RuleForEach(e => e.File)
             .Must(e =>
             {
-                var extensions = new[] { "image/jpg", "image/jpeg", "image/png" };
+                var extensions = new[] {"image/jpg", "image/jpeg", "image/png"};
                 return extensions.Contains(e.ContentType);
             })
             .WithMessage(ValidationErrorMessages.UnsupportedFileFormat)
