@@ -1,4 +1,5 @@
 using API.DTOs.BankCard;
+using API.DTOs.Insurance;
 using API.DTOs.Reservation;
 using API.DTOs.Vehicle;
 using API.Models;
@@ -22,5 +23,6 @@ public class MappingProfile : Profile
                         $"{e.ReviewerReference!.ContactInformationReference!.FirstName} {e.ReviewerReference!.ContactInformationReference!.LastName}");
                 });
         CreateMap<Reservation, RetrieveAllReservationsDTO>();
+        CreateMap<Insurance, RetrieveAllInsurancesDTO>();
     }
 }
