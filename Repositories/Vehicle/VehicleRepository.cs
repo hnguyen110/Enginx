@@ -2,6 +2,7 @@ using System.Net;
 using API.DatabaseContext;
 using API.Exceptions;
 using API.Utilities.Messages;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Repositories.Vehicle;
@@ -76,5 +77,21 @@ public class VehicleRepository : IVehicleRepository
             .ThenInclude(e => e!.ContactInformationReference)
             .ToListAsync(cancellationToken);
         return records;
+    }
+
+    public async Task ApproveVehicle(string? id, CancellationToken cancellationToken)
+    {
+        var vehicle = await _database
+            .Vehicle!
+            .FirstOrDefaultAsync(
+                e =>
+                    e.Id == id, cancellationToken);
+        if (vehicle == null)
+            throw new ApiException(
+                HttpStatusCode.NotFound,
+                ApiErrorMessages.RecordNotFound
+            );
+        vehicle.Approved = true;
+        await _database.SaveChangesAsync(cancellationToken);
     }
 }
