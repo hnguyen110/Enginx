@@ -1,6 +1,6 @@
 using API.DTOs.BankCard;
+using API.DTOs.Reservation;
 using API.DTOs.Vehicle;
-using API.DTOs.VehiclePicture;
 using API.Models;
 using AutoMapper;
 
@@ -12,7 +12,15 @@ public class MappingProfile : Profile
     {
         CreateMap<BankCard, RetrieveAllBankCardsDTO>();
         CreateMap<Vehicle, RetrieveVehicleDTO>();
-        CreateMap<Vehicle, RetrieveAllVehicleDTO>();
+        CreateMap<Vehicle, RetrieveAllVehiclesDTO>();
         CreateMap<VehiclePicture, RetrieveVehiclePicturesDTO>();
+        CreateMap<Review, RetrieveAllReviewsDTO>()
+            .ForMember(e => e.Reviewer,
+                option =>
+                {
+                    option.MapFrom(e =>
+                        $"{e.ReviewerReference!.ContactInformationReference!.FirstName} {e.ReviewerReference!.ContactInformationReference!.LastName}");
+                });
+        CreateMap<Reservation, RetrieveAllReservationsDTO>();
     }
 }

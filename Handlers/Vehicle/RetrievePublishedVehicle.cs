@@ -2,7 +2,6 @@ using System.Net;
 using API.DTOs.Vehicle;
 using API.Exceptions;
 using API.Repositories.Vehicle;
-using API.Utilities.CredentialAccessor;
 using API.Utilities.Messages;
 using AutoMapper;
 using MediatR;
@@ -18,13 +17,11 @@ public class RetrievePublishedVehicle
 
     public class Handler : IRequestHandler<Query, RetrieveVehicleDTO>
     {
-        private readonly ICredentialAccessor _accessor;
         private readonly IMapper _mapper;
         private readonly IVehicleRepository _repository;
 
-        public Handler(ICredentialAccessor accessor, IVehicleRepository repository, IMapper mapper)
+        public Handler(IVehicleRepository repository, IMapper mapper)
         {
-            _accessor = accessor;
             _repository = repository;
             _mapper = mapper;
         }
@@ -32,12 +29,12 @@ public class RetrievePublishedVehicle
         public async Task<RetrieveVehicleDTO> Handle(Query request, CancellationToken cancellationToken)
         {
             var record = await _repository
-                .RetrieveVehicleByIdInPublic(
+                .RetrievePublishedVehicleById(
                     request.Id,
                     cancellationToken
                 );
-            
-            if (record == null || record.Published == false)
+
+            if (record == null)
                 throw new ApiException(
                     HttpStatusCode.NotFound,
                     ApiErrorMessages.NotFound

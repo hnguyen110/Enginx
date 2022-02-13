@@ -1,6 +1,6 @@
 namespace API.DTOs.Vehicle;
 
-public class RetrieveAllVehicleDTO
+public class RetrieveAllVehiclesDTO
 {
     public string? Id { get; set; }
     public string? BodyType { get; set; }
