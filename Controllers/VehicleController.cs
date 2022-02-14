@@ -69,4 +69,10 @@ public class VehicleController : BaseController
     {
         return await Mediator!.Send(new RetrieveAllReviews.Query {Id = id});
     }
+    
+    [HttpPut("approve/{id}")]
+    public async Task<Unit> ApproveVehicle(string id)
+    {
+        return await Mediator!.Send(new ApproveVehicle.Query { Id = id });
+    }
 }
