@@ -8,7 +8,7 @@ using MediatR;
 
 namespace API.Handlers.Vehicle;
 
-public class ApproveVehicle
+public class RejectVehicle
 {
     public class Query : IRequest<Unit>
     {
@@ -34,7 +34,7 @@ public class ApproveVehicle
                     HttpStatusCode.Unauthorized,
                     ApiErrorMessages.Unauthorized
                 );
-            await _repository.ApproveVehicle(request.Id, cancellationToken);
+            await _repository.RejectVehicle(request.Id, cancellationToken);
             return Unit.Value;
         }
     }
