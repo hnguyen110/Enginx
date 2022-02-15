@@ -24,4 +24,9 @@ public class ContactInformationRepository : IContactInformationRepository
                 );
         return record;
     }
+
+    public async Task UpdateContactInformation(CancellationToken cancellationToken)
+    {
+        await _context.SaveChangesAsync(cancellationToken);
+    }
 }

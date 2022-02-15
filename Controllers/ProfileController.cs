@@ -1,5 +1,7 @@
 using API.DTOs.Profile;
+using API.Handlers.Account;
 using API.Handlers.Profile;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -16,5 +18,11 @@ public class ProfileController : BaseController
     public async Task<RetrieveProfileDTO> RetrieveProfileInformation()
     {
         return await Mediator!.Send(new RetrieveProfileInformation.Query());
+    }
+    
+    [HttpPut("update")]
+    public async Task<Unit> UpdateProfile(UpdateProfileInformation.Command command)
+    {
+        return await Mediator!.Send(command);
     }
 }
