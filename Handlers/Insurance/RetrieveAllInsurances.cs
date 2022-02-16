@@ -7,7 +7,9 @@ namespace API.Handlers.Insurance;
 
 public class RetrieveAllInsurances
 {
-    public class Query : IRequest<List<RetrieveAllInsurancesDTO>> {}
+    public class Query : IRequest<List<RetrieveAllInsurancesDTO>>
+    {
+    }
 
     public class Handler : IRequestHandler<Query, List<RetrieveAllInsurancesDTO>>
     {
@@ -19,7 +21,7 @@ public class RetrieveAllInsurances
             _mapper = mapper;
             _repository = repository;
         }
-        
+
         public async Task<List<RetrieveAllInsurancesDTO>> Handle(Query request, CancellationToken cancellationToken)
         {
             var records = await _repository.RetrieveAllInsurances(cancellationToken);

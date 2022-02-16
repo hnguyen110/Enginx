@@ -26,6 +26,11 @@ public class MappingProfile : Profile
         CreateMap<Insurance, RetrieveAllInsurancesDTO>();
         CreateMap<Reservation, RetrieveUpcomingReservationDTO>()
             .ForMember(
+                e => e.Location,
+                option => option
+                    .MapFrom(e => e.VehicleReference!.Location)
+            )
+            .ForMember(
                 e => e.Price,
                 option => option
                     .MapFrom(e => e.TransactionReference!.Amount)

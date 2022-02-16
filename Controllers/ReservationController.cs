@@ -1,6 +1,5 @@
 using API.DTOs.Reservation;
 using API.Handlers.Reservation;
-using API.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

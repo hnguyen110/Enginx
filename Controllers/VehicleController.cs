@@ -27,13 +27,13 @@ public class VehicleController : BaseController
     [HttpGet("vehicle-picture/{id}")]
     public async Task<List<string>> RetrieveVehiclePictureById(string id)
     {
-        return await Mediator!.Send(new RetrieveVehiclePictures.Query {Id = id});
+        return await Mediator!.Send(new RetrieveVehiclePictures.Query { Id = id });
     }
 
     [HttpGet("{id}")]
     public async Task<RetrieveVehicleDTO> RetrieveVehicle(string id)
     {
-        return await Mediator!.Send(new RetrieveVehicle.Query {Id = id});
+        return await Mediator!.Send(new RetrieveVehicle.Query { Id = id });
     }
 
     [HttpPost("review/{id}")]
@@ -53,7 +53,7 @@ public class VehicleController : BaseController
     [HttpGet("published-vehicle/{id}")]
     public async Task<RetrieveVehicleDTO> RetrievePublishedVehicle(string id)
     {
-        return await Mediator!.Send(new RetrievePublishedVehicle.Query {Id = id});
+        return await Mediator!.Send(new RetrievePublishedVehicle.Query { Id = id });
     }
 
     [AllowAnonymous]
@@ -67,6 +67,6 @@ public class VehicleController : BaseController
     [HttpGet("reviews/{id}")]
     public async Task<List<RetrieveAllReviewsDTO>> RetrieveAllVehicleReviews(string id)
     {
-        return await Mediator!.Send(new RetrieveAllReviews.Query {Id = id});
+        return await Mediator!.Send(new RetrieveAllReviews.Query { Id = id });
     }
 }

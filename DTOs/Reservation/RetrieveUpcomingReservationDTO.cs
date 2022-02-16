@@ -1,11 +1,9 @@
-using API.Models;
-
 namespace API.DTOs.Reservation;
 
 public class RetrieveUpcomingReservationDTO
 {
     public string? Id { get; set; }
-    public DateTime? Date { get; set; }
+    public string? Location { get; set; }
     public DateTime? CheckInDate { get; set; }
     public DateTime? CheckOutDate { get; set; }
     public DateTime? CheckInTime { get; set; }
