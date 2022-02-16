@@ -95,7 +95,7 @@ public class CreateCheckout
 
             await _mediator.Send(new CreateReservation.Command
             {
-                Date = DateTime.Today,
+                Date = DateTime.Now,
                 CheckInDate = request.CheckInDate,
                 CheckOutDate = request.CheckOutDate,
                 CheckInTime = request.CheckInTime,

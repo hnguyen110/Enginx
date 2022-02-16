@@ -24,5 +24,41 @@ public class MappingProfile : Profile
                 });
         CreateMap<Reservation, RetrieveAllReservationsDTO>();
         CreateMap<Insurance, RetrieveAllInsurancesDTO>();
+        CreateMap<Reservation, RetrieveUpcomingReservationDTO>()
+            .ForMember(
+                e => e.Price,
+                option => option
+                    .MapFrom(e => e.TransactionReference!.Amount)
+            )
+            .ForMember(
+                e => e.Insurance,
+                option => option
+                    .MapFrom(e => e.InsuranceReference!.Name)
+            )
+            .ForMember(
+                e => e.Vehicle,
+                option => option
+                    .MapFrom(e => $"{e.VehicleReference!.Make} {e.VehicleReference!.Model}")
+            )
+            .ForMember(
+                e => e.BodyType,
+                option => option
+                    .MapFrom(e => e.VehicleReference!.BodyType)
+            )
+            .ForMember(
+                e => e.Color,
+                option => option
+                    .MapFrom(e => e.VehicleReference!.Color)
+            )
+            .ForMember(
+                e => e.FuelType,
+                option => option
+                    .MapFrom(e => e.VehicleReference!.FuelType)
+            )
+            .ForMember(
+                e => e.EngineType,
+                option => option
+                    .MapFrom(e => e.VehicleReference!.EngineType)
+            );
     }
 }

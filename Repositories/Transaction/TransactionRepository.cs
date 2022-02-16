@@ -42,4 +42,14 @@ public class TransactionRepository : ITransactionRepository
         await _context.AddAsync(transaction, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
     }
+
+    public async Task<Models.Transaction?> RetrieveLatestTransactionByAccountId(string? id,
+        CancellationToken cancellationToken)
+    {
+        var record = await _context.Transaction!
+            .OrderByDescending(e => e.Date)
+            .ThenByDescending(e => e.Time)
+            .FirstOrDefaultAsync(e => e.Sender == id, cancellationToken);
+        return record;
+    }
 }

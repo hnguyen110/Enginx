@@ -1,5 +1,6 @@
 using API.DTOs.Reservation;
 using API.Handlers.Reservation;
+using API.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,9 +20,15 @@ public class ReservationController : BaseController
         return await Mediator!.Send(new RetrieveAllReservation.Query());
     }
 
+    [HttpGet("upcoming-reservation")]
+    public async Task<RetrieveUpcomingReservationDTO?> RetrieveUpcomingReservation()
+    {
+        return await Mediator!.Send(new RetrieveUpcomingReservation.Query());
+    }
+
     [HttpDelete("{id}")]
     public async Task<Unit> DeleteReservation(string? id)
     {
-        return await Mediator!.Send(new DeleteReservation.Command {Id = id});
+        return await Mediator!.Send(new DeleteReservation.Command { Id = id });
     }
 }
