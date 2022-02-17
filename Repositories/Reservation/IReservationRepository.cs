@@ -9,4 +9,7 @@ public interface IReservationRepository
 
     public Task<Models.Reservation?> RetrieveUpcomingReservationByAccountId(string? id,
         CancellationToken cancellationToken);
+
+    public Task UpdateUpcomingReservationStatus(
+        Models.Reservation reservation, bool status, CancellationToken cancellationToken);
 }

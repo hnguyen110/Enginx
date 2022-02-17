@@ -47,10 +47,18 @@ public class ReservationRepository : IReservationRepository
                     .Include(e => e.InsuranceReference)
                     .Include(e => e.VehicleReference)
                     .FirstOrDefaultAsync(
-                        e => e.Transaction == transaction.Id,
+                        e => e.Transaction == transaction.Id
+                             && e.Status == true,
                         cancellationToken
                     )
             ;
         return record;
+    }
+
+    public async Task UpdateUpcomingReservationStatus(Models.Reservation reservation, bool status,
+        CancellationToken cancellationToken)
+    {
+        reservation.Status = status;
+        await _database.SaveChangesAsync(cancellationToken);
     }
 }

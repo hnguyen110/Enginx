@@ -3,6 +3,7 @@ namespace API.Models;
 public class Reservation
 {
     public string? Id { get; set; }
+    public bool Status { get; set; } = true;
     public DateTime? Date { get; set; }
 
     public string? Vehicle { get; set; }
