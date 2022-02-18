@@ -1,6 +1,9 @@
 using API.DTOs.BankCard;
+using API.DTOs.Profile;
 using API.DTOs.Reservation;
 using API.DTOs.Vehicle;
+using API.Handlers.ContactInformation;
+using API.Handlers.Vehicle;
 using API.Models;
 using AutoMapper;
 
@@ -22,5 +25,8 @@ public class MappingProfile : Profile
                         $"{e.ReviewerReference!.ContactInformationReference!.FirstName} {e.ReviewerReference!.ContactInformationReference!.LastName}");
                 });
         CreateMap<Reservation, RetrieveAllReservationsDTO>();
+        CreateMap<UpdateContactInfoDTO, ContactInformation>();
+        CreateMap<UpdateAddressDTO, Address>();
+
     }
 }

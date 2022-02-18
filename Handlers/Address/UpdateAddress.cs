@@ -1,8 +1,10 @@
 using System.Net;
+using API.DTOs.Profile;
 using API.Exceptions;
 using API.Handlers.Account;
 using API.Repositories.Address;
 using API.Utilities.Messages;
+using AutoMapper;
 using MediatR;
 
 namespace API.Handlers.Address;
@@ -23,10 +25,12 @@ public class UpdateAddress
     public class Handler : IRequestHandler<Command, Unit>
     {
         private readonly IAddressRepository _repository;
+        private readonly IMapper _mapper;
         
-        public Handler(IAddressRepository repository)
+        public Handler(IAddressRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
@@ -43,13 +47,18 @@ public class UpdateAddress
                     ApiErrorMessages.NotFound
                 );
 
-            record.StreetNumber = request.StreetNumber;
-            record.StreetName = request.StreetName;
-            record.City = request.City;
-            record.State = request.State;
-            record.Country = request.Country;
-            record.PostalCode = request.PostalCode;
-
+            var address = new UpdateAddressDTO
+            {
+                City = request.City,
+                Country = request.Country,
+                PostalCode = request.PostalCode,
+                State = request.State,
+                StreetName = request.StreetName,
+                StreetNumber = request.StreetNumber
+            };
+            
+            _mapper.Map(address, record);
+            
             await _repository.UpdateAddress(cancellationToken);
             return Unit.Value;
         }

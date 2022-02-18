@@ -1,9 +1,11 @@
 using System.Net;
 using API.DatabaseContext;
+using API.DTOs.Profile;
 using API.Exceptions;
 using API.Repositories.ContactInformation;
 using API.Utilities.CredentialAccessor;
 using API.Utilities.Messages;
+using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,10 +26,12 @@ public class UpdateContactInformation
     public class Handler : IRequestHandler<Command, Unit>
     {
         private readonly IContactInformationRepository _repository;
+        private readonly IMapper _mapper;
 
-        public Handler(IContactInformationRepository repository)
+        public Handler(IContactInformationRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
@@ -44,12 +48,16 @@ public class UpdateContactInformation
                     ApiErrorMessages.NotFound
                 );
             
-            record.FirstName = request!.FirstName;
-            record.LastName = request!.LastName;
-            record.MiddleName = request.MiddleName;
-            record.Email = request!.Email;
-            record.ContactNumber = request!.ContactNumber;
-
+            var ci = new UpdateContactInfoDTO
+            {
+                FirstName = request.FirstName,
+                MiddleName = request.MiddleName,
+                LastName = request.LastName,
+                Email = request.Email,
+                ContactNumber = request.ContactNumber
+            };
+            _mapper.Map(ci, record);
+            
             await _repository.UpdateContactInformation(cancellationToken);
             return Unit.Value;
         }
