@@ -6,4 +6,5 @@ public interface IReservationRepository
 
     public Task<List<Models.Reservation>> RetrieveAllReservationsByVehicleId(string? id,
         CancellationToken cancellationToken);
+    public Task<List<Models.Reservation>> RetrieveCustomerReservationsById(string id, CancellationToken cancellationToken);
 }

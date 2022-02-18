@@ -22,5 +22,6 @@ public class MappingProfile : Profile
                         $"{e.ReviewerReference!.ContactInformationReference!.FirstName} {e.ReviewerReference!.ContactInformationReference!.LastName}");
                 });
         CreateMap<Reservation, RetrieveAllReservationsDTO>();
+        CreateMap<Reservation, RetrieveCustomerReservationsDTO>();
     }
 }

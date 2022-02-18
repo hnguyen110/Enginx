@@ -1,4 +1,5 @@
 using API.DatabaseContext;
+using API.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Repositories.Reservation;
@@ -25,6 +26,15 @@ public class ReservationRepository : IReservationRepository
             .Reservation!
             .Where(e => e.Vehicle == id)
             .ToListAsync(cancellationToken);
+        return records;
+    }
+
+    public async Task<List<Models.Reservation>> RetrieveCustomerReservationsById(string id, CancellationToken cancellationToken)
+    {
+        var records = await (from reservation in _database.Reservation
+            join transaction in _database.Transaction on reservation.Transaction equals transaction.Id
+            where transaction.Sender == id
+            select reservation).ToListAsync(cancellationToken);
         return records;
     }
 }
