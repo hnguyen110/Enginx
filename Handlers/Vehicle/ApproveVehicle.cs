@@ -27,9 +27,9 @@ public class ApproveVehicle
 
         public async Task<Unit> Handle(Query request, CancellationToken cancellationToken)
         {
-            var isAdim = await _authorization.IsAdministrator();
+            var isAdmin = await _authorization.IsAdministrator();
 
-            if (!isAdim)
+            if (!isAdmin)
                 throw new ApiException(
                     HttpStatusCode.Unauthorized,
                     ApiErrorMessages.Unauthorized
