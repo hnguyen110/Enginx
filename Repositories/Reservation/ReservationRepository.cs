@@ -31,10 +31,9 @@ public class ReservationRepository : IReservationRepository
 
     public async Task<List<Models.Reservation>> RetrieveCustomerReservationsById(string id, CancellationToken cancellationToken)
     {
-        var records = await (from reservation in _database.Reservation
-            join transaction in _database.Transaction on reservation.Transaction equals transaction.Id
-            where transaction.Sender == id
-            select reservation).ToListAsync(cancellationToken);
+        var records = await _database.Reservation!
+            .Where(e=> e.TransactionReference!.Sender == id)
+            .ToListAsync(cancellationToken);
         return records;
     }
 }
