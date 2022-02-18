@@ -65,7 +65,7 @@ public class VehicleRepository : IVehicleRepository
             .ToListAsync(cancellationToken);
         return records;
     }
-
+    
     public async Task<List<Models.Review>> RetrieveAllVehicleReviews(string? id, CancellationToken cancellationToken)
     {
         var vehicle = await _database
