@@ -28,4 +28,13 @@ public class InsuranceRepository : IInsuranceRepository
             );
         return record;
     }
+
+    public async Task<List<Models.Insurance>> RetrieveAllInsurances(CancellationToken cancellationToken)
+    {
+        var records = await _database
+            .Insurance!
+            .ToListAsync(cancellationToken);
+
+        return records;
+    }
 }
