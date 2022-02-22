@@ -65,5 +65,10 @@ public class MappingProfile : Profile
                 option => option
                     .MapFrom(e => e.VehicleReference!.EngineType)
             );
+        CreateMap<Insurance, Insurance>()
+            .ForMember(e => e.Id, option => option.Ignore())
+            .ForMember(e => e.Name, option => option.PreCondition(e => !string.IsNullOrEmpty(e.Name)))
+            .ForMember(e => e.Description, option => option.PreCondition(e => !string.IsNullOrEmpty(e.Description)))
+            .ForMember(e => e.Price, option => option.PreCondition(e => e.Price >= 0));
     }
 }
