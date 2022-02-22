@@ -20,7 +20,7 @@ public class CreateCheckout
         public string? BankCard { get; set; }
         public DateTime? CheckInDate { get; set; }
         public DateTime? CheckOutDate { get; set; }
-        public DateTime? CheckInTime { get; set; }
+        public DateTime? CheckInTime { get; set; }  
         public DateTime? CheckOutTime { get; set; }
     }
 
@@ -86,7 +86,7 @@ public class CreateCheckout
                 );
 
             var duration = request.CheckOutDate - request.CheckInDate;
-            var total = vehicle.Price * duration!.Value.TotalDays + insurance.Price;
+            var total = (vehicle.Price * duration!.Value.TotalDays + insurance.Price) * 1.13;
             var transaction = await _mediator.Send(new CreateTransaction.Command
             {
                 Amount = total,

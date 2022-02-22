@@ -77,6 +77,7 @@ public class VehicleRepository : IVehicleRepository
             .Where(e => e.Vehicle == id)
             .Include(e => e.ReviewerReference)
             .ThenInclude(e => e!.ContactInformationReference)
+            .OrderByDescending(e => e.Date)
             .ToListAsync(cancellationToken);
         return records;
     }

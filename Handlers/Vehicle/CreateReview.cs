@@ -33,7 +33,7 @@ public class CreateReview
                 Id = Guid.NewGuid().ToString(),
                 Reviewer = reviewer,
                 Vehicle = request.Vehicle,
-                Date = DateTime.Today,
+                Date = DateTime.Now,
                 Title = request.Title,
                 Description = request.Description
             };

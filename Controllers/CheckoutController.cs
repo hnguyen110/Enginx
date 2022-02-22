@@ -6,7 +6,7 @@ namespace API.Controllers;
 
 public class CheckoutController : BaseController
 {
-    [HttpPost]
+    [HttpPost("create-checkout")]
     public async Task<Unit> CreateCheckout(CreateCheckout.Command command)
     {
         return await Mediator!.Send(command);
