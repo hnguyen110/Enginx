@@ -19,9 +19,21 @@ public class ReservationController : BaseController
         return await Mediator!.Send(new RetrieveAllReservation.Query());
     }
 
+    [HttpGet("upcoming-reservation")]
+    public async Task<RetrieveUpcomingReservationDTO?> RetrieveUpcomingReservation()
+    {
+        return await Mediator!.Send(new RetrieveUpcomingReservation.Query());
+    }
+
+    [HttpPut("cancel-upcoming-reservation")]
+    public async Task<Unit> CancelUpcomingReservation()
+    {
+        return await Mediator!.Send(new CancelUpcomingReservation.Command());
+    }
+
     [HttpDelete("{id}")]
     public async Task<Unit> DeleteReservation(string? id)
     {
-        return await Mediator!.Send(new DeleteReservation.Command {Id = id});
+        return await Mediator!.Send(new DeleteReservation.Command { Id = id });
     }
 }
