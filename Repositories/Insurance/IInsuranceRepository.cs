@@ -7,5 +7,8 @@ public interface IInsuranceRepository
 
     public Task<List<Models.Insurance>> RetrieveAllInsurances(CancellationToken cancellationToken);
 
-    public Task Update(Models.Insurance insurance, Models.Insurance updates, CancellationToken cancellationToken);
+    public Task UpdateInsurance(Models.Insurance insurance, Models.Insurance updates,
+        CancellationToken cancellationToken);
+
+    public Task DeleteInsurance(Models.Insurance insurance, CancellationToken cancellationToken);
 }

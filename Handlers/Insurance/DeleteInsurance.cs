@@ -7,14 +7,11 @@ using MediatR;
 
 namespace API.Handlers.Insurance;
 
-public class UpdateInsurance
+public class DeleteInsurance
 {
     public class Command : IRequest<Unit>
     {
         public string? Id { get; set; }
-        public string? Name { get; set; }
-        public string? Description { get; set; }
-        public double Price { get; set; }
     }
 
     public class Handler : IRequestHandler<Command, Unit>
@@ -48,16 +45,9 @@ public class UpdateInsurance
                     ApiErrorMessages.NotFound
                 );
 
-            var updates = new Models.Insurance
-            {
-                Name = request.Name,
-                Description = request.Description,
-                Price = request.Price
-            };
             await _insurance
-                .UpdateInsurance(
+                .DeleteInsurance(
                     insurance,
-                    updates,
                     cancellationToken
                 );
             return Unit.Value;

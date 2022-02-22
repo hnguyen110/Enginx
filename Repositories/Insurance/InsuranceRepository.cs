@@ -41,9 +41,16 @@ public class InsuranceRepository : IInsuranceRepository
         return records;
     }
 
-    public async Task Update(Models.Insurance insurance, Models.Insurance updates, CancellationToken cancellationToken)
+    public async Task UpdateInsurance(Models.Insurance insurance, Models.Insurance updates,
+        CancellationToken cancellationToken)
     {
         _mapper.Map(updates, insurance);
+        await _database.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task DeleteInsurance(Models.Insurance insurance, CancellationToken cancellationToken)
+    {
+        _database.Remove(insurance);
         await _database.SaveChangesAsync(cancellationToken);
     }
 }
