@@ -7,4 +7,6 @@ public interface IProfilePictureRepository
     public Task SaveToAccount(string account, string id, CancellationToken cancellationToken);
 
     public Task<string?> RetrieveProfilePictureByAccount(string account, CancellationToken cancellationToken);
+
+    public Task DeleteProfilePicture(Models.ProfilePicture profilePicture, CancellationToken cancellationToken);
 }

@@ -78,4 +78,10 @@ public class ProfilePictureRepository : IProfilePictureRepository
             );
         return path?.FilePath;
     }
+
+    public async Task DeleteProfilePicture(ProfilePicture profilePicture, CancellationToken cancellationToken)
+    {
+        _context.ProfilePicture!.Remove(profilePicture);
+        await _context.SaveChangesAsync(cancellationToken);
+    }
 }

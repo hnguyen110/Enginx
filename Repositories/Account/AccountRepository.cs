@@ -36,8 +36,12 @@ public class AccountRepository : IAccountRepository
     public Task<Models.Account?> FindById(string id, CancellationToken cancellationToken)
     {
         var record = _database
-            .Account
-            !.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+            .Account!
+            .Include(e => e.ContactInformationReference)
+            .Include(e => e.AddressReference)
+            .Include(e => e.LicenseReference)
+            .Include(e => e.ProfilePictureReference)
+            .FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
         return record;
     }
 

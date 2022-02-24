@@ -42,4 +42,10 @@ public class AccountController : BaseController
     {
         return await Mediator!.Send(new DisapproveAccount.Command {Id = id});
     }
+
+    [HttpDelete("delete-client-account/{id}")]
+    public async Task<Unit> DeleteClientAccount(string id)
+    {
+        return await Mediator!.Send(new DeleteClientAccount.Command {Id = id});
+    }
 }

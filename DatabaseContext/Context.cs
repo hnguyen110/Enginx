@@ -43,22 +43,26 @@ public class Context : DbContext
         builder.Entity<VehiclePicture>()
             .HasOne(e => e.VehicleReference)
             .WithMany(e => e.VehiclePictures)
-            .HasForeignKey(e => e.Vehicle);
+            .HasForeignKey(e => e.Vehicle)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.Entity<BankCard>()
             .HasOne(e => e.AccountReference)
             .WithMany(e => e.BankCards)
-            .HasForeignKey(e => e.Account);
+            .HasForeignKey(e => e.Account)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.Entity<Vehicle>()
             .HasOne(e => e.OwnerReference)
             .WithMany(e => e.Vehicles)
-            .HasForeignKey(e => e.Owner);
+            .HasForeignKey(e => e.Owner)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.Entity<Reservation>()
             .HasOne(e => e.VehicleReference)
             .WithMany(e => e.Reservations)
-            .HasForeignKey(e => e.Vehicle);
+            .HasForeignKey(e => e.Vehicle)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.Entity<Reservation>()
             .HasOne(e => e.InsuranceReference)
@@ -69,26 +73,31 @@ public class Context : DbContext
         builder.Entity<Transaction>()
             .HasOne(e => e.Reservation)
             .WithOne(e => e.TransactionReference)
-            .HasForeignKey<Reservation>(e => e.Transaction);
+            .HasForeignKey<Reservation>(e => e.Transaction)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.Entity<Transaction>()
             .HasOne(e => e.SenderReference)
             .WithMany(e => e.TransactionSenders)
-            .HasForeignKey(e => e.Sender);
+            .HasForeignKey(e => e.Sender)
+            .OnDelete(DeleteBehavior.SetNull);
 
         builder.Entity<Transaction>()
             .HasOne(e => e.ReceiverReference)
             .WithMany(e => e.TransactionReceivers)
-            .HasForeignKey(e => e.Receiver);
+            .HasForeignKey(e => e.Receiver)
+            .OnDelete(DeleteBehavior.SetNull);
 
         builder.Entity<Review>()
             .HasOne(e => e.ReviewerReference)
             .WithMany(e => e.Reviews)
-            .HasForeignKey(e => e.Reviewer);
+            .HasForeignKey(e => e.Reviewer)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.Entity<Review>()
             .HasOne(e => e.VehicleReference)
             .WithMany(e => e.Reviews)
-            .HasForeignKey(e => e.Vehicle);
+            .HasForeignKey(e => e.Vehicle)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
