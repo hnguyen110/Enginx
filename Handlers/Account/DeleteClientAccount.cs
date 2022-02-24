@@ -20,10 +20,10 @@ public class DeleteClientAccount
 
     public class Handler : IRequestHandler<Command, Unit>
     {
-        private readonly IAuthorization _authorization;
         private readonly IAccountRepository _account;
-        private readonly IContactInformationRepository _contact;
         private readonly IAddressRepository _address;
+        private readonly IAuthorization _authorization;
+        private readonly IContactInformationRepository _contact;
         private readonly ILicenseRepository _license;
         private readonly IProfilePictureRepository _profilePicture;
 

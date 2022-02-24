@@ -16,15 +16,15 @@ public class DisapproveAccount
 
     public class Handler : IRequestHandler<Command, Unit>
     {
-        private readonly IAuthorization _authorization;
         private readonly IAccountRepository _account;
+        private readonly IAuthorization _authorization;
 
         public Handler(IAuthorization authorization, IAccountRepository account)
         {
             _authorization = authorization;
             _account = account;
         }
-        
+
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
             var isAdministrator = await _authorization.IsAdministrator();
@@ -35,12 +35,12 @@ public class DisapproveAccount
                 );
 
             var record = await _account.FindById(request.Id!, cancellationToken);
-            if (record == null) 
+            if (record == null)
                 throw new ApiException(
                     HttpStatusCode.NotFound,
                     ApiErrorMessages.NotFound
                 );
-            
+
             await _account.DisapproveAccount(record, cancellationToken);
             return Unit.Value;
         }

@@ -20,7 +20,7 @@ public class CreateCheckout
         public string? BankCard { get; set; }
         public DateTime? CheckInDate { get; set; }
         public DateTime? CheckOutDate { get; set; }
-        public DateTime? CheckInTime { get; set; }  
+        public DateTime? CheckInTime { get; set; }
         public DateTime? CheckOutTime { get; set; }
     }
 

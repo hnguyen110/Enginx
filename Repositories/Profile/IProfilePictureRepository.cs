@@ -1,3 +1,5 @@
+using API.Models;
+
 namespace API.Repositories.Profile;
 
 public interface IProfilePictureRepository
@@ -8,5 +10,5 @@ public interface IProfilePictureRepository
 
     public Task<string?> RetrieveProfilePictureByAccount(string account, CancellationToken cancellationToken);
 
-    public Task DeleteProfilePicture(Models.ProfilePicture profilePicture, CancellationToken cancellationToken);
+    public Task DeleteProfilePicture(ProfilePicture profilePicture, CancellationToken cancellationToken);
 }

@@ -10,7 +10,7 @@ public class LicenseRepository : ILicenseRepository
     {
         _context = context;
     }
-    
+
     public async Task DeleteLicense(Models.License license, CancellationToken cancellationToken)
     {
         _context.License!.Remove(license);

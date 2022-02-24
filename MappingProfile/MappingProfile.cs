@@ -76,7 +76,8 @@ public class MappingProfile : Profile
             .ForMember(e => e.MiddleName, option => option.MapFrom(e => e.ContactInformationReference!.MiddleName))
             .ForMember(e => e.LastName, option => option.MapFrom(e => e.ContactInformationReference!.LastName))
             .ForMember(e => e.Email, option => option.MapFrom(e => e.ContactInformationReference!.Email))
-            .ForMember(e => e.ContactNumber, option => option.MapFrom(e => e.ContactInformationReference!.ContactNumber))
+            .ForMember(e => e.ContactNumber,
+                option => option.MapFrom(e => e.ContactInformationReference!.ContactNumber))
             .ForMember(e => e.StreetNumber, option => option.MapFrom(e => e.AddressReference!.StreetNumber))
             .ForMember(e => e.StreetName, option => option.MapFrom(e => e.AddressReference!.StreetName))
             .ForMember(e => e.City, option => option.MapFrom(e => e.AddressReference!.City))

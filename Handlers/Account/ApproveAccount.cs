@@ -16,8 +16,8 @@ public class ApproveAccount
 
     public class Handler : IRequestHandler<Command, Unit>
     {
-        private readonly IAuthorization _authorization;
         private readonly IAccountRepository _account;
+        private readonly IAuthorization _authorization;
 
         public Handler(IAuthorization authorization, IAccountRepository account)
         {
@@ -35,12 +35,12 @@ public class ApproveAccount
                 );
 
             var record = await _account.FindById(request.Id!, cancellationToken);
-            if (record == null) 
+            if (record == null)
                 throw new ApiException(
                     HttpStatusCode.NotFound,
                     ApiErrorMessages.NotFound
                 );
-            
+
             await _account.ApproveAccount(record, cancellationToken);
             return Unit.Value;
         }

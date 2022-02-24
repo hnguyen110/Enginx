@@ -1,7 +1,6 @@
 using API.DTOs.Account;
 using API.Handlers.Account;
 using API.Handlers.Profile;
-using API.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

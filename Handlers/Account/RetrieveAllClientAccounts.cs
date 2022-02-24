@@ -17,8 +17,8 @@ public class RetrieveAllClientAccounts
 
     public class Handler : IRequestHandler<Query, List<RetrieveAllClientAccountDTO>>
     {
-        private readonly IAuthorization _authorization;
         private readonly IAccountRepository _account;
+        private readonly IAuthorization _authorization;
         private readonly IMapper _mapper;
 
         public Handler(IAuthorization authorization, IAccountRepository account, IMapper mapper)
