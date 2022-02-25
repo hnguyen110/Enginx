@@ -25,4 +25,14 @@ public class Authorization : IAuthorization
             );
         return record?.Role == Role.Administrator;
     }
+
+    public async Task<bool> IsOwner()
+    {
+        var record = await _context
+            .Account!
+            .FirstOrDefaultAsync(
+                e => e.Id == _accessor.RetrieveAccountId()
+            );
+        return record?.Role == Role.Owner;
+    }
 }

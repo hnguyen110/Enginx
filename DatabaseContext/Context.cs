@@ -43,7 +43,8 @@ public class Context : DbContext
         builder.Entity<VehiclePicture>()
             .HasOne(e => e.VehicleReference)
             .WithMany(e => e.VehiclePictures)
-            .HasForeignKey(e => e.Vehicle);
+            .HasForeignKey(e => e.Vehicle)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.Entity<BankCard>()
             .HasOne(e => e.AccountReference)
@@ -88,6 +89,7 @@ public class Context : DbContext
         builder.Entity<Review>()
             .HasOne(e => e.VehicleReference)
             .WithMany(e => e.Reviews)
-            .HasForeignKey(e => e.Vehicle);
+            .HasForeignKey(e => e.Vehicle)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
