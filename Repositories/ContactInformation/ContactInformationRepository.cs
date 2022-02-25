@@ -24,4 +24,10 @@ public class ContactInformationRepository : IContactInformationRepository
                 );
         return record;
     }
+
+    public async Task DeleteContactInformation(Models.ContactInformation contact, CancellationToken cancellationToken)
+    {
+        _context.ContactInformation!.Remove(contact);
+        await _context.SaveChangesAsync(cancellationToken);
+    }
 }

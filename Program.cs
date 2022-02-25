@@ -8,6 +8,7 @@ using API.Repositories.Address;
 using API.Repositories.BankCard;
 using API.Repositories.ContactInformation;
 using API.Repositories.Insurance;
+using API.Repositories.License;
 using API.Repositories.Profile;
 using API.Repositories.Reservation;
 using API.Repositories.Review;
@@ -80,6 +81,7 @@ builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 builder.Services.AddScoped<IInsuranceRepository, InsuranceRepository>();
+builder.Services.AddScoped<ILicenseRepository, LicenseRepository>();
 
 var server = builder.Build();
 using (var scope = server.Services.CreateScope())

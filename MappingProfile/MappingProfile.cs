@@ -1,3 +1,4 @@
+using API.DTOs.Account;
 using API.DTOs.BankCard;
 using API.DTOs.Insurance;
 using API.DTOs.Reservation;
@@ -65,5 +66,23 @@ public class MappingProfile : Profile
                 option => option
                     .MapFrom(e => e.VehicleReference!.EngineType)
             );
+        CreateMap<Insurance, Insurance>()
+            .ForMember(e => e.Id, option => option.Ignore())
+            .ForMember(e => e.Name, option => option.PreCondition(e => !string.IsNullOrEmpty(e.Name)))
+            .ForMember(e => e.Description, option => option.PreCondition(e => !string.IsNullOrEmpty(e.Description)))
+            .ForMember(e => e.Price, option => option.PreCondition(e => e.Price >= 0));
+        CreateMap<Account, RetrieveAllClientAccountDTO>()
+            .ForMember(e => e.FirstName, option => option.MapFrom(e => e.ContactInformationReference!.FirstName))
+            .ForMember(e => e.MiddleName, option => option.MapFrom(e => e.ContactInformationReference!.MiddleName))
+            .ForMember(e => e.LastName, option => option.MapFrom(e => e.ContactInformationReference!.LastName))
+            .ForMember(e => e.Email, option => option.MapFrom(e => e.ContactInformationReference!.Email))
+            .ForMember(e => e.ContactNumber,
+                option => option.MapFrom(e => e.ContactInformationReference!.ContactNumber))
+            .ForMember(e => e.StreetNumber, option => option.MapFrom(e => e.AddressReference!.StreetNumber))
+            .ForMember(e => e.StreetName, option => option.MapFrom(e => e.AddressReference!.StreetName))
+            .ForMember(e => e.City, option => option.MapFrom(e => e.AddressReference!.City))
+            .ForMember(e => e.State, option => option.MapFrom(e => e.AddressReference!.State))
+            .ForMember(e => e.Country, option => option.MapFrom(e => e.AddressReference!.Country))
+            .ForMember(e => e.PostalCode, option => option.MapFrom(e => e.AddressReference!.PostalCode));
     }
 }

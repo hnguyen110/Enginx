@@ -42,7 +42,7 @@ public class RetrieveProfileInformation
                     ApiErrorMessages.NotFound
                 );
             var contact = await _mediator.Send(
-                new RetrieveContactInformation.Query { Id = account.ContactInformation },
+                new RetrieveContactInformation.Query {Id = account.ContactInformation},
                 cancellationToken
             );
             if (contact == null)
@@ -51,7 +51,7 @@ public class RetrieveProfileInformation
                     ApiErrorMessages.NotFound
                 );
             var address = await _mediator.Send(
-                new RetrieveAddress.Query { Id = account.Address },
+                new RetrieveAddress.Query {Id = account.Address},
                 cancellationToken
             );
             if (address == null)

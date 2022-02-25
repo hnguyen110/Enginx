@@ -1,6 +1,7 @@
 using System.Net;
 using API.DatabaseContext;
 using API.Exceptions;
+using API.Models;
 using API.Utilities.Messages;
 using API.Utilities.Security;
 using Microsoft.EntityFrameworkCore;
@@ -35,9 +36,28 @@ public class AccountRepository : IAccountRepository
     public Task<Models.Account?> FindById(string id, CancellationToken cancellationToken)
     {
         var record = _database
-            .Account
-            !.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+            .Account!
+            .Include(e => e.ContactInformationReference)
+            .Include(e => e.AddressReference)
+            .Include(e => e.LicenseReference)
+            .Include(e => e.ProfilePictureReference)
+            .FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
         return record;
+    }
+
+    public async Task<List<Models.Account>> RetrieveAllClientAccounts(CancellationToken cancellationToken)
+    {
+        var records = await _database
+            .Account!
+            .Where(e =>
+                e.Role == Role.Customer
+                || e.Role == Role.Owner
+            )
+            .Include(e => e.ProfilePictureReference)
+            .Include(e => e.AddressReference)
+            .Include(e => e.ContactInformationReference)
+            .ToListAsync(cancellationToken);
+        return records;
     }
 
     public async Task ChangePassword(string id, string oldPassword, string newPassword,
@@ -56,6 +76,30 @@ public class AccountRepository : IAccountRepository
                 ApiErrorMessages.Unauthorized
             );
         record.PasswordHash = _security.CreatePasswordHash(newPassword, record.PasswordSalt);
+        await _database.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task ApproveAccount(Models.Account account, CancellationToken cancellationToken)
+    {
+        if (!account.Approved)
+        {
+            account.Approved = true;
+            await _database.SaveChangesAsync(cancellationToken);
+        }
+    }
+
+    public async Task DisapproveAccount(Models.Account account, CancellationToken cancellationToken)
+    {
+        if (account.Approved)
+        {
+            account.Approved = false;
+            await _database.SaveChangesAsync(cancellationToken);
+        }
+    }
+
+    public async Task DeleteClientAccount(Models.Account account, CancellationToken cancellationToken)
+    {
+        _database.Account!.Remove(account);
         await _database.SaveChangesAsync(cancellationToken);
     }
 }

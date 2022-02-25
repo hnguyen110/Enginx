@@ -21,4 +21,10 @@ public class AddressRepository : IAddressRepository
                 cancellationToken
             );
     }
+
+    public async Task DeleteAddress(Models.Address address, CancellationToken cancellationToken)
+    {
+        _context.Address!.Remove(address);
+        await _context.SaveChangesAsync(cancellationToken);
+    }
 }

@@ -47,7 +47,8 @@ public class VehicleRepository : IVehicleRepository
         return record;
     }
 
-    public async Task<List<Models.Vehicle>> RetrieveAllVehicles(string? owner, CancellationToken cancellationToken)
+    public async Task<List<Models.Vehicle>> RetrieveAllVehiclesByOwnerId(string? owner,
+        CancellationToken cancellationToken)
     {
         var records = await _database
             .Vehicle!
@@ -55,7 +56,7 @@ public class VehicleRepository : IVehicleRepository
             .ToListAsync(cancellationToken);
         return records;
     }
-    
+
     public async Task<List<Models.Review>> RetrieveAllVehicleReviews(string? id, CancellationToken cancellationToken)
     {
         var vehicle = await _database
@@ -77,6 +78,7 @@ public class VehicleRepository : IVehicleRepository
             .Where(e => e.Vehicle == id)
             .Include(e => e.ReviewerReference)
             .ThenInclude(e => e!.ContactInformationReference)
+            .OrderByDescending(e => e.Date)
             .ToListAsync(cancellationToken);
         return records;
     }
@@ -86,6 +88,14 @@ public class VehicleRepository : IVehicleRepository
         var records = await _database
             .Vehicle!
             .Where(e => e.Published == true && e.Approved == true)
+            .ToListAsync(cancellationToken);
+        return records;
+    }
+
+    public async Task<List<Models.Vehicle>> RetrieveAllVehicles(CancellationToken cancellationToken)
+    {
+        var records = await _database
+            .Vehicle!
             .ToListAsync(cancellationToken);
         return records;
     }

@@ -1,43 +1,40 @@
-using API.DatabaseContext;
-using API.DTOs.Vehicle;
+using System.Net;
+using API.Exceptions;
 using API.Repositories.Vehicle;
-using API.Utilities.CredentialAccessor;
-using AutoMapper;
+using API.Utilities.Messages;
+using API.Utilities.Security;
 using MediatR;
 
 namespace API.Handlers.Vehicle;
 
 public class RetrieveAllVehicles
 {
-    public class Query : IRequest<List<RetrieveAllVehiclesDTO>>
+    public class Query : IRequest<List<Models.Vehicle>>
     {
     }
 
-    public class Handler : IRequestHandler<Query, List<RetrieveAllVehiclesDTO>>
-
+    public class Command : IRequestHandler<Query, List<Models.Vehicle>>
     {
-        private readonly ICredentialAccessor _accessor;
-        private readonly Context _database;
-        private readonly IMapper _mapper;
-        private readonly IVehicleRepository _repository;
+        private readonly IAuthorization _authorization;
+        private readonly IVehicleRepository _vehicle;
 
-        public Handler(Context database, ICredentialAccessor accessor, IVehicleRepository repository, IMapper mapper)
-
+        public Command(IAuthorization authorization, IVehicleRepository vehicle)
         {
-            _accessor = accessor;
-            _repository = repository;
-            _mapper = mapper;
-            _database = database;
+            _authorization = authorization;
+            _vehicle = vehicle;
         }
 
-
-        public async Task<List<RetrieveAllVehiclesDTO>> Handle(Query request, CancellationToken cancellationToken)
-
+        public async Task<List<Models.Vehicle>> Handle(Query request, CancellationToken cancellationToken)
         {
-            var owner = _accessor.RetrieveAccountId();
-            var records = await _repository.RetrieveAllVehicles(owner, cancellationToken);
+            var isAdministrator = await _authorization.IsAdministrator();
+            if (!isAdministrator)
+                throw new ApiException(
+                    HttpStatusCode.Unauthorized,
+                    ApiErrorMessages.Unauthorized
+                );
 
-            return _mapper.Map<List<Models.Vehicle>, List<RetrieveAllVehiclesDTO>>(records);
+            var records = await _vehicle.RetrieveAllVehicles(cancellationToken);
+            return records;
         }
     }
 }
