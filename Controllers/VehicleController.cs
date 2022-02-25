@@ -1,5 +1,6 @@
 using API.DTOs.Vehicle;
 using API.Handlers.Vehicle;
+using API.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -43,10 +44,16 @@ public class VehicleController : BaseController
         return await Mediator!.Send(command);
     }
 
-    [HttpGet]
-    public async Task<List<RetrieveAllVehiclesDTO>> RetrieveAllVehicles()
+    [HttpGet("retrieve-all-vehicles")]
+    public async Task<List<Vehicle>> RetrieveAllVehicles()
     {
         return await Mediator!.Send(new RetrieveAllVehicles.Query());
+    }
+
+    [HttpGet("retrieve-all-vehicles-by-owner")]
+    public async Task<List<RetrieveAllVehiclesDTO>> RetrieveAllVehiclesByOwnerId()
+    {
+        return await Mediator!.Send(new RetrieveAllVehiclesByOwnerId.Query());
     }
 
     [AllowAnonymous]
