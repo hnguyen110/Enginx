@@ -2,6 +2,7 @@ using System.Net;
 using API.DatabaseContext;
 using API.Exceptions;
 using API.Utilities.Messages;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Repositories.BankCard;
@@ -9,10 +10,12 @@ namespace API.Repositories.BankCard;
 public class BankCardRepository : IBankCardRepository
 {
     private readonly Context _database;
+    private readonly IMapper _mapper;
 
-    public BankCardRepository(Context database)
+    public BankCardRepository(Context database , IMapper mapper)
     {
         _database = database;
+        _mapper = mapper;
     }
 
     public async Task Save(Models.BankCard bankCard, CancellationToken cancellationToken)
@@ -47,5 +50,11 @@ public class BankCardRepository : IBankCardRepository
             .Where(e => e.Account == account)
             .ToListAsync(cancellationToken);
         return records;
+    }
+    
+    public async Task UpdateBankCard(Models.BankCard bankCard, Models.BankCard updates, CancellationToken cancellationToken)
+    {
+        _mapper.Map(updates, bankCard);
+        await _database.SaveChangesAsync(cancellationToken);
     }
 }
