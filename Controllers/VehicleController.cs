@@ -76,12 +76,11 @@ public class VehicleController : BaseController
     {
         return await Mediator!.Send(new RetrieveAllReviews.Query {Id = id});
     }
-    
-    [AllowAnonymous]
-    [HttpPut("{Id}")]
-    public async Task<Unit> UpdateVehicle(UpdateVehicle.Command command , string Id)
+
+    [HttpPut("update-vehicle/{id}")]
+    public async Task<Unit> UpdateVehicleInformation(UpdateVehicleInformation.Command command, string id)
     {
-        command.Id = Id;
+        command.Id = id;
         return await Mediator!.Send(command);
     }
 }

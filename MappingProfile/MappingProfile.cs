@@ -3,6 +3,7 @@ using API.DTOs.BankCard;
 using API.DTOs.Insurance;
 using API.DTOs.Reservation;
 using API.DTOs.Vehicle;
+using API.Handlers.Vehicle;
 using API.Models;
 using AutoMapper;
 
@@ -96,5 +97,18 @@ public class MappingProfile : Profile
                 option => option.PreCondition(e => e.ExpireDate != null && e.ExpireDate != DateTime.MinValue))
             .ForMember(e => e.CardVerificationCode,
                 option => option.PreCondition(e => !string.IsNullOrEmpty(e.CardVerificationCode)));
+        CreateMap<UpdateVehicleInformation.Command, Vehicle>()
+            .ForMember(e => e.Id, option => option.Ignore())
+            .ForMember(e => e.BodyType, option => option.PreCondition(e => !string.IsNullOrEmpty(e.BodyType)))
+            .ForMember(e => e.Color, option => option.PreCondition(e => !string.IsNullOrEmpty(e.Color)))
+            .ForMember(e => e.Description, option => option.PreCondition(e => !string.IsNullOrEmpty(e.Description)))
+            .ForMember(e => e.EngineType, option => option.PreCondition(e => !string.IsNullOrEmpty(e.EngineType)))
+            .ForMember(e => e.FuelType, option => option.PreCondition(e => !string.IsNullOrEmpty(e.FuelType)))
+            .ForMember(e => e.Location, option => option.PreCondition(e => !string.IsNullOrEmpty(e.Location)))
+            .ForMember(e => e.Make, option => option.PreCondition(e => !string.IsNullOrEmpty(e.Make)))
+            .ForMember(e => e.Model, option => option.PreCondition(e => !string.IsNullOrEmpty(e.Model)))
+            .ForMember(e => e.Mileage, option => option.PreCondition(e => e.Mileage >= 0))
+            .ForMember(e => e.Price, option => option.PreCondition(e => e.Price >= 0))
+            .ForMember(e => e.Year, option => option.PreCondition(e => e.Year >= 0));
     }
 }

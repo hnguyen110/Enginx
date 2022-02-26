@@ -15,9 +15,10 @@ public class VehicleRepository : IVehicleRepository
         _database = database;
     }
 
-    public async Task Save(Models.Vehicle vehicle, CancellationToken cancellationToken)
+    public async Task Save(Models.Vehicle? vehicle, CancellationToken cancellationToken)
     {
-        await _database.AddAsync(vehicle, cancellationToken);
+        if (vehicle is { })
+            await _database.AddAsync(vehicle, cancellationToken);
         await _database.SaveChangesAsync(cancellationToken);
     }
 
