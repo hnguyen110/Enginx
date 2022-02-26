@@ -61,4 +61,14 @@ public class ReservationRepository : IReservationRepository
         reservation.Status = status;
         await _database.SaveChangesAsync(cancellationToken);
     }
+
+    public async Task<List<Models.Reservation>> RetrieveAllClientReservations(string id,
+        CancellationToken cancellationToken)
+    {
+        var records = await _database.Reservation!
+            .Where(e => e.TransactionReference!.Sender == id
+                        || e.TransactionReference!.Receiver == id)
+            .ToListAsync(cancellationToken);
+        return records;
+    }
 }

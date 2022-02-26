@@ -110,5 +110,6 @@ public class MappingProfile : Profile
             .ForMember(e => e.Mileage, option => option.PreCondition(e => e.Mileage >= 0))
             .ForMember(e => e.Price, option => option.PreCondition(e => e.Price >= 0))
             .ForMember(e => e.Year, option => option.PreCondition(e => e.Year >= 0));
+        CreateMap<Reservation, RetrieveCustomerReservationsDTO>();
     }
 }
