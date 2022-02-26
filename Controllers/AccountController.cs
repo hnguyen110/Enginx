@@ -32,19 +32,19 @@ public class AccountController : BaseController
     [HttpPut("approve-account/{id}")]
     public async Task<Unit> ApproveAccount(string id)
     {
-        return await Mediator!.Send(new ApproveAccount.Command { Id = id });
+        return await Mediator!.Send(new ApproveAccount.Command {Id = id});
     }
 
 
     [HttpPut("disapprove-account/{id}")]
     public async Task<Unit> DisapproveAccount(string id)
     {
-        return await Mediator!.Send(new DisapproveAccount.Command { Id = id });
+        return await Mediator!.Send(new DisapproveAccount.Command {Id = id});
     }
 
     [HttpDelete("delete-client-account/{id}")]
     public async Task<Unit> DeleteClientAccount(string id)
     {
-        return await Mediator!.Send(new DeleteClientAccount.Command { Id = id });
+        return await Mediator!.Send(new DeleteClientAccount.Command {Id = id});
     }
 }
