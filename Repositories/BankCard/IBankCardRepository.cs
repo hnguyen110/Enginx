@@ -8,5 +8,5 @@ public interface IBankCardRepository
     public Task<List<Models.BankCard>> RetrieveAllBankCardsByAccount(string? account,
         CancellationToken cancellationToken);
 
-    public Task UpdateBankCard(Models.BankCard bankCard, Models.BankCard updates , CancellationToken cancellationToken);
+    public Task UpdateBankCard(Models.BankCard bankCard, Models.BankCard updates, CancellationToken cancellationToken);
 }

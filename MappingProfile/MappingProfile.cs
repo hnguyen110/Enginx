@@ -84,5 +84,17 @@ public class MappingProfile : Profile
             .ForMember(e => e.State, option => option.MapFrom(e => e.AddressReference!.State))
             .ForMember(e => e.Country, option => option.MapFrom(e => e.AddressReference!.Country))
             .ForMember(e => e.PostalCode, option => option.MapFrom(e => e.AddressReference!.PostalCode));
+        CreateMap<BankCard, BankCard>()
+            .ForMember(e => e.Id, option => option.Ignore())
+            .ForMember(e => e.Account, option => option.Ignore())
+            .ForMember(e => e.AccountReference, option => option.Ignore())
+            .ForMember(e => e.CardType, option => option.PreCondition(e => !string.IsNullOrEmpty(e.CardType)))
+            .ForMember(e => e.CardHolderName,
+                option => option.PreCondition(e => !string.IsNullOrEmpty(e.CardHolderName)))
+            .ForMember(e => e.CardNumber, option => option.PreCondition(e => !string.IsNullOrEmpty(e.CardNumber)))
+            .ForMember(e => e.ExpireDate,
+                option => option.PreCondition(e => e.ExpireDate != null && e.ExpireDate != DateTime.MinValue))
+            .ForMember(e => e.CardVerificationCode,
+                option => option.PreCondition(e => !string.IsNullOrEmpty(e.CardVerificationCode)));
     }
 }

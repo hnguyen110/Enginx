@@ -12,7 +12,7 @@ public class BankCardRepository : IBankCardRepository
     private readonly Context _database;
     private readonly IMapper _mapper;
 
-    public BankCardRepository(Context database , IMapper mapper)
+    public BankCardRepository(Context database, IMapper mapper)
     {
         _database = database;
         _mapper = mapper;
@@ -51,8 +51,9 @@ public class BankCardRepository : IBankCardRepository
             .ToListAsync(cancellationToken);
         return records;
     }
-    
-    public async Task UpdateBankCard(Models.BankCard bankCard, Models.BankCard updates, CancellationToken cancellationToken)
+
+    public async Task UpdateBankCard(Models.BankCard bankCard, Models.BankCard updates,
+        CancellationToken cancellationToken)
     {
         _mapper.Map(updates, bankCard);
         await _database.SaveChangesAsync(cancellationToken);
