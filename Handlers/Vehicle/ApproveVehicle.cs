@@ -16,8 +16,8 @@ public class ApproveVehicle
 
     public class Handler : IRequestHandler<Query, Unit>
     {
-        private readonly IVehicleRepository _repository;
         private readonly IAuthorization _authorization;
+        private readonly IVehicleRepository _repository;
 
         public Handler(IVehicleRepository repository, IAuthorization authorization)
         {
@@ -27,14 +27,25 @@ public class ApproveVehicle
 
         public async Task<Unit> Handle(Query request, CancellationToken cancellationToken)
         {
-            var isAdmin = await _authorization.IsAdministrator();
-
-            if (!isAdmin)
+            var isAdministrator = await _authorization.IsAdministrator();
+            if (!isAdministrator)
                 throw new ApiException(
                     HttpStatusCode.Unauthorized,
                     ApiErrorMessages.Unauthorized
                 );
-            await _repository.ApproveVehicle(request.Id, cancellationToken);
+
+            var record = await _repository
+                .RetrieveVehicleById(
+                    request.Id,
+                    cancellationToken
+                );
+            if (record == null)
+                throw new ApiException(
+                    HttpStatusCode.NotFound,
+                    ApiErrorMessages.NotFound
+                );
+
+            await _repository.ApproveVehicle(record, cancellationToken);
             return Unit.Value;
         }
     }

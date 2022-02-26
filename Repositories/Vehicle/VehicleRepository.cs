@@ -22,6 +22,14 @@ public class VehicleRepository : IVehicleRepository
         await _database.SaveChangesAsync(cancellationToken);
     }
 
+    public async Task<Models.Vehicle?> RetrieveVehicleById(string? id, CancellationToken cancellationToken)
+    {
+        var record = await _database
+            .Vehicle!
+            .FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+        return record;
+    }
+
     public async Task<Models.Vehicle?> RetrieveVehicleById(string? owner, string? id,
         CancellationToken cancellationToken)
     {
@@ -100,22 +108,13 @@ public class VehicleRepository : IVehicleRepository
             .ToListAsync(cancellationToken);
         return records;
     }
-    
-    public async Task ApproveVehicle(string? id, CancellationToken cancellationToken)
+
+    public async Task ApproveVehicle(Models.Vehicle vehicle, CancellationToken cancellationToken)
     {
-        var vehicle = await _database
-            .Vehicle!
-            .FirstOrDefaultAsync(
-                e =>
-                    e.Id == id,
-                cancellationToken
-            );
-        if (vehicle == null)
-            throw new ApiException(
-                HttpStatusCode.NotFound,
-                ApiErrorMessages.RecordNotFound
-            );
-        vehicle.Approved = true;
-        await _database.SaveChangesAsync(cancellationToken);
+        if (!vehicle.Approved)
+        {
+            vehicle.Approved = true;
+            await _database.SaveChangesAsync(cancellationToken);
+        }
     }
 }
