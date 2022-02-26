@@ -42,6 +42,20 @@ public class BankCardRepository : IBankCardRepository
         return record;
     }
 
+    public async Task<Models.BankCard?> RetrieveBankCardByAccount(string? account, string? id,
+        CancellationToken cancellationToken)
+    {
+        var record =
+            await _database
+                .BankCard!
+                .FirstOrDefaultAsync(
+                    e => (e.Account == account)
+                         & (e.Id == id),
+                    cancellationToken
+                );
+        return record;
+    }
+
     public async Task<List<Models.BankCard>> RetrieveAllBankCardsByAccount(string? account,
         CancellationToken cancellationToken)
     {
@@ -59,9 +73,9 @@ public class BankCardRepository : IBankCardRepository
         await _database.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task DeleteBankCard(Models.BankCard? bankcard, CancellationToken cancellationToken)
+    public async Task DeleteBankCard(Models.BankCard bankcard, CancellationToken cancellationToken)
     {
-        _database.Remove(bankcard!);
+        _database.Remove(bankcard);
         await _database.SaveChangesAsync(cancellationToken);
     }
 }
