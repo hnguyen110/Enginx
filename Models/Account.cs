@@ -10,6 +10,8 @@ public enum Role
 public class Account
 {
     public string? Id { get; set; }
+    public bool Approved { get; set; } = false;
+
     public Role Role { get; set; }
     public string? Username { get; set; }
     public byte[]? PasswordHash { get; set; }

@@ -7,7 +7,7 @@ using MediatR;
 
 namespace API.Handlers.Vehicle;
 
-public class ApproveVehicle
+public class RejectVehicle
 {
     public class Query : IRequest<Unit>
     {
@@ -19,10 +19,11 @@ public class ApproveVehicle
         private readonly IAuthorization _authorization;
         private readonly IVehicleRepository _repository;
 
-        public Handler(IVehicleRepository repository, IAuthorization authorization)
+
+        public Handler(IAuthorization authorization, IVehicleRepository repository)
         {
-            _repository = repository;
             _authorization = authorization;
+            _repository = repository;
         }
 
         public async Task<Unit> Handle(Query request, CancellationToken cancellationToken)
@@ -45,7 +46,7 @@ public class ApproveVehicle
                     ApiErrorMessages.NotFound
                 );
 
-            await _repository.ApproveVehicle(record, cancellationToken);
+            await _repository.RejectVehicle(record, cancellationToken);
             return Unit.Value;
         }
     }

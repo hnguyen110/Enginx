@@ -1,31 +1,31 @@
 using System.Net;
 using API.Exceptions;
-using API.Repositories.Vehicle;
+using API.Repositories.Account;
 using API.Utilities.Messages;
 using API.Utilities.Security;
 using MediatR;
 
-namespace API.Handlers.Vehicle;
+namespace API.Handlers.Account;
 
-public class ApproveVehicle
+public class ApproveAccount
 {
-    public class Query : IRequest<Unit>
+    public class Command : IRequest<Unit>
     {
         public string? Id { get; set; }
     }
 
-    public class Handler : IRequestHandler<Query, Unit>
+    public class Handler : IRequestHandler<Command, Unit>
     {
+        private readonly IAccountRepository _account;
         private readonly IAuthorization _authorization;
-        private readonly IVehicleRepository _repository;
 
-        public Handler(IVehicleRepository repository, IAuthorization authorization)
+        public Handler(IAuthorization authorization, IAccountRepository account)
         {
-            _repository = repository;
             _authorization = authorization;
+            _account = account;
         }
 
-        public async Task<Unit> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
             var isAdministrator = await _authorization.IsAdministrator();
             if (!isAdministrator)
@@ -34,18 +34,14 @@ public class ApproveVehicle
                     ApiErrorMessages.Unauthorized
                 );
 
-            var record = await _repository
-                .RetrieveVehicleById(
-                    request.Id,
-                    cancellationToken
-                );
+            var record = await _account.FindById(request.Id!, cancellationToken);
             if (record == null)
                 throw new ApiException(
                     HttpStatusCode.NotFound,
                     ApiErrorMessages.NotFound
                 );
 
-            await _repository.ApproveVehicle(record, cancellationToken);
+            await _account.ApproveAccount(record, cancellationToken);
             return Unit.Value;
         }
     }

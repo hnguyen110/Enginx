@@ -1,5 +1,6 @@
 using API.DTOs.Vehicle;
 using API.Handlers.Vehicle;
+using API.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,13 +28,13 @@ public class VehicleController : BaseController
     [HttpGet("vehicle-picture/{id}")]
     public async Task<List<string>> RetrieveVehiclePictureById(string id)
     {
-        return await Mediator!.Send(new RetrieveVehiclePictures.Query { Id = id });
+        return await Mediator!.Send(new RetrieveVehiclePictures.Query {Id = id});
     }
 
     [HttpGet("{id}")]
     public async Task<RetrieveVehicleDTO> RetrieveVehicle(string id)
     {
-        return await Mediator!.Send(new RetrieveVehicle.Query { Id = id });
+        return await Mediator!.Send(new RetrieveVehicle.Query {Id = id});
     }
 
     [HttpPost("review/{id}")]
@@ -43,17 +44,23 @@ public class VehicleController : BaseController
         return await Mediator!.Send(command);
     }
 
-    [HttpGet]
-    public async Task<List<RetrieveAllVehiclesDTO>> RetrieveAllVehicles()
+    [HttpGet("retrieve-all-vehicles")]
+    public async Task<List<Vehicle>> RetrieveAllVehicles()
     {
         return await Mediator!.Send(new RetrieveAllVehicles.Query());
+    }
+
+    [HttpGet("retrieve-all-vehicles-by-owner")]
+    public async Task<List<RetrieveAllVehiclesDTO>> RetrieveAllVehiclesByOwnerId()
+    {
+        return await Mediator!.Send(new RetrieveAllVehiclesByOwnerId.Query());
     }
 
     [AllowAnonymous]
     [HttpGet("published-vehicle/{id}")]
     public async Task<RetrieveVehicleDTO> RetrievePublishedVehicle(string id)
     {
-        return await Mediator!.Send(new RetrievePublishedVehicle.Query { Id = id });
+        return await Mediator!.Send(new RetrievePublishedVehicle.Query {Id = id});
     }
 
     [AllowAnonymous]
@@ -67,12 +74,25 @@ public class VehicleController : BaseController
     [HttpGet("reviews/{id}")]
     public async Task<List<RetrieveAllReviewsDTO>> RetrieveAllVehicleReviews(string id)
     {
-        return await Mediator!.Send(new RetrieveAllReviews.Query { Id = id });
+        return await Mediator!.Send(new RetrieveAllReviews.Query {Id = id});
     }
-    
-    [HttpPut("approve/{id}")]
+
+    [HttpPut("update-vehicle/{id}")]
+    public async Task<Unit> UpdateVehicleInformation(UpdateVehicleInformation.Command command, string id)
+    {
+        command.Id = id;
+        return await Mediator!.Send(command);
+    }
+
+    [HttpPut("approve-vehicle/{id}")]
     public async Task<Unit> ApproveVehicle(string id)
     {
-        return await Mediator!.Send(new ApproveVehicle.Query { Id = id });
+        return await Mediator!.Send(new ApproveVehicle.Query {Id = id});
+    }
+
+    [HttpPut("reject-vehicle/{id}")]
+    public async Task<Unit> RejectVehicle(string id)
+    {
+        return await Mediator!.Send(new RejectVehicle.Query {Id = id});
     }
 }

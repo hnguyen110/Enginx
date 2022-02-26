@@ -15,10 +15,19 @@ public class VehicleRepository : IVehicleRepository
         _database = database;
     }
 
-    public async Task Save(Models.Vehicle vehicle, CancellationToken cancellationToken)
+    public async Task Save(Models.Vehicle? vehicle, CancellationToken cancellationToken)
     {
-        await _database.AddAsync(vehicle, cancellationToken);
+        if (vehicle is { })
+            await _database.AddAsync(vehicle, cancellationToken);
         await _database.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task<Models.Vehicle?> RetrieveVehicleById(string? id, CancellationToken cancellationToken)
+    {
+        var record = await _database
+            .Vehicle!
+            .FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+        return record;
     }
 
     public async Task<Models.Vehicle?> RetrieveVehicleById(string? owner, string? id,
@@ -47,7 +56,8 @@ public class VehicleRepository : IVehicleRepository
         return record;
     }
 
-    public async Task<List<Models.Vehicle>> RetrieveAllVehicles(string? owner, CancellationToken cancellationToken)
+    public async Task<List<Models.Vehicle>> RetrieveAllVehiclesByOwnerId(string? owner,
+        CancellationToken cancellationToken)
     {
         var records = await _database
             .Vehicle!
@@ -55,7 +65,7 @@ public class VehicleRepository : IVehicleRepository
             .ToListAsync(cancellationToken);
         return records;
     }
-    
+
     public async Task<List<Models.Review>> RetrieveAllVehicleReviews(string? id, CancellationToken cancellationToken)
     {
         var vehicle = await _database
@@ -77,6 +87,7 @@ public class VehicleRepository : IVehicleRepository
             .Where(e => e.Vehicle == id)
             .Include(e => e.ReviewerReference)
             .ThenInclude(e => e!.ContactInformationReference)
+            .OrderByDescending(e => e.Date)
             .ToListAsync(cancellationToken);
         return records;
     }
@@ -90,21 +101,29 @@ public class VehicleRepository : IVehicleRepository
         return records;
     }
 
-    public async Task ApproveVehicle(string? id, CancellationToken cancellationToken)
+    public async Task<List<Models.Vehicle>> RetrieveAllVehicles(CancellationToken cancellationToken)
     {
-        var vehicle = await _database
+        var records = await _database
             .Vehicle!
-            .FirstOrDefaultAsync(
-                e =>
-                    e.Id == id,
-                cancellationToken
-            );
-        if (vehicle == null)
-            throw new ApiException(
-                HttpStatusCode.NotFound,
-                ApiErrorMessages.RecordNotFound
-            );
-        vehicle.Approved = true;
-        await _database.SaveChangesAsync(cancellationToken);
+            .ToListAsync(cancellationToken);
+        return records;
+    }
+
+    public async Task ApproveVehicle(Models.Vehicle vehicle, CancellationToken cancellationToken)
+    {
+        if (!vehicle.Approved)
+        {
+            vehicle.Approved = true;
+            await _database.SaveChangesAsync(cancellationToken);
+        }
+    }
+
+    public async Task RejectVehicle(Models.Vehicle vehicle, CancellationToken cancellationToken)
+    {
+        if (vehicle.Approved)
+        {
+            vehicle.Approved = false;
+            await _database.SaveChangesAsync(cancellationToken);
+        }
     }
 }

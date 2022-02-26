@@ -23,7 +23,7 @@ public class ProfilePictureRepository : IProfilePictureRepository
     {
         if (file == null)
             throw new ApiException(HttpStatusCode.BadRequest, ValidationErrorMessages.Required);
-        var extensions = new[] { "image/jpg", "image/jpeg", "image/png" };
+        var extensions = new[] {"image/jpg", "image/jpeg", "image/png"};
         if (!extensions.Contains(file.ContentType))
             throw new ApiException(HttpStatusCode.BadRequest, ValidationErrorMessages.UnsupportedFileFormat);
         if (file.Length > AccountConstants.ProfilePictureSizeLimit)
@@ -77,5 +77,11 @@ public class ProfilePictureRepository : IProfilePictureRepository
                 cancellationToken
             );
         return path?.FilePath;
+    }
+
+    public async Task DeleteProfilePicture(ProfilePicture profilePicture, CancellationToken cancellationToken)
+    {
+        _context.ProfilePicture!.Remove(profilePicture);
+        await _context.SaveChangesAsync(cancellationToken);
     }
 }

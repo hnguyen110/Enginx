@@ -18,4 +18,12 @@ public class BankCardController : BaseController
     {
         return await Mediator!.Send(new RetrieveAllBankCards.Query());
     }
+
+    [HttpPut("update-bankcard/{id}")]
+    public async Task<Unit> UpdateBankCard(string id, UpdateBankCard.Command command)
+
+    {
+        command.Id = id;
+        return await Mediator!.Send(command);
+    }
 }

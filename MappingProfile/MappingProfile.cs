@@ -1,7 +1,9 @@
+using API.DTOs.Account;
 using API.DTOs.BankCard;
 using API.DTOs.Insurance;
 using API.DTOs.Reservation;
 using API.DTOs.Vehicle;
+using API.Handlers.Vehicle;
 using API.Models;
 using AutoMapper;
 
@@ -65,5 +67,48 @@ public class MappingProfile : Profile
                 option => option
                     .MapFrom(e => e.VehicleReference!.EngineType)
             );
+        CreateMap<Insurance, Insurance>()
+            .ForMember(e => e.Id, option => option.Ignore())
+            .ForMember(e => e.Name, option => option.PreCondition(e => !string.IsNullOrEmpty(e.Name)))
+            .ForMember(e => e.Description, option => option.PreCondition(e => !string.IsNullOrEmpty(e.Description)))
+            .ForMember(e => e.Price, option => option.PreCondition(e => e.Price >= 0));
+        CreateMap<Account, RetrieveAllClientAccountDTO>()
+            .ForMember(e => e.FirstName, option => option.MapFrom(e => e.ContactInformationReference!.FirstName))
+            .ForMember(e => e.MiddleName, option => option.MapFrom(e => e.ContactInformationReference!.MiddleName))
+            .ForMember(e => e.LastName, option => option.MapFrom(e => e.ContactInformationReference!.LastName))
+            .ForMember(e => e.Email, option => option.MapFrom(e => e.ContactInformationReference!.Email))
+            .ForMember(e => e.ContactNumber,
+                option => option.MapFrom(e => e.ContactInformationReference!.ContactNumber))
+            .ForMember(e => e.StreetNumber, option => option.MapFrom(e => e.AddressReference!.StreetNumber))
+            .ForMember(e => e.StreetName, option => option.MapFrom(e => e.AddressReference!.StreetName))
+            .ForMember(e => e.City, option => option.MapFrom(e => e.AddressReference!.City))
+            .ForMember(e => e.State, option => option.MapFrom(e => e.AddressReference!.State))
+            .ForMember(e => e.Country, option => option.MapFrom(e => e.AddressReference!.Country))
+            .ForMember(e => e.PostalCode, option => option.MapFrom(e => e.AddressReference!.PostalCode));
+        CreateMap<BankCard, BankCard>()
+            .ForMember(e => e.Id, option => option.Ignore())
+            .ForMember(e => e.Account, option => option.Ignore())
+            .ForMember(e => e.AccountReference, option => option.Ignore())
+            .ForMember(e => e.CardType, option => option.PreCondition(e => !string.IsNullOrEmpty(e.CardType)))
+            .ForMember(e => e.CardHolderName,
+                option => option.PreCondition(e => !string.IsNullOrEmpty(e.CardHolderName)))
+            .ForMember(e => e.CardNumber, option => option.PreCondition(e => !string.IsNullOrEmpty(e.CardNumber)))
+            .ForMember(e => e.ExpireDate,
+                option => option.PreCondition(e => e.ExpireDate != null && e.ExpireDate != DateTime.MinValue))
+            .ForMember(e => e.CardVerificationCode,
+                option => option.PreCondition(e => !string.IsNullOrEmpty(e.CardVerificationCode)));
+        CreateMap<UpdateVehicleInformation.Command, Vehicle>()
+            .ForMember(e => e.Id, option => option.Ignore())
+            .ForMember(e => e.BodyType, option => option.PreCondition(e => !string.IsNullOrEmpty(e.BodyType)))
+            .ForMember(e => e.Color, option => option.PreCondition(e => !string.IsNullOrEmpty(e.Color)))
+            .ForMember(e => e.Description, option => option.PreCondition(e => !string.IsNullOrEmpty(e.Description)))
+            .ForMember(e => e.EngineType, option => option.PreCondition(e => !string.IsNullOrEmpty(e.EngineType)))
+            .ForMember(e => e.FuelType, option => option.PreCondition(e => !string.IsNullOrEmpty(e.FuelType)))
+            .ForMember(e => e.Location, option => option.PreCondition(e => !string.IsNullOrEmpty(e.Location)))
+            .ForMember(e => e.Make, option => option.PreCondition(e => !string.IsNullOrEmpty(e.Make)))
+            .ForMember(e => e.Model, option => option.PreCondition(e => !string.IsNullOrEmpty(e.Model)))
+            .ForMember(e => e.Mileage, option => option.PreCondition(e => e.Mileage >= 0))
+            .ForMember(e => e.Price, option => option.PreCondition(e => e.Price >= 0))
+            .ForMember(e => e.Year, option => option.PreCondition(e => e.Year >= 0));
     }
 }

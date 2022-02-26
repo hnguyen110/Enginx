@@ -1,31 +1,31 @@
 using System.Net;
 using API.Exceptions;
-using API.Repositories.Vehicle;
+using API.Repositories.Insurance;
 using API.Utilities.Messages;
 using API.Utilities.Security;
 using MediatR;
 
-namespace API.Handlers.Vehicle;
+namespace API.Handlers.Insurance;
 
-public class ApproveVehicle
+public class DeleteInsurance
 {
-    public class Query : IRequest<Unit>
+    public class Command : IRequest<Unit>
     {
         public string? Id { get; set; }
     }
 
-    public class Handler : IRequestHandler<Query, Unit>
+    public class Handler : IRequestHandler<Command, Unit>
     {
         private readonly IAuthorization _authorization;
-        private readonly IVehicleRepository _repository;
+        private readonly IInsuranceRepository _insurance;
 
-        public Handler(IVehicleRepository repository, IAuthorization authorization)
+        public Handler(IAuthorization authorization, IInsuranceRepository insurance)
         {
-            _repository = repository;
             _authorization = authorization;
+            _insurance = insurance;
         }
 
-        public async Task<Unit> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
             var isAdministrator = await _authorization.IsAdministrator();
             if (!isAdministrator)
@@ -34,18 +34,22 @@ public class ApproveVehicle
                     ApiErrorMessages.Unauthorized
                 );
 
-            var record = await _repository
-                .RetrieveVehicleById(
+            var insurance = await _insurance
+                .RetrieveInsuranceById(
                     request.Id,
                     cancellationToken
                 );
-            if (record == null)
+            if (insurance == null)
                 throw new ApiException(
                     HttpStatusCode.NotFound,
                     ApiErrorMessages.NotFound
                 );
 
-            await _repository.ApproveVehicle(record, cancellationToken);
+            await _insurance
+                .DeleteInsurance(
+                    insurance,
+                    cancellationToken
+                );
             return Unit.Value;
         }
     }
