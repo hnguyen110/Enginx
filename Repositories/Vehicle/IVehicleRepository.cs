@@ -10,6 +10,10 @@ public interface IVehicleRepository
     public Task<List<Models.Vehicle>> RetrieveAllVehiclesByOwnerId(string? owner, CancellationToken cancellationToken);
     public Task<List<Models.Review>> RetrieveAllVehicleReviews(string? vehicle, CancellationToken cancellationToken);
     public Task<List<Models.Vehicle>> RetrieveAllPublishedVehicles(CancellationToken cancellationToken);
+<<<<<<< HEAD
 
     public Task<List<Models.Vehicle>> RetrieveAllVehicles(CancellationToken cancellationToken);
+=======
+    public Task ApproveVehicle(string? Id, CancellationToken cancellationToken);
+>>>>>>> 69ae80774212948369b02447fcb8a6be1ad22761
 }
