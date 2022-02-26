@@ -1,6 +1,5 @@
 using API.DatabaseContext;
 using API.Repositories.Transaction;
-using API.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Repositories.Reservation;
@@ -63,10 +62,12 @@ public class ReservationRepository : IReservationRepository
         await _database.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<List<Models.Reservation>> RetrieveCustomerReservationsById(string id, CancellationToken cancellationToken)
+    public async Task<List<Models.Reservation>> RetrieveAllClientReservations(string id,
+        CancellationToken cancellationToken)
     {
         var records = await _database.Reservation!
-            .Where(e=> e.TransactionReference!.Sender == id)
+            .Where(e => e.TransactionReference!.Sender == id
+                        || e.TransactionReference!.Receiver == id)
             .ToListAsync(cancellationToken);
         return records;
     }

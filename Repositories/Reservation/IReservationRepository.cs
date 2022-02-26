@@ -12,5 +12,7 @@ public interface IReservationRepository
 
     public Task UpdateUpcomingReservationStatus(
         Models.Reservation reservation, bool status, CancellationToken cancellationToken);
-    public Task<List<Models.Reservation>> RetrieveCustomerReservationsById(string id, CancellationToken cancellationToken);
+
+    public Task<List<Models.Reservation>> RetrieveAllClientReservations(string id,
+        CancellationToken cancellationToken);
 }
