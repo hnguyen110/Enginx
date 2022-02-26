@@ -8,6 +8,10 @@ public interface IVehicleRepository
     public Task<Models.Vehicle?> RetrievePublishedVehicleById(string? id, CancellationToken cancellationToken);
 
     public Task<List<Models.Vehicle>> RetrieveAllVehiclesByOwnerId(string? owner, CancellationToken cancellationToken);
+
+    public Task<List<Models.Vehicle>> RetrieveVehiclesByLocation(string? location,
+        CancellationToken cancellationToken);
+
     public Task<List<Models.Review>> RetrieveAllVehicleReviews(string? vehicle, CancellationToken cancellationToken);
     public Task<List<Models.Vehicle>> RetrieveAllPublishedVehicles(CancellationToken cancellationToken);
 
