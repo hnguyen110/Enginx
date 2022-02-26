@@ -58,4 +58,10 @@ public class BankCardRepository : IBankCardRepository
         _mapper.Map(updates, bankCard);
         await _database.SaveChangesAsync(cancellationToken);
     }
+
+    public async Task DeleteBankCard(Models.BankCard? bankcard, CancellationToken cancellationToken)
+    {
+        _database.Remove(bankcard!);
+        await _database.SaveChangesAsync(cancellationToken);
+    }
 }

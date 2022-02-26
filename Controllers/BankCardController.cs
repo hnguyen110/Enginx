@@ -26,4 +26,10 @@ public class BankCardController : BaseController
         command.Id = id;
         return await Mediator!.Send(command);
     }
+
+    [HttpDelete("delete/{id}")]
+    public async Task<Unit> DeleteBankCard(string id)
+    {
+        return await Mediator!.Send(new DeleteBankCard.Query{ Id = id });
+    }
 }
