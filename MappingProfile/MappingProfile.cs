@@ -110,6 +110,10 @@ public class MappingProfile : Profile
             .ForMember(e => e.Mileage, option => option.PreCondition(e => e.Mileage >= 0))
             .ForMember(e => e.Price, option => option.PreCondition(e => e.Price >= 0))
             .ForMember(e => e.Year, option => option.PreCondition(e => e.Year >= 0));
-        CreateMap<Reservation, RetrieveCustomerReservationsDTO>();
+        CreateMap<Reservation, RetrieveCustomerReservationsDTO>()
+            .ForMember(e => e.Vehicle, option => option.MapFrom(e => e.VehicleReference!.Id))
+            .ForMember(e => e.Name, option => option.MapFrom(e => $"{e.VehicleReference!.Make} {e.VehicleReference!.Model}"))
+            .ForMember(e => e.Location, option => option.MapFrom(e => e.VehicleReference!.Location))
+            .ForMember(e => e.Amount, option => option.MapFrom(e => e.TransactionReference!.Amount));
     }
 }
