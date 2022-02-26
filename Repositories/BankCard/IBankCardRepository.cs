@@ -7,4 +7,6 @@ public interface IBankCardRepository
 
     public Task<List<Models.BankCard>> RetrieveAllBankCardsByAccount(string? account,
         CancellationToken cancellationToken);
+
+    public Task DeleteBankCard(Models.BankCard? bankcard, CancellationToken cancellationToken);
 }

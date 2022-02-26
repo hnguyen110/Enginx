@@ -48,4 +48,10 @@ public class BankCardRepository : IBankCardRepository
             .ToListAsync(cancellationToken);
         return records;
     }
+
+    public async Task DeleteBankCard(Models.BankCard? bankcard, CancellationToken cancellationToken)
+    {
+        _database.Remove(bankcard!);
+        await _database.SaveChangesAsync(cancellationToken);
+    }
 }
