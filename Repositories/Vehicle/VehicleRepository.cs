@@ -2,7 +2,6 @@ using System.Net;
 using API.DatabaseContext;
 using API.Exceptions;
 using API.Utilities.Messages;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Repositories.Vehicle;
@@ -93,24 +92,6 @@ public class VehicleRepository : IVehicleRepository
         return records;
     }
 
-    public async Task RejectVehicle(string? id, CancellationToken cancellationToken)
-    {
-        var vehicle = await _database
-            .Vehicle!
-            .FirstOrDefaultAsync(
-                e =>
-                    e.Id == id, 
-                    cancellationToken
-                );
-        if (vehicle == null)
-            throw new ApiException(
-                HttpStatusCode.NotFound,
-                ApiErrorMessages.RecordNotFound
-            );
-        vehicle.Approved = false;
-        await _database.SaveChangesAsync(cancellationToken);
-    }
-    
     public async Task<List<Models.Vehicle>> RetrieveAllPublishedVehicles(CancellationToken cancellationToken)
     {
         var records = await _database
@@ -133,6 +114,15 @@ public class VehicleRepository : IVehicleRepository
         if (!vehicle.Approved)
         {
             vehicle.Approved = true;
+            await _database.SaveChangesAsync(cancellationToken);
+        }
+    }
+
+    public async Task RejectVehicle(Models.Vehicle vehicle, CancellationToken cancellationToken)
+    {
+        if (vehicle.Approved)
+        {
+            vehicle.Approved = false;
             await _database.SaveChangesAsync(cancellationToken);
         }
     }

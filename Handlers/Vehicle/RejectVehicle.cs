@@ -1,6 +1,5 @@
 using System.Net;
 using API.Exceptions;
-using API.Handlers.Account;
 using API.Repositories.Vehicle;
 using API.Utilities.Messages;
 using API.Utilities.Security;
@@ -17,26 +16,38 @@ public class RejectVehicle
 
     public class Handler : IRequestHandler<Query, Unit>
     {
-        private readonly IVehicleRepository _repository;
         private readonly IAuthorization _authorization;
+        private readonly IVehicleRepository _repository;
 
-        public Handler(IVehicleRepository repository, IAuthorization authorization)
+
+        public Handler(IAuthorization authorization, IVehicleRepository repository)
         {
-            _repository = repository;
             _authorization = authorization;
+            _repository = repository;
         }
 
         public async Task<Unit> Handle(Query request, CancellationToken cancellationToken)
         {
-            var isAdmin = await _authorization.IsAdministrator();
-            if (!isAdmin)
+            var isAdministrator = await _authorization.IsAdministrator();
+            if (!isAdministrator)
                 throw new ApiException(
                     HttpStatusCode.Unauthorized,
                     ApiErrorMessages.Unauthorized
                 );
-            await _repository.RejectVehicle(request.Id, cancellationToken);
+
+            var record = await _repository
+                .RetrieveVehicleById(
+                    request.Id,
+                    cancellationToken
+                );
+            if (record == null)
+                throw new ApiException(
+                    HttpStatusCode.NotFound,
+                    ApiErrorMessages.NotFound
+                );
+
+            await _repository.RejectVehicle(record, cancellationToken);
             return Unit.Value;
         }
     }
-    
 }
