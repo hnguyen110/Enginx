@@ -36,4 +36,10 @@ public class ReservationController : BaseController
     {
         return await Mediator!.Send(new DeleteReservation.Command {Id = id});
     }
+
+    [HttpGet("customer")]
+    public async Task<List<RetrieveCustomerReservationsDTO>> RetrieveAllCustomerReservations()
+    {
+        return await Mediator!.Send(new RetrieveCustomerReservation.Query());
+;    }
 }
