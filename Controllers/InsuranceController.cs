@@ -31,6 +31,6 @@ public class InsuranceController : BaseController
     [HttpDelete("delete-insurance/{id}")]
     public async Task<Unit> DeleteInsurance(string id)
     {
-        return await Mediator!.Send(new DeleteInsurance.Command {Id = id});
+        return await Mediator!.Send(new DeleteInsurance.Command { Id = id });
     }
 }
