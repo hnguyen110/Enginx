@@ -136,4 +136,16 @@ public class VehicleRepository : IVehicleRepository
             await _database.SaveChangesAsync(cancellationToken);
         }
     }
+
+    public async Task DeleteVehicle(Models.Vehicle vehicle, CancellationToken cancellationToken)
+    {
+        var parent = await _database.Vehicle!
+            .Include(e => e.Reservations)
+            .Include(e => e.VehiclePictures)
+            .Include(e => e.Reviews)
+            .FirstOrDefaultAsync(e => e.Id == vehicle.Id, cancellationToken);
+        
+        _database.Remove(parent!);
+        await _database.SaveChangesAsync(cancellationToken);
+    }
 }

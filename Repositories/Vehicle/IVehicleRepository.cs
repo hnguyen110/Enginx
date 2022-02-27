@@ -18,4 +18,5 @@ public interface IVehicleRepository
     public Task<List<Models.Vehicle>> RetrieveAllVehicles(CancellationToken cancellationToken);
     public Task ApproveVehicle(Models.Vehicle vehicle, CancellationToken cancellationToken);
     public Task RejectVehicle(Models.Vehicle vehicle, CancellationToken cancellationToken);
+    public Task DeleteVehicle(Models.Vehicle vehicle, CancellationToken cancellationToken);
 }

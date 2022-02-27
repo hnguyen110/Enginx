@@ -102,4 +102,10 @@ public class VehicleController : BaseController
     {
         return await Mediator!.Send(new RejectVehicle.Query {Id = id});
     }
+
+    [HttpDelete("delete/{id}")]
+    public async Task<Unit> DeleteVehicleByOwner(string id)
+    {
+        return await Mediator!.Send(new DeleteVehicle.Query { Id = id });
+    }
 }
