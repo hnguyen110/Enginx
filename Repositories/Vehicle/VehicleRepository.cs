@@ -144,7 +144,7 @@ public class VehicleRepository : IVehicleRepository
             .Include(e => e.VehiclePictures)
             .Include(e => e.Reviews)
             .FirstOrDefaultAsync(e => e.Id == vehicle.Id, cancellationToken);
-        
+
         _database.Remove(parent!);
         await _database.SaveChangesAsync(cancellationToken);
     }

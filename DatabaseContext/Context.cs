@@ -62,7 +62,7 @@ public class Context : DbContext
             .HasOne(e => e.VehicleReference)
             .WithMany(e => e.Reservations)
             .HasForeignKey(e => e.Vehicle)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.SetNull);
 
         builder.Entity<Reservation>()
             .HasOne(e => e.InsuranceReference)
