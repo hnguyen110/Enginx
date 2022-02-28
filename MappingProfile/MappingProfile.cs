@@ -1,6 +1,7 @@
 using API.DTOs.Account;
 using API.DTOs.BankCard;
 using API.DTOs.Insurance;
+using API.DTOs.Profile;
 using API.DTOs.Reservation;
 using API.DTOs.Vehicle;
 using API.Handlers.Vehicle;
@@ -116,5 +117,7 @@ public class MappingProfile : Profile
                 option => option.MapFrom(e => $"{e.VehicleReference!.Make} {e.VehicleReference!.Model}"))
             .ForMember(e => e.Location, option => option.MapFrom(e => e.VehicleReference!.Location))
             .ForMember(e => e.Amount, option => option.MapFrom(e => e.TransactionReference!.Amount));
+        CreateMap<UpdateContactInfoDTO, ContactInformation>();
+        CreateMap<UpdateAddressDTO, Address>();
     }
 }
