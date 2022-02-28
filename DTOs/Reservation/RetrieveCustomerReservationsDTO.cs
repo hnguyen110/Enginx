@@ -2,11 +2,15 @@ namespace API.DTOs.Reservation;
 
 public class RetrieveCustomerReservationsDTO
 {
-    public string? Date { get; set; }
+    public string? Id { get; set; }
+    public DateTime? Date { get; set; }
+    public DateTime? CheckInDate { get; set; }
+    public DateTime? CheckOutDate { get; set; }
+    public DateTime? CheckInTime { get; set; }
+    public DateTime? CheckOutTime { get; set; }
     public string? Vehicle { get; set; }
-    public string? Insurance { get; set; }
-    public string? CheckInDate { get; set; }
-    public string? CheckOutDate { get; set; }
-    public string? CheckInTime { get; set; }
-    public string? CheckOutTime { get; set; }
+    public string? Name { get; set; }
+    public string? Location { get; set; }
+    public bool Status { get; set; }
+    public double? Amount { get; set; }
 }

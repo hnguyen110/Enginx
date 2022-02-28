@@ -66,8 +66,11 @@ public class ReservationRepository : IReservationRepository
         CancellationToken cancellationToken)
     {
         var records = await _database.Reservation!
-            .Where(e => e.TransactionReference!.Sender == id
-                        || e.TransactionReference!.Receiver == id)
+            .Where(e =>
+                e.TransactionReference!.Sender == id ||
+                e.TransactionReference!.Receiver == id)
+            .Include(e => e.VehicleReference)
+            .Include(e => e.TransactionReference)
             .ToListAsync(cancellationToken);
         return records;
     }
