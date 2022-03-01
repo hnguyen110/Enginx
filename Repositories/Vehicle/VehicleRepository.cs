@@ -71,7 +71,10 @@ public class VehicleRepository : IVehicleRepository
     {
         var records = await _database
             .Vehicle!
-            .Where(e => e.Location!.ToLower().Trim() == location!.ToLower().Trim())
+            .Where(e => 
+                e.Approved == true 
+                && e.Published == true 
+                && e.Location!.ToLower().Trim() == location!.ToLower().Trim())
             .ToListAsync(cancellationToken);
         return records;
     }
