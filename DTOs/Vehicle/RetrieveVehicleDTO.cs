@@ -13,4 +13,5 @@ public class RetrieveVehicleDTO
     public double Mileage { get; set; }
     public double Price { get; set; }
     public int Year { get; set; }
+    public DateTime? RegistrationDate { get; set; }
 }

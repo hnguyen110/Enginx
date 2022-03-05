@@ -115,6 +115,8 @@ public class VehicleRepository : IVehicleRepository
     {
         var records = await _database
             .Vehicle!
+            .Include(e => e.OwnerReference)
+            .ThenInclude(e => e!.ContactInformationReference)
             .ToListAsync(cancellationToken);
         return records;
     }

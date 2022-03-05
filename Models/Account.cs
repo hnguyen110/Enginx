@@ -10,7 +10,7 @@ public enum Role
 public class Account
 {
     public string? Id { get; set; }
-    public bool Approved { get; set; } = false;
+    public bool Approved { get; set; }
 
     public Role Role { get; set; }
     public string? Username { get; set; }

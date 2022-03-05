@@ -15,7 +15,14 @@ public class MappingProfile : Profile
     {
         CreateMap<BankCard, RetrieveAllBankCardsDTO>();
         CreateMap<Vehicle, RetrieveVehicleDTO>();
-        CreateMap<Vehicle, RetrieveAllVehiclesDTO>();
+        CreateMap<Vehicle, RetrieveAllVehiclesDTO>()
+            .ForMember(e => e.Owner,
+                option =>
+                {
+                    option.MapFrom(e =>
+                        e.OwnerReference!.ContactInformationReference!.FirstName + " " +
+                        e.OwnerReference.ContactInformationReference.LastName);
+                });
         CreateMap<VehiclePicture, RetrieveVehiclePicturesDTO>();
         CreateMap<Review, RetrieveAllReviewsDTO>()
             .ForMember(e => e.Reviewer,
