@@ -27,4 +27,9 @@ public class AddressRepository : IAddressRepository
         _context.Address!.Remove(address);
         await _context.SaveChangesAsync(cancellationToken);
     }
+
+    public async Task UpdateAddress(CancellationToken cancellationToken)
+    {
+        await _context.SaveChangesAsync(cancellationToken);
+    }
 }
