@@ -150,4 +150,13 @@ public class VehicleRepository : IVehicleRepository
         _database.Remove(parent!);
         await _database.SaveChangesAsync(cancellationToken);
     }
+
+    public async Task PublishVehicle(Models.Vehicle vehicle, CancellationToken cancellationToken)
+    {
+        if (!vehicle.Published)
+        {
+            vehicle.Published = true;
+            await _database.SaveChangesAsync(cancellationToken);
+        }
+    }
 }

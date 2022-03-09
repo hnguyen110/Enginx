@@ -36,7 +36,7 @@ public class VehicleController : BaseController
         return await Mediator!.Send(new RetrieveVehicle.Query {Id = id});
     }
 
-    [HttpPost("review/{id}")]
+    [HttpPost("create-review/{id}")]
     public async Task<Unit> CreateVehicleReview(CreateReview.Command command, string id)
     {
         command.Vehicle = id;
@@ -101,6 +101,12 @@ public class VehicleController : BaseController
     public async Task<Unit> RejectVehicle(string id)
     {
         return await Mediator!.Send(new RejectVehicle.Query {Id = id});
+    }
+
+    [HttpPut("publish-vehicle/{id}")]
+    public async Task<PublishVehicleDTO> PublishVehicle(string id)
+    {
+        return await Mediator!.Send(new PublishVehicle.Command {Id = id});
     }
 
     [HttpDelete("delete-vehicle/{id}")]

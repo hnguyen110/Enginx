@@ -142,5 +142,6 @@ public class MappingProfile : Profile
         CreateMap<SignUp.Command, SignUpDTO>();
         CreateMap<Account, ApproveAccountDTO>();
         CreateMap<Account, DisapproveAccountDTO>();
+        CreateMap<Vehicle, PublishVehicleDTO>();
     }
 }
