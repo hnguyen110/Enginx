@@ -1,5 +1,3 @@
-using API.Handlers.Account;
-using API.Handlers.Profile;
 using API.Handlers.Test;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

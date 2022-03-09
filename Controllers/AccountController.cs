@@ -30,14 +30,14 @@ public class AccountController : BaseController
     }
 
     [HttpPut("approve-account/{id}")]
-    public async Task<Unit> ApproveAccount(string id)
+    public async Task<ApproveAccountDTO> ApproveAccount(string id)
     {
         return await Mediator!.Send(new ApproveAccount.Command {Id = id});
     }
 
 
     [HttpPut("disapprove-account/{id}")]
-    public async Task<Unit> DisapproveAccount(string id)
+    public async Task<DisapproveAccountDTO> DisapproveAccount(string id)
     {
         return await Mediator!.Send(new DisapproveAccount.Command {Id = id});
     }

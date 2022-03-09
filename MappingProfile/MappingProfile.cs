@@ -1,9 +1,11 @@
 using API.DTOs.Account;
+using API.DTOs.Authentication;
 using API.DTOs.BankCard;
 using API.DTOs.Insurance;
 using API.DTOs.Profile;
 using API.DTOs.Reservation;
 using API.DTOs.Vehicle;
+using API.Handlers.Authentication;
 using API.Handlers.Vehicle;
 using API.Models;
 using AutoMapper;
@@ -137,5 +139,8 @@ public class MappingProfile : Profile
             .ForMember(e => e.State, option => option.DoNotAllowNull())
             .ForMember(e => e.Country, option => option.DoNotAllowNull())
             .ForMember(e => e.PostalCode, option => option.DoNotAllowNull());
+        CreateMap<SignUp.Command, SignUpDTO>();
+        CreateMap<Account, ApproveAccountDTO>();
+        CreateMap<Account, DisapproveAccountDTO>();
     }
 }

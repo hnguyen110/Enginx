@@ -1,31 +1,35 @@
 using System.Net;
+using API.DTOs.Account;
 using API.Exceptions;
 using API.Repositories.Account;
 using API.Utilities.Messages;
 using API.Utilities.Security;
+using AutoMapper;
 using MediatR;
 
 namespace API.Handlers.Account;
 
 public class DisapproveAccount
 {
-    public class Command : IRequest<Unit>
+    public class Command : IRequest<DisapproveAccountDTO>
     {
         public string? Id { get; set; }
     }
 
-    public class Handler : IRequestHandler<Command, Unit>
+    public class Handler : IRequestHandler<Command, DisapproveAccountDTO>
     {
         private readonly IAccountRepository _account;
         private readonly IAuthorization _authorization;
+        private readonly IMapper _mapper;
 
-        public Handler(IAuthorization authorization, IAccountRepository account)
+        public Handler(IAuthorization authorization, IAccountRepository account, IMapper mapper)
         {
             _authorization = authorization;
             _account = account;
+            _mapper = mapper;
         }
 
-        public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<DisapproveAccountDTO> Handle(Command request, CancellationToken cancellationToken)
         {
             var isAdministrator = await _authorization.IsAdministrator();
             if (!isAdministrator)
@@ -42,7 +46,7 @@ public class DisapproveAccount
                 );
 
             await _account.DisapproveAccount(record, cancellationToken);
-            return Unit.Value;
+            return _mapper.Map<Models.Account, DisapproveAccountDTO>(record);
         }
     }
 }
