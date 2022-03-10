@@ -1,3 +1,5 @@
+using API.Models;
+
 namespace API.DTOs.Vehicle;
 
 public class RetrieveVehicleDTO
@@ -13,4 +15,5 @@ public class RetrieveVehicleDTO
     public double Mileage { get; set; }
     public double Price { get; set; }
     public int Year { get; set; }
+    public List<string>? VehiclePictures { get; set; }
 }
