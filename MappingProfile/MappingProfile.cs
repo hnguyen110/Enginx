@@ -116,5 +116,9 @@ public class MappingProfile : Profile
                 option => option.MapFrom(e => $"{e.VehicleReference!.Make} {e.VehicleReference!.Model}"))
             .ForMember(e => e.Location, option => option.MapFrom(e => e.VehicleReference!.Location))
             .ForMember(e => e.Amount, option => option.MapFrom(e => e.TransactionReference!.Amount));
+
+        CreateMap<BankCard, RetrieveBankCardDTO>();
+
     }
+    
 }
