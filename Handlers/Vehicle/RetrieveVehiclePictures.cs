@@ -32,8 +32,6 @@ public class RetrieveVehiclePictures
                     request.Id,
                     cancellationToken
                 );
-            if (!records.Any())
-                throw new ApiException(HttpStatusCode.NotFound, ApiErrorMessages.NotFound);
             return records;
         }
     }
