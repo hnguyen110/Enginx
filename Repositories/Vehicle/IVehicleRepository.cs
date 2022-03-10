@@ -20,4 +20,5 @@ public interface IVehicleRepository
     public Task RejectVehicle(Models.Vehicle vehicle, CancellationToken cancellationToken);
     public Task DeleteVehicle(Models.Vehicle vehicle, CancellationToken cancellationToken);
     public Task PublishVehicle(Models.Vehicle vehicle, CancellationToken cancellationToken);
+    public Task UnpublishVehicle(Models.Vehicle vehicle, CancellationToken cancellationToken);
 }
