@@ -1,12 +1,10 @@
-namespace API.Models;
+namespace API.DTOs.Vehicle;
 
-public class Vehicle
+public class PublishVehicleDTO
 {
     public string? Id { get; set; }
-    public string? Owner { get; set; }
-    public bool Published { get; set; } = false;
-    public bool Approved { get; set; } = false;
-    public Account? OwnerReference { get; set; }
+    public bool Published { get; set; }
+    public bool Approved { get; set; }
     public string? BodyType { get; set; }
     public string? Color { get; set; }
     public string? Description { get; set; }
@@ -18,8 +16,6 @@ public class Vehicle
     public double Mileage { get; set; }
     public double Price { get; set; }
     public int Year { get; set; }
-    public DateTime? RegistrationDate { get; set; } = DateTime.Now;
-    public List<VehiclePicture>? VehiclePictures { get; set; }
-    public List<Reservation>? Reservations { get; set; }
-    public List<Review>? Reviews { get; set; }
+    public DateTime? RegistrationDate { get; set; }
+    public string? Owner { get; set; }
 }

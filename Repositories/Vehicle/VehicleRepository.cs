@@ -115,6 +115,8 @@ public class VehicleRepository : IVehicleRepository
     {
         var records = await _database
             .Vehicle!
+            .Include(e => e.OwnerReference)
+            .ThenInclude(e => e!.ContactInformationReference)
             .ToListAsync(cancellationToken);
         return records;
     }
@@ -147,5 +149,14 @@ public class VehicleRepository : IVehicleRepository
 
         _database.Remove(parent!);
         await _database.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task PublishVehicle(Models.Vehicle vehicle, CancellationToken cancellationToken)
+    {
+        if (!vehicle.Published)
+        {
+            vehicle.Published = true;
+            await _database.SaveChangesAsync(cancellationToken);
+        }
     }
 }

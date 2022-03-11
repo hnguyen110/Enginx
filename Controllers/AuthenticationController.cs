@@ -1,5 +1,5 @@
+using API.DTOs.Authentication;
 using API.Handlers.Authentication;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,7 +15,7 @@ public class AuthenticationController : BaseController
     }
 
     [HttpPost("sign-up")]
-    public async Task<Unit> SignIn(SignUp.Command command)
+    public async Task<SignUpDTO> SignIn(SignUp.Command command)
     {
         return await Mediator!.Send(command);
     }

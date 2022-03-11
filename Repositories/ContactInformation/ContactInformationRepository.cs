@@ -30,4 +30,9 @@ public class ContactInformationRepository : IContactInformationRepository
         _context.ContactInformation!.Remove(contact);
         await _context.SaveChangesAsync(cancellationToken);
     }
+
+    public async Task UpdateContactInformation(CancellationToken cancellationToken)
+    {
+        await _context.SaveChangesAsync(cancellationToken);
+    }
 }

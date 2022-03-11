@@ -1,11 +1,12 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=39250d89_002D53f8_002D4e49_002Db14c_002D00fb317469e3/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="BankCardIntegrationTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::8745B51D-A503-4C49-9A6F-7B7BDB570DE6::net6.0::API.Tests.IntegrationTests.BankCardIntegrationTests&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5F19E0AA-5304-4D55-B3A0-36525F65317F::net6.0::API.Tests.IntegrationTests.ChangePasswordIntegrationTests.Change_Password_With_Invalid_Access_Token&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5F19E0AA-5304-4D55-B3A0-36525F65317F::net6.0::API.Tests.IntegrationTests.ChangePasswordIntegrationTests.Change_Password_With_Valid_Access_Token&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=c750c142_002D8e5c_002D4e52_002Da8d4_002D475a4384b465/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="AccountTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::8745B51D-A503-4C49-9A6F-7B7BDB570DE6::net6.0::API.Tests.IntegrationTests.BankCardIntegrationTests&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::5F19E0AA-5304-4D55-B3A0-36525F65317F::net6.0::API.Tests.IntegrationTests.ChangePasswordIntegrationTests.Change_Password_With_Invalid_Access_Token&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

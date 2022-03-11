@@ -9,7 +9,7 @@ namespace API.Handlers.Account;
 
 public class CreateAccount
 {
-    public class Command : IRequest<Unit>
+    public class Command : IRequest<string>
     {
         public string? Username { get; set; }
         public string? Password { get; set; }
@@ -19,7 +19,7 @@ public class CreateAccount
         public string? License { get; set; }
     }
 
-    public class Handler : IRequestHandler<Command, Unit>
+    public class Handler : IRequestHandler<Command, string>
     {
         private readonly IAccountRepository _repository;
         private readonly ISecurity _security;
@@ -30,7 +30,7 @@ public class CreateAccount
             _security = security;
         }
 
-        public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<string> Handle(Command request, CancellationToken cancellationToken)
         {
             var record = await _repository.FindByUsername(request.Username!, cancellationToken);
             if (record != null)
@@ -51,7 +51,7 @@ public class CreateAccount
             };
 
             await _repository.Save(account, cancellationToken);
-            return Unit.Value;
+            return account.Id;
         }
     }
 }

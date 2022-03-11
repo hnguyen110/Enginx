@@ -1,8 +1,11 @@
 using API.DTOs.Account;
+using API.DTOs.Authentication;
 using API.DTOs.BankCard;
 using API.DTOs.Insurance;
+using API.DTOs.Profile;
 using API.DTOs.Reservation;
 using API.DTOs.Vehicle;
+using API.Handlers.Authentication;
 using API.Handlers.Vehicle;
 using API.Models;
 using AutoMapper;
@@ -15,7 +18,14 @@ public class MappingProfile : Profile
     {
         CreateMap<BankCard, RetrieveAllBankCardsDTO>();
         CreateMap<Vehicle, RetrieveVehicleDTO>();
-        CreateMap<Vehicle, RetrieveAllVehiclesDTO>();
+        CreateMap<Vehicle, RetrieveAllVehiclesDTO>()
+            .ForMember(e => e.Owner,
+                option =>
+                {
+                    option.MapFrom(e =>
+                        e.OwnerReference!.ContactInformationReference!.FirstName + " " +
+                        e.OwnerReference.ContactInformationReference.LastName);
+                });
         CreateMap<VehiclePicture, RetrieveVehiclePicturesDTO>();
         CreateMap<Review, RetrieveAllReviewsDTO>()
             .ForMember(e => e.Reviewer,
@@ -116,5 +126,22 @@ public class MappingProfile : Profile
                 option => option.MapFrom(e => $"{e.VehicleReference!.Make} {e.VehicleReference!.Model}"))
             .ForMember(e => e.Location, option => option.MapFrom(e => e.VehicleReference!.Location))
             .ForMember(e => e.Amount, option => option.MapFrom(e => e.TransactionReference!.Amount));
+        CreateMap<UpdateContactInfoDTO, ContactInformation>()
+            .ForMember(e => e.FirstName, option => option.DoNotAllowNull())
+            .ForMember(e => e.MiddleName, option => option.DoNotAllowNull())
+            .ForMember(e => e.LastName, option => option.DoNotAllowNull())
+            .ForMember(e => e.Email, option => option.DoNotAllowNull())
+            .ForMember(e => e.ContactNumber, option => option.DoNotAllowNull());
+        CreateMap<UpdateAddressDTO, Address>()
+            .ForMember(e => e.StreetNumber, option => option.DoNotAllowNull())
+            .ForMember(e => e.StreetName, option => option.DoNotAllowNull())
+            .ForMember(e => e.City, option => option.DoNotAllowNull())
+            .ForMember(e => e.State, option => option.DoNotAllowNull())
+            .ForMember(e => e.Country, option => option.DoNotAllowNull())
+            .ForMember(e => e.PostalCode, option => option.DoNotAllowNull());
+        CreateMap<SignUp.Command, SignUpDTO>();
+        CreateMap<Account, ApproveAccountDTO>();
+        CreateMap<Account, DisapproveAccountDTO>();
+        CreateMap<Vehicle, PublishVehicleDTO>();
     }
 }
