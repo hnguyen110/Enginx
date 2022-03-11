@@ -53,6 +53,11 @@ public class MappingProfile : Profile
                     .MapFrom(e => e.InsuranceReference!.Name)
             )
             .ForMember(
+                e => e.VehicleId,
+                option => option
+                    .MapFrom(e => e.VehicleReference!.Id)
+            )
+            .ForMember(
                 e => e.Vehicle,
                 option => option
                     .MapFrom(e => $"{e.VehicleReference!.Make} {e.VehicleReference!.Model}")
