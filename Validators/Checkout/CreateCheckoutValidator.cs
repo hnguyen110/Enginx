@@ -14,11 +14,11 @@ public class CreateCheckoutValidator : AbstractValidator<CreateCheckout.Command>
             .NotEmpty()
             .WithMessage(ValidationErrorMessages.Required);
 
-        RuleFor(e => e.Insurance)
-            .NotNull()
-            .WithMessage(ValidationErrorMessages.Required)
-            .NotEmpty()
-            .WithMessage(ValidationErrorMessages.Required);
+        // RuleFor(e => e.Insurance)
+        //     .NotNull()
+        //     .WithMessage(ValidationErrorMessages.Required)
+        //     .NotEmpty()
+        //     .WithMessage(ValidationErrorMessages.Required);
 
         RuleFor(e => e.BankCard)
             .NotNull()

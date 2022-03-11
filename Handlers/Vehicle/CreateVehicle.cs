@@ -15,6 +15,7 @@ public class CreateVehicle
         public string? Description { get; set; }
         public string? EngineType { get; set; }
         public string? FuelType { get; set; }
+        public string? TransmissionType { get; set; }
         public string? Location { get; set; }
         public string? Make { get; set; }
         public string? Model { get; set; }
@@ -47,6 +48,7 @@ public class CreateVehicle
                 Description = request.Description,
                 EngineType = request.EngineType,
                 FuelType = request.FuelType,
+                TransmissionType = request.TransmissionType,
                 Location = request.Location,
                 Make = request.Make,
                 Model = request.Model,
