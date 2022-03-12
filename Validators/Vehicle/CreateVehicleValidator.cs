@@ -57,16 +57,12 @@ public class CreateVehicleValidator : AbstractValidator<CreateVehicle.Command>
             .WithMessage(ValidationErrorMessages.Required);
 
         RuleFor(e => e.Mileage)
-            .NotNull()
-            .WithMessage(ValidationErrorMessages.Required)
-            .NotEmpty()
-            .WithMessage(ValidationErrorMessages.Required);
-
+            .GreaterThanOrEqualTo(0)
+            .WithMessage(ValidationErrorMessages.InvalidNumber);
+        
         RuleFor(e => e.Price)
-            .NotNull()
-            .WithMessage(ValidationErrorMessages.Required)
-            .NotEmpty()
-            .WithMessage(ValidationErrorMessages.Required);
+            .GreaterThanOrEqualTo(0)
+            .WithMessage(ValidationErrorMessages.InvalidNumber);
 
         RuleFor(e => e.Year)
             .NotNull()
