@@ -59,7 +59,7 @@ public class CreateVehicleValidator : AbstractValidator<CreateVehicle.Command>
         RuleFor(e => e.Mileage)
             .GreaterThanOrEqualTo(0)
             .WithMessage(ValidationErrorMessages.InvalidNumber);
-        
+
         RuleFor(e => e.Price)
             .GreaterThanOrEqualTo(0)
             .WithMessage(ValidationErrorMessages.InvalidNumber);

@@ -119,7 +119,8 @@ public class MappingProfile : Profile
             .ForMember(e => e.Description, option => option.PreCondition(e => !string.IsNullOrEmpty(e.Description)))
             .ForMember(e => e.EngineType, option => option.PreCondition(e => !string.IsNullOrEmpty(e.EngineType)))
             .ForMember(e => e.FuelType, option => option.PreCondition(e => !string.IsNullOrEmpty(e.FuelType)))
-            .ForMember(e => e.TransmissionType, option => option.PreCondition(e => !string.IsNullOrEmpty(e.TransmissionType)))
+            .ForMember(e => e.TransmissionType,
+                option => option.PreCondition(e => !string.IsNullOrEmpty(e.TransmissionType)))
             .ForMember(e => e.Location, option => option.PreCondition(e => !string.IsNullOrEmpty(e.Location)))
             .ForMember(e => e.Make, option => option.PreCondition(e => !string.IsNullOrEmpty(e.Make)))
             .ForMember(e => e.Model, option => option.PreCondition(e => !string.IsNullOrEmpty(e.Model)))
@@ -149,5 +150,7 @@ public class MappingProfile : Profile
         CreateMap<Account, ApproveAccountDTO>();
         CreateMap<Account, DisapproveAccountDTO>();
         CreateMap<Vehicle, PublishVehicleDTO>();
+        CreateMap<BankCard, CreateBankCardDTO>();
+        CreateMap<Insurance, CreateInsuranceDTO>();
     }
 }
