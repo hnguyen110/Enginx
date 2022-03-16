@@ -1,7 +1,4 @@
-using System.Net;
-using API.Exceptions;
 using API.Repositories.VehiclePicture;
-using API.Utilities.Messages;
 using AutoMapper;
 using MediatR;
 
