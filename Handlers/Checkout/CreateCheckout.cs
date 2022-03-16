@@ -79,14 +79,9 @@ public class CreateCheckout
                         request.Insurance,
                         cancellationToken
                     );
-            if (insurance == null)
-                throw new ApiException(
-                    HttpStatusCode.NotFound,
-                    ApiErrorMessages.NotFound
-                );
 
             var duration = request.CheckOutDate - request.CheckInDate;
-            var total = (vehicle.Price * duration!.Value.TotalDays + insurance.Price) * 1.13;
+            var total = (vehicle.Price * (duration!.Value.TotalDays + 1) + (insurance?.Price ?? 0)) * 1.13;
             var transaction = await _mediator.Send(new CreateTransaction.Command
             {
                 Amount = total,
@@ -102,7 +97,7 @@ public class CreateCheckout
                 CheckOutTime = request.CheckOutTime,
                 Transaction = transaction,
                 Vehicle = vehicle.Id,
-                Insurance = insurance.Id
+                Insurance = insurance?.Id
             }, cancellationToken);
 
             return Unit.Value;

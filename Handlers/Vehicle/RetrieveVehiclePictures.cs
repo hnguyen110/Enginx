@@ -1,7 +1,4 @@
-using System.Net;
-using API.Exceptions;
 using API.Repositories.VehiclePicture;
-using API.Utilities.Messages;
 using AutoMapper;
 using MediatR;
 
@@ -32,8 +29,6 @@ public class RetrieveVehiclePictures
                     request.Id,
                     cancellationToken
                 );
-            if (!records.Any())
-                throw new ApiException(HttpStatusCode.NotFound, ApiErrorMessages.NotFound);
             return records;
         }
     }

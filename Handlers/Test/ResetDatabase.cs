@@ -17,7 +17,7 @@ public class ResetDatabase
         {
             _context = context;
         }
-        
+
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
             _context.Account!.RemoveRange(_context.Account);

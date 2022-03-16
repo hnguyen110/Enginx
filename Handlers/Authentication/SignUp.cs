@@ -1,13 +1,15 @@
+using API.DTOs.Authentication;
 using API.Handlers.Account;
 using API.Handlers.Address;
 using API.Handlers.ContactInformation;
+using AutoMapper;
 using MediatR;
 
 namespace API.Handlers.Authentication;
 
 public class SignUp
 {
-    public class Command : IRequest<Unit>
+    public class Command : IRequest<SignUpDTO>
     {
         public string? FirstName { get; set; }
         public string? MiddleName { get; set; }
@@ -24,16 +26,18 @@ public class SignUp
         public string? PostalCode { get; set; }
     }
 
-    public class Handler : IRequestHandler<Command, Unit>
+    public class Handler : IRequestHandler<Command, SignUpDTO>
     {
+        private readonly IMapper _mapper;
         private readonly IMediator _mediator;
 
-        public Handler(IMediator mediator)
+        public Handler(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
+            _mapper = mapper;
         }
 
-        public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<SignUpDTO> Handle(Command request, CancellationToken cancellationToken)
         {
             var contactInformation = await _mediator.Send(new CreateContactInformation.Command
             {
@@ -62,7 +66,9 @@ public class SignUp
                 ContactInformation = contactInformation
             }, cancellationToken);
 
-            return Unit.Value;
+            var result = _mapper.Map<Command, SignUpDTO>(request);
+            result.Id = credential;
+            return result;
         }
     }
 }

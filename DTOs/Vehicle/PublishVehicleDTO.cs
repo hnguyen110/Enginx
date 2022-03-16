@@ -1,8 +1,10 @@
 namespace API.DTOs.Vehicle;
 
-public class RetrieveVehicleDTO
+public class PublishVehicleDTO
 {
     public string? Id { get; set; }
+    public bool Published { get; set; }
+    public bool Approved { get; set; }
     public string? BodyType { get; set; }
     public string? Color { get; set; }
     public string? Description { get; set; }
@@ -16,4 +18,5 @@ public class RetrieveVehicleDTO
     public double Price { get; set; }
     public int Year { get; set; }
     public DateTime? RegistrationDate { get; set; }
+    public string? Owner { get; set; }
 }

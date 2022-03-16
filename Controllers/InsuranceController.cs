@@ -9,7 +9,7 @@ namespace API.Controllers;
 public class InsuranceController : BaseController
 {
     [HttpPost("create-insurance")]
-    public async Task<Unit> CreateInsurance(CreateInsurance.Command command)
+    public async Task<CreateInsuranceDTO> CreateInsurance(CreateInsurance.Command command)
     {
         return await Mediator!.Send(command);
     }
@@ -31,6 +31,6 @@ public class InsuranceController : BaseController
     [HttpDelete("delete-insurance/{id}")]
     public async Task<Unit> DeleteInsurance(string id)
     {
-        return await Mediator!.Send(new DeleteInsurance.Command { Id = id });
+        return await Mediator!.Send(new DeleteInsurance.Command {Id = id});
     }
 }

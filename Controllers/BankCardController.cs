@@ -8,7 +8,7 @@ namespace API.Controllers;
 public class BankCardController : BaseController
 {
     [HttpPost("create-bankcard")]
-    public async Task<Unit> CreateBankCard(CreateBankCard.Command command)
+    public async Task<CreateBankCardDTO> CreateBankCard(CreateBankCard.Command command)
     {
         return await Mediator!.Send(command);
     }
@@ -30,6 +30,6 @@ public class BankCardController : BaseController
     [HttpDelete("delete-bankcard/{id}")]
     public async Task<Unit> DeleteBankCard(string id)
     {
-        return await Mediator!.Send(new DeleteBankCard.Query { Id = id });
+        return await Mediator!.Send(new DeleteBankCard.Query {Id = id});
     }
 }
