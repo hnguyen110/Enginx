@@ -135,18 +135,18 @@ public class MappingProfile : Profile
             .ForMember(e => e.Location, option => option.MapFrom(e => e.VehicleReference!.Location))
             .ForMember(e => e.Amount, option => option.MapFrom(e => e.TransactionReference!.Amount));
         CreateMap<UpdateContactInfoDTO, ContactInformation>()
-            .ForMember(e => e.FirstName, option => option.DoNotAllowNull())
-            .ForMember(e => e.MiddleName, option => option.DoNotAllowNull())
-            .ForMember(e => e.LastName, option => option.DoNotAllowNull())
-            .ForMember(e => e.Email, option => option.DoNotAllowNull())
-            .ForMember(e => e.ContactNumber, option => option.DoNotAllowNull());
+            .ForMember(e => e.FirstName, option => option.PreCondition(e => !string.IsNullOrEmpty(e.FirstName)))
+            .ForMember(e => e.MiddleName, option => option.PreCondition(e => !string.IsNullOrEmpty(e.MiddleName)))
+            .ForMember(e => e.LastName, option => option.PreCondition(e => !string.IsNullOrEmpty(e.LastName)))
+            .ForMember(e => e.Email, option => option.PreCondition(e => !string.IsNullOrEmpty(e.Email)))
+            .ForMember(e => e.ContactNumber, option => option.PreCondition(e => !string.IsNullOrEmpty(e.ContactNumber)));
         CreateMap<UpdateAddressDTO, Address>()
-            .ForMember(e => e.StreetNumber, option => option.DoNotAllowNull())
-            .ForMember(e => e.StreetName, option => option.DoNotAllowNull())
-            .ForMember(e => e.City, option => option.DoNotAllowNull())
-            .ForMember(e => e.State, option => option.DoNotAllowNull())
-            .ForMember(e => e.Country, option => option.DoNotAllowNull())
-            .ForMember(e => e.PostalCode, option => option.DoNotAllowNull());
+            .ForMember(e => e.StreetNumber, option => option.PreCondition(e => e.StreetNumber >= 0))
+            .ForMember(e => e.StreetName, option => option.PreCondition(e => !string.IsNullOrEmpty(e.StreetName)))
+            .ForMember(e => e.City, option => option.PreCondition(e => !string.IsNullOrEmpty(e.City)))
+            .ForMember(e => e.State, option => option.PreCondition(e => !string.IsNullOrEmpty(e.State)))
+            .ForMember(e => e.Country, option => option.PreCondition(e => !string.IsNullOrEmpty(e.Country)))
+            .ForMember(e => e.PostalCode, option => option.PreCondition(e => !string.IsNullOrEmpty(e.PostalCode)));
         CreateMap<SignUp.Command, SignUpDTO>();
         CreateMap<Account, ApproveAccountDTO>();
         CreateMap<Account, DisapproveAccountDTO>();
