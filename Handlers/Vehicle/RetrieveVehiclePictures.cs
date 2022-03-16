@@ -29,6 +29,7 @@ public class RetrieveVehiclePictures
                     request.Id,
                     cancellationToken
                 );
+
             return records;
         }
     }

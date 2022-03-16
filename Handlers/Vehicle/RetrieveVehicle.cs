@@ -20,13 +20,15 @@ public class RetrieveVehicle
     {
         private readonly ICredentialAccessor _accessor;
         private readonly IMapper _mapper;
+        private readonly IMediator _mediator;
         private readonly IVehicleRepository _repository;
 
-        public Handler(ICredentialAccessor accessor, IVehicleRepository repository, IMapper mapper)
+        public Handler(ICredentialAccessor accessor, IVehicleRepository repository, IMapper mapper, IMediator mediator)
         {
             _accessor = accessor;
             _repository = repository;
             _mapper = mapper;
+            _mediator = mediator;
         }
 
         public async Task<RetrieveVehicleDTO> Handle(Query request, CancellationToken cancellationToken)
@@ -36,12 +38,35 @@ public class RetrieveVehicle
                     _accessor.RetrieveAccountId(), request.Id,
                     cancellationToken
                 );
+
             if (record == null)
                 throw new ApiException(
                     HttpStatusCode.NotFound,
                     ApiErrorMessages.NotFound
                 );
-            return _mapper.Map<Models.Vehicle, RetrieveVehicleDTO>(record);
+
+            var vehiclePictures = await _mediator.Send(
+                new RetrieveVehiclePictures.Query {Id = request.Id},
+                cancellationToken
+            );
+
+            var vehicle = new RetrieveVehicleDTO
+            {
+                BodyType = record.BodyType,
+                Color = record.Color,
+                Description = record.Description,
+                EngineType = record.EngineType,
+                FuelType = record.FuelType,
+                Location = record.Location,
+                Make = record.Make,
+                Model = record.Model,
+                Mileage = record.Mileage,
+                Price = record.Price,
+                Year = record.Year,
+                VehiclePictures = vehiclePictures
+            };
+
+            return vehicle;
         }
     }
 }

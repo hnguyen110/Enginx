@@ -19,4 +19,5 @@ public class RetrieveAllVehiclesDTO
     public int Year { get; set; }
     public DateTime? RegistrationDate { get; set; }
     public string? Owner { get; set; }
+    public List<string>? VehiclePictures { get; set; }
 }
