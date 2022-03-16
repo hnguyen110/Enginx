@@ -19,8 +19,8 @@ public class CreateReview
     public class Handler : IRequestHandler<Command, CreateVehicleReviewDTO>
     {
         private readonly ICredentialAccessor _accessor;
-        private readonly IReviewRepository _repository;
         private readonly IMapper _mapper;
+        private readonly IReviewRepository _repository;
 
         public Handler(ICredentialAccessor accessor, IReviewRepository repository, IMapper mapper)
         {

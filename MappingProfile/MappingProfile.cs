@@ -151,6 +151,7 @@ public class MappingProfile : Profile
         CreateMap<Account, ApproveAccountDTO>();
         CreateMap<Account, DisapproveAccountDTO>();
         CreateMap<Vehicle, PublishVehicleDTO>();
+        CreateMap<Vehicle, HideVehicleDTO>();
         CreateMap<BankCard, CreateBankCardDTO>();
         CreateMap<Insurance, CreateInsuranceDTO>();
         CreateMap<Review, CreateVehicleReviewDTO>();

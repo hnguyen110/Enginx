@@ -9,14 +9,14 @@ using MediatR;
 
 namespace API.Handlers.Vehicle;
 
-public class UnpublishVehicle
+public class HideVehicle
 {
-    public class Command : IRequest<PublishVehicleDTO>
+    public class Command : IRequest<HideVehicleDTO>
     {
         public string? Id { get; set; }
     }
 
-    public class Handler : IRequestHandler<UnpublishVehicle.Command, PublishVehicleDTO>
+    public class Handler : IRequestHandler<Command, HideVehicleDTO>
     {
         private readonly ICredentialAccessor _accessor;
         private readonly IMapper _mapper;
@@ -29,7 +29,7 @@ public class UnpublishVehicle
             _vehicle = vehicle;
         }
 
-        public async Task<PublishVehicleDTO> Handle(UnpublishVehicle.Command request, CancellationToken cancellationToken)
+        public async Task<HideVehicleDTO> Handle(Command request, CancellationToken cancellationToken)
         {
             var vehicle = await _vehicle
                 .RetrieveVehicleById(
@@ -44,7 +44,7 @@ public class UnpublishVehicle
                 );
 
             await _vehicle.UnpublishVehicle(vehicle, cancellationToken);
-            return _mapper.Map<Models.Vehicle, PublishVehicleDTO>(vehicle);
+            return _mapper.Map<Models.Vehicle, HideVehicleDTO>(vehicle);
         }
     }
 }

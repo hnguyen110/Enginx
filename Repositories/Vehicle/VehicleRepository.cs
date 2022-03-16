@@ -159,7 +159,7 @@ public class VehicleRepository : IVehicleRepository
             await _database.SaveChangesAsync(cancellationToken);
         }
     }
-    
+
     public async Task UnpublishVehicle(Models.Vehicle vehicle, CancellationToken cancellationToken)
     {
         if (vehicle.Published)
@@ -168,6 +168,4 @@ public class VehicleRepository : IVehicleRepository
             await _database.SaveChangesAsync(cancellationToken);
         }
     }
-    
-    
 }

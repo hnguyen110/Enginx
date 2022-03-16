@@ -108,13 +108,12 @@ public class VehicleController : BaseController
     public async Task<PublishVehicleDTO> PublishVehicle(string id)
     {
         return await Mediator!.Send(new PublishVehicle.Command {Id = id});
-        
     }
-    
-    [HttpPut("unpublish-vehicle/{id}")]
-    public async Task<PublishVehicleDTO> UnpublishVehicle(string id)
+
+    [HttpPut("hide-vehicle/{id}")]
+    public async Task<HideVehicleDTO> HideVehicle(string id)
     {
-        return await Mediator!.Send(new UnpublishVehicle.Command {Id = id});
+        return await Mediator!.Send(new HideVehicle.Command {Id = id});
     }
 
     [HttpDelete("delete-vehicle/{id}")]
