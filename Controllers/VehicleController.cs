@@ -1,3 +1,4 @@
+using API.DTOs.Review;
 using API.DTOs.Vehicle;
 using API.Handlers.Vehicle;
 using MediatR;
@@ -37,7 +38,7 @@ public class VehicleController : BaseController
     }
 
     [HttpPost("create-review/{id}")]
-    public async Task<Unit> CreateVehicleReview(CreateReview.Command command, string id)
+    public async Task<CreateVehicleReviewDTO> CreateVehicleReview(CreateReview.Command command, string id)
     {
         command.Vehicle = id;
         return await Mediator!.Send(command);

@@ -4,6 +4,7 @@ using API.DTOs.BankCard;
 using API.DTOs.Insurance;
 using API.DTOs.Profile;
 using API.DTOs.Reservation;
+using API.DTOs.Review;
 using API.DTOs.Vehicle;
 using API.Handlers.Authentication;
 using API.Handlers.Vehicle;
@@ -152,5 +153,6 @@ public class MappingProfile : Profile
         CreateMap<Vehicle, PublishVehicleDTO>();
         CreateMap<BankCard, CreateBankCardDTO>();
         CreateMap<Insurance, CreateInsuranceDTO>();
+        CreateMap<Review, CreateVehicleReviewDTO>();
     }
 }
