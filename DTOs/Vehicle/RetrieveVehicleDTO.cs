@@ -16,5 +16,5 @@ public class RetrieveVehicleDTO
     public double Price { get; set; }
     public int Year { get; set; }
     public DateTime? RegistrationDate { get; set; }
-    public List<string>? VehiclePictures { get; set; }
+    public List<string>? Pictures { get; set; }
 }

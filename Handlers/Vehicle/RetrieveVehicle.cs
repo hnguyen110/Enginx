@@ -45,13 +45,14 @@ public class RetrieveVehicle
                     ApiErrorMessages.NotFound
                 );
 
-            var vehiclePictures = await _mediator.Send(
+            var pictures = await _mediator.Send(
                 new RetrieveVehiclePictures.Query {Id = request.Id},
                 cancellationToken
             );
 
             var vehicle = new RetrieveVehicleDTO
             {
+                Id = record.Id,
                 BodyType = record.BodyType,
                 Color = record.Color,
                 Description = record.Description,
@@ -63,7 +64,9 @@ public class RetrieveVehicle
                 Mileage = record.Mileage,
                 Price = record.Price,
                 Year = record.Year,
-                VehiclePictures = vehiclePictures
+                Pictures = pictures,
+                RegistrationDate = record.RegistrationDate,
+                TransmissionType = record.TransmissionType
             };
 
             return vehicle;

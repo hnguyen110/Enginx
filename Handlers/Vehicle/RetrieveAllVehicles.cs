@@ -44,7 +44,7 @@ public class RetrieveAllVehicles
 
             foreach (var vehicle in records)
             {
-                var vp = await _mediator.Send(new RetrieveVehiclePictures.Query {Id = vehicle.Id}
+                var pictures = await _mediator.Send(new RetrieveVehiclePictures.Query {Id = vehicle.Id}
                     , cancellationToken
                 );
 
@@ -62,7 +62,7 @@ public class RetrieveAllVehicles
                     Mileage = vehicle.Mileage,
                     Price = vehicle.Price,
                     Year = vehicle.Year,
-                    VehiclePictures = vp
+                    Pictures = pictures
                 });
             }
 
