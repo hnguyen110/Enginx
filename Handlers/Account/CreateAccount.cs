@@ -49,7 +49,8 @@ public class CreateAccount
                 ProfilePicture = request.ProfilePicture,
                 Address = request.Address,
                 ContactInformation = request.ContactInformation,
-                License = request.License
+                License = request.License,
+                Role = request.Role
             };
 
             await _repository.Save(account, cancellationToken);
