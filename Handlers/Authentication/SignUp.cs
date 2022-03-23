@@ -2,6 +2,7 @@ using API.DTOs.Authentication;
 using API.Handlers.Account;
 using API.Handlers.Address;
 using API.Handlers.ContactInformation;
+using API.Models;
 using AutoMapper;
 using MediatR;
 
@@ -24,6 +25,8 @@ public class SignUp
         public string? State { get; set; }
         public string? Country { get; set; }
         public string? PostalCode { get; set; }
+        
+        public Role Role { get; set; }
     }
 
     public class Handler : IRequestHandler<Command, SignUpDTO>
@@ -63,7 +66,8 @@ public class SignUp
                 Username = request.Username,
                 Password = request.Password,
                 Address = address,
-                ContactInformation = contactInformation
+                ContactInformation = contactInformation,
+                Role = request.Role
             }, cancellationToken);
 
             var result = _mapper.Map<Command, SignUpDTO>(request);
