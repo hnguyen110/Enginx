@@ -11,18 +11,19 @@ namespace API.Handlers.Insurance;
 
 public class CreateInsurance
 {
-    public class Command : IRequest<CreateInsuranceDTO>
+    public class Command : IRequest<RetrieveAllInsurancesDTO>
     {
         public string? Name { get; set; }
         public string? Description { get; set; }
         public double Price { get; set; }
     }
 
-    public class Handler : IRequestHandler<Command, CreateInsuranceDTO>
+    public class Handler : IRequestHandler<Command, RetrieveAllInsurancesDTO>
     {
         private readonly IAuthorization _authorization;
         private readonly IMapper _mapper;
         private readonly IInsuranceRepository _repository;
+
 
         public Handler(IInsuranceRepository repository, IAuthorization authorization, IMapper mapper)
         {
@@ -31,7 +32,7 @@ public class CreateInsurance
             _mapper = mapper;
         }
 
-        public async Task<CreateInsuranceDTO> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<RetrieveAllInsurancesDTO> Handle(Command request, CancellationToken cancellationToken)
         {
             var isAdmin = await _authorization.IsAdministrator();
             if (!isAdmin)
@@ -47,7 +48,8 @@ public class CreateInsurance
                 Price = request.Price
             };
             await _repository.Save(insurance, cancellationToken);
-            return _mapper.Map<Models.Insurance, CreateInsuranceDTO>(insurance);
+            return _mapper.Map<Models.Insurance, RetrieveAllInsurancesDTO>(insurance);
+            ;
         }
     }
 }

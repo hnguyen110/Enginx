@@ -9,7 +9,7 @@ namespace API.Controllers;
 public class InsuranceController : BaseController
 {
     [HttpPost("create-insurance")]
-    public async Task<CreateInsuranceDTO> CreateInsurance(CreateInsurance.Command command)
+    public async Task<RetrieveAllInsurancesDTO> CreateInsurance(CreateInsurance.Command command)
     {
         return await Mediator!.Send(command);
     }
