@@ -1,4 +1,5 @@
 using API.DTOs.Reservation;
+using API.Handlers.Vehicle;
 using API.Repositories.Reservation;
 using API.Utilities.CredentialAccessor;
 using AutoMapper;
@@ -16,13 +17,16 @@ public class RetrieveUpcomingReservation
     {
         private readonly ICredentialAccessor _accessor;
         private readonly IMapper _mapper;
+        private readonly IMediator _mediator;
         private readonly IReservationRepository _reservation;
 
-        public Handler(ICredentialAccessor accessor, IMapper mapper, IReservationRepository reservation)
+        public Handler(ICredentialAccessor accessor, IMapper mapper, IReservationRepository reservation,
+            IMediator mediator)
         {
             _accessor = accessor;
             _mapper = mapper;
             _reservation = reservation;
+            _mediator = mediator;
         }
 
         public async Task<RetrieveUpcomingReservationDTO?> Handle(Query request, CancellationToken cancellationToken)
@@ -33,12 +37,18 @@ public class RetrieveUpcomingReservation
                         _accessor.RetrieveAccountId(),
                         cancellationToken
                     );
-            return record == null
-                ? null
-                : _mapper.Map<
-                    Models.Reservation,
-                    RetrieveUpcomingReservationDTO
-                >(record);
+
+            if (record == null) return null;
+
+            var result = _mapper
+                .Map<Models.Reservation, RetrieveUpcomingReservationDTO>(record);
+            var pictures = await _mediator
+                .Send(
+                    new RetrieveVehiclePictures.Query {Id = record.Vehicle},
+                    cancellationToken
+                );
+            result.VehiclePictures = pictures;
+            return result;
         }
     }
 }

@@ -12,6 +12,8 @@ public class RetrieveUpcomingReservationDTO
     public string? Insurance { get; set; }
     public string? VehicleId { get; set; }
     public string? Vehicle { get; set; }
+
+    public List<string>? VehiclePictures { get; set; }
     public string? BodyType { get; set; }
     public string? Color { get; set; }
     public string? FuelType { get; set; }
