@@ -8,7 +8,7 @@ namespace API.Handlers.BankCard;
 
 public class CreateBankCard
 {
-    public class Command : IRequest<CreateBankCardDTO>
+    public class Command : IRequest<RetrieveBankCardDTO>
     {
         public string? CardType { get; set; }
         public string? CardHolderName { get; set; }
@@ -17,20 +17,20 @@ public class CreateBankCard
         public string? CardVerificationCode { get; set; }
     }
 
-    public class Handler : IRequestHandler<Command, CreateBankCardDTO>
+    public class Handler : IRequestHandler<Command, RetrieveBankCardDTO>
     {
         private readonly ICredentialAccessor _accessor;
         private readonly IMapper _mapper;
         private readonly IBankCardRepository _repository;
 
-        public Handler(IBankCardRepository repository, ICredentialAccessor accessor, IMapper mapper)
+        public Handler(IBankCardRepository repository, ICredentialAccessor accessor , IMapper mapper)
         {
             _repository = repository;
             _accessor = accessor;
             _mapper = mapper;
         }
 
-        public async Task<CreateBankCardDTO> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<RetrieveBankCardDTO> Handle(Command request, CancellationToken cancellationToken)
         {
             var card = new Models.BankCard
             {
@@ -44,7 +44,7 @@ public class CreateBankCard
             };
 
             await _repository.Save(card, cancellationToken);
-            return _mapper.Map<Models.BankCard, CreateBankCardDTO>(card);
+            return _mapper.Map<Models.BankCard , RetrieveBankCardDTO>(card);
         }
     }
 }
