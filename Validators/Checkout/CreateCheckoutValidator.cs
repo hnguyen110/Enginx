@@ -45,7 +45,7 @@ public class CreateCheckoutValidator : AbstractValidator<CreateCheckout.Command>
         RuleFor(e => e.CheckOutDate)
             .GreaterThan(e => e.CheckInDate)
             .WithMessage(ValidationErrorMessages.InvalidCheckoutDate);
-        
+
         RuleFor(e => e.CheckOutTime)
             .NotNull()
             .WithMessage(ValidationErrorMessages.Required)
