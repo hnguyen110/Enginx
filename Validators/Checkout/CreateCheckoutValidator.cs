@@ -41,12 +41,11 @@ public class CreateCheckoutValidator : AbstractValidator<CreateCheckout.Command>
             .WithMessage(ValidationErrorMessages.Required)
             .NotEmpty()
             .WithMessage(ValidationErrorMessages.Required);
-        
+
         RuleFor(e => e.CheckOutDate)
             .GreaterThan(e => e.CheckInDate)
-            .WithMessage("Checkout Date Must be bigger than CheckIn Date");
-            
-            
+            .WithMessage(ValidationErrorMessages.InvalidCheckoutDate);
+        
         RuleFor(e => e.CheckOutTime)
             .NotNull()
             .WithMessage(ValidationErrorMessages.Required)
