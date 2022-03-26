@@ -23,7 +23,7 @@ public class CreateBankCard
         private readonly IMapper _mapper;
         private readonly IBankCardRepository _repository;
 
-        public Handler(IBankCardRepository repository, ICredentialAccessor accessor , IMapper mapper)
+        public Handler(IBankCardRepository repository, ICredentialAccessor accessor, IMapper mapper)
         {
             _repository = repository;
             _accessor = accessor;
@@ -44,7 +44,7 @@ public class CreateBankCard
             };
 
             await _repository.Save(card, cancellationToken);
-            return _mapper.Map<Models.BankCard , RetrieveBankCardDTO>(card);
+            return _mapper.Map<Models.BankCard, RetrieveBankCardDTO>(card);
         }
     }
 }

@@ -156,9 +156,6 @@ public class MappingProfile : Profile
         CreateMap<BankCard, CreateBankCardDTO>();
         CreateMap<Insurance, CreateInsuranceDTO>();
         CreateMap<Review, CreateVehicleReviewDTO>();
-
         CreateMap<BankCard, RetrieveBankCardDTO>();
-
     }
-    
 }
