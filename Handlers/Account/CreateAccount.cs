@@ -1,5 +1,6 @@
 using System.Net;
 using API.Exceptions;
+using API.Models;
 using API.Repositories.Account;
 using API.Utilities.Messages;
 using API.Utilities.Security;
@@ -17,6 +18,7 @@ public class CreateAccount
         public string? Address { get; set; }
         public string? ContactInformation { get; set; }
         public string? License { get; set; }
+        public Role Role { get; set; }
     }
 
     public class Handler : IRequestHandler<Command, string>
@@ -47,7 +49,8 @@ public class CreateAccount
                 ProfilePicture = request.ProfilePicture,
                 Address = request.Address,
                 ContactInformation = request.ContactInformation,
-                License = request.License
+                License = request.License,
+                Role = request.Role
             };
 
             await _repository.Save(account, cancellationToken);
