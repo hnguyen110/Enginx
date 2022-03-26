@@ -44,7 +44,7 @@ public class RetrieveAllVehicles
 
             foreach (var vehicle in records)
             {
-                var pictures = await _mediator.Send(new RetrieveVehiclePictures.Query {Id = vehicle.Id}
+                var pictures = await _mediator.Send(new RetrieveVehiclePictures.Query { Id = vehicle.Id }
                     , cancellationToken
                 );
 

@@ -49,7 +49,7 @@ public class RetrieveAllVehiclesByOwnerId
             {
                 var pictures = await _mediator
                     .Send(
-                        new RetrieveVehiclePictures.Query {Id = vehicle.Id},
+                        new RetrieveVehiclePictures.Query { Id = vehicle.Id },
                         cancellationToken
                     );
 

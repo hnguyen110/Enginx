@@ -46,7 +46,7 @@ public class RetrieveVehicle
                 );
 
             var pictures = await _mediator.Send(
-                new RetrieveVehiclePictures.Query {Id = request.Id},
+                new RetrieveVehiclePictures.Query { Id = request.Id },
                 cancellationToken
             );
 

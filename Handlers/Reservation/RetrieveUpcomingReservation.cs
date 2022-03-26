@@ -44,7 +44,7 @@ public class RetrieveUpcomingReservation
                 .Map<Models.Reservation, RetrieveUpcomingReservationDTO>(record);
             var pictures = await _mediator
                 .Send(
-                    new RetrieveVehiclePictures.Query {Id = record.Vehicle},
+                    new RetrieveVehiclePictures.Query { Id = record.Vehicle },
                     cancellationToken
                 );
             result.VehiclePictures = pictures;
