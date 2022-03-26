@@ -71,7 +71,10 @@ public class VehicleRepository : IVehicleRepository
     {
         var records = await _database
             .Vehicle!
-            .Where(e => e.Location!.ToLower().Trim() == location!.ToLower().Trim())
+            .Where(e => 
+                e.Approved == true 
+                && e.Published == true 
+                && e.Location!.ToLower().Trim() == location!.ToLower().Trim())
             .ToListAsync(cancellationToken);
         return records;
     }
@@ -156,6 +159,15 @@ public class VehicleRepository : IVehicleRepository
         if (!vehicle.Published)
         {
             vehicle.Published = true;
+            await _database.SaveChangesAsync(cancellationToken);
+        }
+    }
+
+    public async Task UnpublishVehicle(Models.Vehicle vehicle, CancellationToken cancellationToken)
+    {
+        if (vehicle.Published)
+        {
+            vehicle.Published = false;
             await _database.SaveChangesAsync(cancellationToken);
         }
     }
