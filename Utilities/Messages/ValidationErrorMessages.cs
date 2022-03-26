@@ -13,4 +13,5 @@ public static class ValidationErrorMessages
     public const string InvalidTransactionAmount = "Invalid transaction amount";
     public const string InvalidInsuranceAmount = "Invalid insurance amount";
     public const string InvalidNumber = "Invalid number";
+    public const string InvalidCheckoutDate = "Checkout date must be after checkin date";
 }
