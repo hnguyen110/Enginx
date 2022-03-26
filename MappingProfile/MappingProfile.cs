@@ -139,7 +139,8 @@ public class MappingProfile : Profile
             .ForMember(e => e.MiddleName, option => option.PreCondition(e => !string.IsNullOrEmpty(e.MiddleName)))
             .ForMember(e => e.LastName, option => option.PreCondition(e => !string.IsNullOrEmpty(e.LastName)))
             .ForMember(e => e.Email, option => option.PreCondition(e => !string.IsNullOrEmpty(e.Email)))
-            .ForMember(e => e.ContactNumber, option => option.PreCondition(e => !string.IsNullOrEmpty(e.ContactNumber)));
+            .ForMember(e => e.ContactNumber,
+                option => option.PreCondition(e => !string.IsNullOrEmpty(e.ContactNumber)));
         CreateMap<UpdateAddressDTO, Address>()
             .ForMember(e => e.StreetNumber, option => option.PreCondition(e => e.StreetNumber >= 0))
             .ForMember(e => e.StreetName, option => option.PreCondition(e => !string.IsNullOrEmpty(e.StreetName)))
