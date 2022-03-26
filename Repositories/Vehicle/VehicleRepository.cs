@@ -71,10 +71,11 @@ public class VehicleRepository : IVehicleRepository
     {
         var records = await _database
             .Vehicle!
-            .Where(e =>
-                e.Approved == true
-                && e.Published == true
-                && e.Location!.ToLower().Trim() == location!.ToLower().Trim())
+            .Where(e => 
+                e.Approved == true 
+                && e.Published == true 
+                && e.Location!.ToLower().Replace(" ", "")
+                    .Contains(location!.ToLower().Replace(" ", "")))
             .ToListAsync(cancellationToken);
         return records;
     }
