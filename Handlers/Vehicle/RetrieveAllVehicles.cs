@@ -44,13 +44,15 @@ public class RetrieveAllVehicles
 
             foreach (var vehicle in records)
             {
-                var pictures = await _mediator.Send(new RetrieveVehiclePictures.Query { Id = vehicle.Id }
+                var pictures = await _mediator.Send(new RetrieveVehiclePictures.Query {Id = vehicle.Id}
                     , cancellationToken
                 );
 
                 vehicles.Add(new RetrieveAllVehiclesDTO
                 {
                     Id = vehicle.Id,
+                    Published = vehicle.Published,
+                    Approved = vehicle.Approved,
                     BodyType = vehicle.BodyType,
                     Color = vehicle.Color,
                     Description = vehicle.Description,
@@ -62,7 +64,10 @@ public class RetrieveAllVehicles
                     Mileage = vehicle.Mileage,
                     Price = vehicle.Price,
                     Year = vehicle.Year,
-                    Pictures = pictures
+                    Pictures = pictures,
+                    Owner =
+                        $"{vehicle.OwnerReference!.ContactInformationReference!.FirstName} {vehicle.OwnerReference!.ContactInformationReference!.LastName}",
+                    RegistrationDate = vehicle.RegistrationDate
                 });
             }
 
