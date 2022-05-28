@@ -18,12 +18,14 @@ public class RetrievePublishedVehicle
     public class Handler : IRequestHandler<Query, RetrieveVehicleDTO>
     {
         private readonly IMapper _mapper;
+        private readonly IMediator _mediator;
         private readonly IVehicleRepository _repository;
 
-        public Handler(IVehicleRepository repository, IMapper mapper)
+        public Handler(IVehicleRepository repository, IMapper mapper, IMediator mediator)
         {
             _repository = repository;
             _mapper = mapper;
+            _mediator = mediator;
         }
 
         public async Task<RetrieveVehicleDTO> Handle(Query request, CancellationToken cancellationToken)
@@ -39,7 +41,16 @@ public class RetrievePublishedVehicle
                     HttpStatusCode.NotFound,
                     ApiErrorMessages.NotFound
                 );
-            return _mapper.Map<Models.Vehicle, RetrieveVehicleDTO>(record);
+
+            var pictures = await _mediator.Send(
+                new RetrieveVehiclePictures.Query {Id = request.Id},
+                cancellationToken
+            );
+
+            var vehicle = _mapper.Map<Models.Vehicle, RetrieveVehicleDTO>(record);
+            vehicle.Pictures = pictures;
+
+            return vehicle;
         }
     }
 }
