@@ -1,8 +1,20 @@
 using System.Text;
 using API.DatabaseContext;
 using API.Handlers.Authentication;
+using API.MappingProfile;
 using API.Middlewares;
 using API.Repositories.Account;
+using API.Repositories.Address;
+using API.Repositories.BankCard;
+using API.Repositories.ContactInformation;
+using API.Repositories.Insurance;
+using API.Repositories.License;
+using API.Repositories.Profile;
+using API.Repositories.Reservation;
+using API.Repositories.Review;
+using API.Repositories.Transaction;
+using API.Repositories.Vehicle;
+using API.Repositories.VehiclePicture;
 using API.Utilities.CredentialAccessor;
 using API.Utilities.JWT.AccessToken;
 using API.Utilities.Security;
@@ -13,6 +25,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services
@@ -24,7 +37,9 @@ builder.Services
         options.Filters.Add(new AuthorizeFilter(policy));
     })
     .AddFluentValidation(configuration =>
-        configuration.RegisterValidatorsFromAssemblyContaining<SignIn.CommandValidator>());
+        configuration.RegisterValidatorsFromAssemblyContaining<SignIn.CommandValidator>())
+    .AddNewtonsoftJson(options =>
+        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 builder.Services.AddSignalR();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHttpContextAccessor();
@@ -41,6 +56,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = false
         };
     });
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddMediatR(typeof(SignIn.Handler).Assembly);
 builder.Services.AddDbContext<Context>(opt =>
         opt.UseSqlite(builder.Configuration.GetConnectionString("Database"))
@@ -54,6 +70,18 @@ builder.Services.AddScoped<ISecurity, Security>();
 builder.Services.AddScoped<IAccessToken, AccessToken>();
 builder.Services.AddScoped<ICredentialAccessor, CredentialAccessor>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IBankCardRepository, BankCardRepository>();
+builder.Services.AddScoped<IProfilePictureRepository, ProfilePictureRepository>();
+builder.Services.AddScoped<IContactInformationRepository, ContactInformationRepository>();
+builder.Services.AddScoped<IAddressRepository, AddressRepository>();
+builder.Services.AddScoped<IAuthorization, Authorization>();
+builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
+builder.Services.AddScoped<IVehiclePictureRepository, VehiclePictureRepository>();
+builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
+builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+builder.Services.AddScoped<IInsuranceRepository, InsuranceRepository>();
+builder.Services.AddScoped<ILicenseRepository, LicenseRepository>();
 
 var server = builder.Build();
 using (var scope = server.Services.CreateScope())

@@ -1,5 +1,6 @@
 using System.Net;
 using API.Exceptions;
+using API.Models;
 using API.Repositories.Account;
 using API.Utilities.Messages;
 using API.Utilities.Security;
@@ -9,7 +10,7 @@ namespace API.Handlers.Account;
 
 public class CreateAccount
 {
-    public class Command : IRequest<Unit>
+    public class Command : IRequest<string>
     {
         public string? Username { get; set; }
         public string? Password { get; set; }
@@ -17,9 +18,10 @@ public class CreateAccount
         public string? Address { get; set; }
         public string? ContactInformation { get; set; }
         public string? License { get; set; }
+        public Role Role { get; set; }
     }
 
-    public class Handler : IRequestHandler<Command, Unit>
+    public class Handler : IRequestHandler<Command, string>
     {
         private readonly IAccountRepository _repository;
         private readonly ISecurity _security;
@@ -30,7 +32,7 @@ public class CreateAccount
             _security = security;
         }
 
-        public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<string> Handle(Command request, CancellationToken cancellationToken)
         {
             var record = await _repository.FindByUsername(request.Username!, cancellationToken);
             if (record != null)
@@ -47,11 +49,12 @@ public class CreateAccount
                 ProfilePicture = request.ProfilePicture,
                 Address = request.Address,
                 ContactInformation = request.ContactInformation,
-                License = request.License
+                License = request.License,
+                Role = request.Role
             };
 
             await _repository.Save(account, cancellationToken);
-            return Unit.Value;
+            return account.Id;
         }
     }
 }

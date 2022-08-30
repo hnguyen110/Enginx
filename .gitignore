@@ -6,5 +6,7 @@ riderModule.iml
 database.db
 database.db-shm
 database.db-wal
+identifier.sqlite
 .idea
 Migrations
+Uploads
